@@ -17,7 +17,7 @@ public partial class OknoGlowne : Form
         InitializeComponent();
 
         this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 1;
-        this.DzienComboBox.SelectedIndex = 0;
+        this.DzienComboBox.SelectedIndex = 1;
         this.ZadanieComboBox.SelectedIndex = 0;
     }
 
@@ -37,6 +37,9 @@ public partial class OknoGlowne : Form
                     case 1:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D01Z01(true) : new Zadania._2024.D01Z02(true);
                         break;
+                    case 2:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D02Z01(true) : new Zadania._2024.D02Z02(true);
+                        break;
                 }
                 break;
         }
@@ -45,12 +48,17 @@ public partial class OknoGlowne : Form
         {
             this.wykonajZadanie.RozwiazanieZadania();
         }
+        catch(NullReferenceException)
+        {
+            MessageBox.Show("Podany dzień lub zadanie zostały nie utworzone");
+            return;
+        }
         catch(Exception ex)
         {
             //
         }
 
-        this.WynikTextBox.Text = $"Rozwi�zanie: {this.wykonajZadanie.PokazRozwiazanie()}";
+        this.WynikTextBox.Text = $"Rozwiązanie: {this.wykonajZadanie.PokazRozwiazanie()}";
     }
 
     private void ZadanieButton_Click(object sender, System.EventArgs e)
@@ -67,6 +75,9 @@ public partial class OknoGlowne : Form
                     case 1:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D01Z01() : new Zadania._2024.D01Z02();
                         break;
+                    case 2:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D02Z01() : new Zadania._2024.D02Z02();
+                        break;
                 }
                 break;
         }
@@ -75,11 +86,16 @@ public partial class OknoGlowne : Form
         {
             this.wykonajZadanie.RozwiazanieZadania();
         }
+        catch(NullReferenceException)
+        {
+            MessageBox.Show("Podany dzień lub zadanie zostały nie utworzone");
+            return;
+        }
         catch (Exception ex)
         {
             //
         }
 
-        this.WynikTextBox.Text = $"Rozwi�zanie: {this.wykonajZadanie.PokazRozwiazanie()}";
+        this.WynikTextBox.Text = $"Rozwiązanie: {this.wykonajZadanie.PokazRozwiazanie()}";
     }
 }
