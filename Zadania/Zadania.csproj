@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Dane\2024\01\" />
 	<Folder Include="Dane\2024\02\" />
+	<Folder Include="Dane\2024\02\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +23,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2024\02\proba.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+	<None Update="Dane\2024\03\dane.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dane\2024\03\proba1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+	<None Update="Dane\2024\03\proba2.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
