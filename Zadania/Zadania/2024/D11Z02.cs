@@ -40,7 +40,6 @@ public class D11Z02 : IZadanie
         List<Int64> Wartosci;
         List<Int64> odp;
         Dictionary<Int64, Int64> noweKamienie;
-        Int64 stary = 0;
 
         for (int i = 0; i < maks; i++)
         {

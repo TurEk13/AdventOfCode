@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Zadania._2024;
@@ -40,10 +39,7 @@ public class D14Z02 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        for (int i = 0; i < 10; i++)
-        {
-            this.wynik = this.PrzesunRoboty(i + 1, i * 1000, (i + 1) * 1000);
-        }
+        this.wynik = this.PrzesunRoboty();
     }
 
     public string PokazRozwiazanie()
@@ -51,14 +47,16 @@ public class D14Z02 : IZadanie
         return this.wynik.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
     }
 	
-	private int PrzesunRoboty(int plik, int min, int maks)
+	private int PrzesunRoboty()
     {
         StringBuilder sb = new();
-        StringBuilder kopiaSB;
+        StringBuilder wiersz = new();
+        bool koniec = false;
 
-        for (int i = min; i < maks; i++)
+        for (int i = 0; i < 1_000_000; i++)
         {
             this.lokalizacjeRobotow.Clear();
+            sb.Clear();
 
             foreach (Robot r in this.roboty)
             {
@@ -68,20 +66,25 @@ public class D14Z02 : IZadanie
 
             for (int y = 0; y < this.wysokosc; y++)
             {
+                wiersz.Clear();
+
                 for (int x = 0; x < this.szerokosc; x++)
                 {
-                    sb.Append(this.lokalizacjeRobotow.Contains(new(x, y)) ? "#" : '.');
+                    wiersz.Append(this.lokalizacjeRobotow.Contains(new(x, y)) ? "#" : '.');
                 }
-                kopiaSB = sb;
-                if (kopiaSB.ToString().Contains("#######"))
+
+                if (wiersz.ToString().Contains("#########"))
                 {
-                    return i + 1;
+                    koniec = true;
                 }
-                sb.AppendLine();
+                sb.AppendLine(wiersz.ToString());
             }
 
-            File.AppendAllText($"plik{plik}.txt", $"\r\n\r\nObraz po sekundzie {i + 1}\r\n{sb.ToString()}");
-            sb.Clear();
+            if (koniec)
+            {
+                File.WriteAllText("choinka.txt", sb.ToString());
+                return i + 1;
+            }
         }
 
         return -1;
@@ -98,11 +101,6 @@ public class D14Z02 : IZadanie
 		{
 			this.lokalizacja = new(lokalizacjaX, lokalizacjaY);
 			this.predkosc = new(predkoscX, predkoscY);
-		}
-
-		public void DrukujPozycje()
-		{
-			Console.WriteLine("X: {0}, Y: {1}", this.lokalizacja.X, this.lokalizacja.Y);
 		}
 
 		public Point ZwrocPunkt()

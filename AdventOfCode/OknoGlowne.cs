@@ -6,7 +6,6 @@ namespace AdventOfCode;
 
 public partial class OknoGlowne : Form
 {
-    //14.2
     private int Rok;
     private int Dzien;
     private int Zadanie;
@@ -18,7 +17,7 @@ public partial class OknoGlowne : Form
         InitializeComponent();
 
         this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 1;
-        this.DzienComboBox.SelectedIndex = 10;
+        this.DzienComboBox.SelectedIndex = 13;
         this.ZadanieComboBox.SelectedIndex = 0;
     }
 
