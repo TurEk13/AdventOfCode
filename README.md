@@ -5,7 +5,7 @@ My solutions for the quests
 		|  2024 |
 Day	 1	| X / X |
 Day	 2	| X / X |
-Day	 3	| - / - |
+Day	 3	| X / X |
 Day	 4	| - / - |
 Day	 5	| - / - |
 Day	 6	| - / - |
