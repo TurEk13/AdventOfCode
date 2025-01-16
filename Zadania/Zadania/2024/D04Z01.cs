@@ -19,9 +19,9 @@ public class D04Z01 : IZadanie
         this.litery = new();
         string linia;
 
-        this.XMASpoziom = daneTestowe ? File.ReadAllText(".\\Dane\\2024\\04\\proba.txt") : File.ReadAllText(".\\Dane\\2024\\04\\dane.txt");
+        this.XMASpoziom = File.ReadAllText(daneTestowe ? ".\\Dane\\2024\\04\\proba.txt" : ".\\Dane\\2024\\04\\dane.txt");
 
-        FileStream fs = daneTestowe ? new(".\\Dane\\2024\\04\\proba.txt", FileMode.Open, FileAccess.Read) : new(".\\Dane\\2024\\04\\dane.txt", FileMode.Open, FileAccess.Read);
+        FileStream fs = new(daneTestowe ? ".\\Dane\\2024\\04\\proba.txt" : ".\\Dane\\2024\\04\\dane.txt", FileMode.Open, FileAccess.Read);
 
         StreamReader sr = new(fs);
         while((linia = sr.ReadLine()) != null)

@@ -17,7 +17,7 @@ public class D04Z02 : IZadanie
         this.litery = new();
         string linia;
 
-        FileStream fs = daneTestowe ? new(".\\Dane\\2024\\04\\proba.txt", FileMode.Open, FileAccess.Read) : new(".\\Dane\\2024\\04\\dane.txt", FileMode.Open, FileAccess.Read);
+        FileStream fs = new(daneTestowe ? ".\\Dane\\2024\\04\\proba.txt" : ".\\Dane\\2024\\04\\dane.txt", FileMode.Open, FileAccess.Read);
 
         StreamReader sr = new(fs);
         while((linia = sr.ReadLine()) != null)

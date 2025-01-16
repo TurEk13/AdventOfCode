@@ -16,7 +16,8 @@ public class D02Z02 : IZadanie
         this.suma = 0;
         string linia;
         this.liniaInt = new ();
-        FileStream fs = daneTestowe ? new(".\\Dane\\2024\\02\\proba.txt", FileMode.Open, FileAccess.Read) : new(".\\Dane\\2024\\02\\dane.txt", FileMode.Open, FileAccess.Read);
+        
+        FileStream fs = new(daneTestowe ? ".\\Dane\\2024\\02\\proba.txt" : ".\\Dane\\2024\\02\\dane.txt", FileMode.Open, FileAccess.Read);
 
         StreamReader sr = new(fs);
 

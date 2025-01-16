@@ -13,7 +13,8 @@ public class D03Z02 : IZadanie
     public D03Z02(bool daneTestowe = false)
     {
         this.suma = 0;
-        this.tekst = daneTestowe ? File.ReadAllText(".\\Dane\\2024\\03\\proba2.txt") : File.ReadAllText(".\\Dane\\2024\\03\\dane.txt");
+        
+        this.tekst = File.ReadAllText(daneTestowe ? ".\\Dane\\2024\\03\\proba2.txt" : ".\\Dane\\2024\\03\\dane.txt");
     }
 
     public void RozwiazanieZadania()

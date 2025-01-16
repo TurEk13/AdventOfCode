@@ -19,7 +19,7 @@ public class D01Z02 : IZadanie
         this.prawa = new();
         this.suma = 0;
 
-        FileStream fs = daneTestowe ? new(".\\Dane\\2024\\01\\proba.txt", FileMode.Open, FileAccess.Read) : new(".\\Dane\\2024\\01\\dane.txt", FileMode.Open, FileAccess.Read);
+        FileStream fs = new(daneTestowe ? ".\\Dane\\2024\\01\\proba.txt" : ".\\Dane\\2024\\01\\dane.txt", FileMode.Open, FileAccess.Read);
 
         StreamReader sr = new(fs);
 
