@@ -6,6 +6,7 @@ namespace AdventOfCode;
 
 public partial class OknoGlowne : Form
 {
+    //14.2
     private int Rok;
     private int Dzien;
     private int Zadanie;
@@ -17,11 +18,11 @@ public partial class OknoGlowne : Form
         InitializeComponent();
 
         this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 1;
-        this.DzienComboBox.SelectedIndex = 4;
+        this.DzienComboBox.SelectedIndex = 10;
         this.ZadanieComboBox.SelectedIndex = 0;
     }
 
-    private void TestButton_Click(object sender, System.EventArgs e)
+    private void TestButton_Click(object sender, EventArgs e)
     {
         this.Rok = this.RokComboBox.SelectedIndex + 2015;
         this.Dzien = this.DzienComboBox.SelectedIndex + 1;
@@ -49,6 +50,15 @@ public partial class OknoGlowne : Form
                     case 5:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D05Z01(true) : new Zadania._2024.D05Z02(true);
                         break;
+                    case 9:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D09Z01(true) : new Zadania._2024.D09Z02(true);
+                        break;
+                    case 11:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D11Z01(true) : new Zadania._2024.D11Z02(true);
+                        break;
+                    case 14:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D14Z01(true) : new Zadania._2024.D14Z02(true);
+                        break;
                 }
                 break;
         }
@@ -70,7 +80,7 @@ public partial class OknoGlowne : Form
         this.WynikTextBox.Text = $"Rozwiązanie: {this.wykonajZadanie.PokazRozwiazanie()}";
     }
 
-    private void ZadanieButton_Click(object sender, System.EventArgs e)
+    private void ZadanieButton_Click(object sender, EventArgs e)
     {
         this.Rok = this.RokComboBox.SelectedIndex + 2015;
         this.Dzien = this.DzienComboBox.SelectedIndex + 1;
@@ -95,6 +105,15 @@ public partial class OknoGlowne : Form
                         break;
                     case 5:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D05Z01() : new Zadania._2024.D05Z02();
+                        break;
+					case 9:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D09Z01() : new Zadania._2024.D09Z02();
+                        break;
+                    case 11:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D11Z01() : new Zadania._2024.D11Z02();
+                        break;
+                    case 14:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D14Z01() : new Zadania._2024.D14Z02();
                         break;
                 }
                 break;
