@@ -49,7 +49,7 @@ public class D15Z01 : IZadanie
     {
        for (int i = 0; i < this.ruchy.Length; i++)
         {
-            this.robot = this.PrzesunZ1(robot, this.kierunki[this.ruchy[i]]);
+            this.robot = this.Przesun(robot, this.kierunki[this.ruchy[i]]);
         }
     }
 
@@ -58,7 +58,7 @@ public class D15Z01 : IZadanie
         return this.GPS().ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
     }
 
-    private Point PrzesunZ1(Point punkDoPrzesuniecia, Point kierunek)
+    private Point Przesun(Point punkDoPrzesuniecia, Point kierunek)
     {
         Point nowyPunkt = punkDoPrzesuniecia.Dodaj(kierunek);
 
@@ -69,22 +69,21 @@ public class D15Z01 : IZadanie
                 this.mapa[punkDoPrzesuniecia.Y][punkDoPrzesuniecia.X] = '.';
                 return nowyPunkt;
             case 'O':
-                if (this.CzyPrzesunacZ1(nowyPunkt, kierunek))
+                if (this.CzyPrzesunac(nowyPunkt, kierunek))
                 {
-                    this.PrzesunPrzeszkodeZ1(nowyPunkt, kierunek);
+                    this.PrzesunPrzeszkode(nowyPunkt, kierunek);
                     this.mapa[nowyPunkt.Y][nowyPunkt.X] = this.mapa[punkDoPrzesuniecia.Y][punkDoPrzesuniecia.X];
                     this.mapa[punkDoPrzesuniecia.Y][punkDoPrzesuniecia.X] = '.';
                     return nowyPunkt;
                 }
                 return punkDoPrzesuniecia;
             case '#':
-                return punkDoPrzesuniecia;
             default:
-                throw new NotImplementedException();
+                return punkDoPrzesuniecia;
         }
     }
 
-    private void PrzesunPrzeszkodeZ1(Point punkDoPrzesuniecia, Point kierunek)
+    private void PrzesunPrzeszkode(Point punkDoPrzesuniecia, Point kierunek)
     {
         Point nowyPunkt = punkDoPrzesuniecia.Dodaj(kierunek);
 
@@ -95,18 +94,17 @@ public class D15Z01 : IZadanie
                 this.mapa[punkDoPrzesuniecia.Y][punkDoPrzesuniecia.X] = '.';
                 break;
             case 'O':
-                this.PrzesunPrzeszkodeZ1(nowyPunkt, kierunek);
+                this.PrzesunPrzeszkode(nowyPunkt, kierunek);
                 this.mapa[nowyPunkt.Y][nowyPunkt.X] = this.mapa[punkDoPrzesuniecia.Y][punkDoPrzesuniecia.X];
                 this.mapa[punkDoPrzesuniecia.Y][punkDoPrzesuniecia.X] = '.';
                 break;
             case '#':
-                break;
             default:
-                throw new NotImplementedException();
+                break;
         }
     }
 
-    private bool CzyPrzesunacZ1(Point punktDoPrzesuniecia, Point kierunek)
+    private bool CzyPrzesunac(Point punktDoPrzesuniecia, Point kierunek)
     {
         Point nowyPunkt = punktDoPrzesuniecia.Dodaj(kierunek);
 
@@ -115,7 +113,7 @@ public class D15Z01 : IZadanie
             case '.':
                 return true;
             case 'O':
-                return this.CzyPrzesunacZ1(nowyPunkt, kierunek);
+                return this.CzyPrzesunac(nowyPunkt, kierunek);
             case '#':
             default:
                 return false;

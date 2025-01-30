@@ -17,8 +17,10 @@ public partial class OknoGlowne : Form
         InitializeComponent();
 
         this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 1;
-        this.DzienComboBox.SelectedIndex = 13;
-        this.ZadanieComboBox.SelectedIndex = 0;
+        this.DzienComboBox.SelectedIndex = 14;
+        this.ZadanieComboBox.SelectedIndex = 1;
+
+        this.TestButton_Click(null, null);
     }
 
     private void TestButton_Click(object sender, EventArgs e)
