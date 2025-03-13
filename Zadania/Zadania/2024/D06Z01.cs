@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 
 namespace Zadania._2024;
 
@@ -11,22 +9,17 @@ public class D06Z01 : IZadanie
     private List<char[]> mapa;
     private Kierunek kierunek;
     private Straznik straznik;
-    private Straznik nowyStraznik;
-    private int wysokosc, szerokosc, zwrot;
+    private int wysokosc, szerokosc;
     private int dlugoscDrogi;
-    private List<PrzebytaDroga> przebytaDroga;
 
     public D06Z01(bool daneTestowe = false)
     {
         this.mapa = new();
         this.kierunek = new();
         this.straznik = null;
-        this.nowyStraznik = null;
         this.wysokosc = 0;
         this.szerokosc = 0;
-        this.zwrot = 0;
         this.dlugoscDrogi = 1;
-        this.przebytaDroga = new();
 
         FileStream fs = new(daneTestowe ? ".\\Dane\\2024\\06\\proba.txt" : ".\\Dane\\2024\\06\\dane.txt", FileMode.Open, FileAccess.Read);
 
@@ -50,27 +43,29 @@ public class D06Z01 : IZadanie
 
     public void RozwiazanieZadania()
     {
-       this.nowyStraznik = this.straznik + this.kierunek[zwrot];
-        while (this.nowyStraznik.X >= 0 & this.nowyStraznik.Y >= 0 && this.nowyStraznik.X < this.szerokosc && this.nowyStraznik.Y < this.wysokosc)
+        int zwrot = 0;
+        Straznik nowyStraznik = this.straznik + this.kierunek[zwrot];
+
+        while (nowyStraznik.X >= 0 & nowyStraznik.Y >= 0 && nowyStraznik.X < this.szerokosc && nowyStraznik.Y < this.wysokosc)
         {
-            if (this.mapa[this.nowyStraznik.Y][this.nowyStraznik.X] != '#')
+            if (this.mapa[nowyStraznik.Y][nowyStraznik.X] != '#')
             {
-                if (this.mapa[this.nowyStraznik.Y][this.nowyStraznik.X] != 'X')
+                if (this.mapa[nowyStraznik.Y][nowyStraznik.X] != 'X')
                 {
                     this.dlugoscDrogi++;
                 }
 
-                this.mapa[this.nowyStraznik.Y][this.nowyStraznik.X] = '^';
+                this.mapa[nowyStraznik.Y][nowyStraznik.X] = '^';
                 this.mapa[this.straznik.Y][this.straznik.X] = 'X';
-                this.straznik = this.nowyStraznik;
+                this.straznik = nowyStraznik;
             }
 
-            if (this.mapa[this.nowyStraznik.Y][this.nowyStraznik.X] == '#')
+            if (this.mapa[nowyStraznik.Y][nowyStraznik.X] == '#')
             {
-                this.zwrot++;
+                zwrot++;
             }
 
-            this.nowyStraznik = this.straznik + this.kierunek[this.zwrot % 4];
+            nowyStraznik = this.straznik + this.kierunek[zwrot % 4];
         }
     }
 
@@ -78,8 +73,6 @@ public class D06Z01 : IZadanie
     {
         return this.dlugoscDrogi.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
     }
-
-    private record PrzebytaDroga(Straznik straznik, int kierunek);
 
     private class Straznik
     {
