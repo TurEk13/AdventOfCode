@@ -46,7 +46,7 @@ partial class OknoGlowne
         // 
         RokComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
         RokComboBox.FormattingEnabled = true;
-        RokComboBox.Items.AddRange(new object[] { "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024" });
+        RokComboBox.Items.AddRange(new object[] { "2024" });
         RokComboBox.Location = new Point(68, 12);
         RokComboBox.Name = "RokComboBox";
         RokComboBox.Size = new Size(100, 23);
@@ -56,7 +56,7 @@ partial class OknoGlowne
         // 
         DzienComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
         DzienComboBox.FormattingEnabled = true;
-        DzienComboBox.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25" });
+        DzienComboBox.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "9", "11", "14", "15" });
         DzienComboBox.Location = new Point(68, 41);
         DzienComboBox.Name = "DzienComboBox";
         DzienComboBox.Size = new Size(100, 23);

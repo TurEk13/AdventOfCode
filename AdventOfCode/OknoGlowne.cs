@@ -17,7 +17,7 @@ public partial class OknoGlowne : Form
         InitializeComponent();
 
         this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 1;
-        this.DzienComboBox.SelectedIndex = 14;
+        this.DzienComboBox.SelectedIndex = 6;
         this.ZadanieComboBox.SelectedIndex = 1;
 
         //this.TestButton_Click(null, null);
@@ -25,8 +25,8 @@ public partial class OknoGlowne : Form
 
     private void TestButton_Click(object sender, EventArgs e)
     {
-        this.Rok = this.RokComboBox.SelectedIndex + 2015;
-        this.Dzien = this.DzienComboBox.SelectedIndex + 1;
+        this.Rok = Convert.ToInt32(this.RokComboBox.SelectedItem);
+        this.Dzien = Convert.ToInt32(this.DzienComboBox.SelectedItem);
         this.Zadanie = this.ZadanieComboBox.SelectedIndex;
 
         this.WynikTextBox.Text = $"{this.Rok} {this.Dzien} {this.Zadanie}";
@@ -53,6 +53,9 @@ public partial class OknoGlowne : Form
                         break;
                     case 6:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D06Z01(true) : throw new NotImplementedException();
+                        break;
+                    case 7:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D07Z01(true) : new Zadania._2024.D07Z02(true);
                         break;
                     case 9:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D09Z01(true) : new Zadania._2024.D09Z02(true);
@@ -89,8 +92,8 @@ public partial class OknoGlowne : Form
 
     private void ZadanieButton_Click(object sender, EventArgs e)
     {
-        this.Rok = this.RokComboBox.SelectedIndex + 2015;
-        this.Dzien = this.DzienComboBox.SelectedIndex + 1;
+        this.Rok = Convert.ToInt32(this.RokComboBox.SelectedItem);
+        this.Dzien = Convert.ToInt32(this.DzienComboBox.SelectedItem);
         this.Zadanie = this.ZadanieComboBox.SelectedIndex;
 
         switch (this.Rok)
@@ -115,6 +118,9 @@ public partial class OknoGlowne : Form
                         break;
                     case 6:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D06Z01() : throw new NotImplementedException();
+                        break;
+                    case 7:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D07Z01() : new Zadania._2024.D07Z02();
                         break;
 					case 9:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D09Z01() : new Zadania._2024.D09Z02();

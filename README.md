@@ -9,8 +9,8 @@ My solutions for the quests
 |Day	 3	| X / X |
 |Day	 4	| X / X |
 |Day	 5	| X / X |
-|Day	 6	| - / - |
-|Day	 7	| - / - |
+|Day	 6	| X / - |
+|Day	 7	| X / X |
 |Day	 8	| - / - |
 |Day	 9	| X / X |
 |Day	10	| - / - |
