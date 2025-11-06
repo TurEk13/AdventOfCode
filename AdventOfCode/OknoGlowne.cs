@@ -17,8 +17,8 @@ public partial class OknoGlowne : Form
         InitializeComponent();
 
         this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 1;
-        this.DzienComboBox.SelectedIndex = 6;
-        this.ZadanieComboBox.SelectedIndex = 1;
+        this.DzienComboBox.SelectedIndex = 11;
+        this.ZadanieComboBox.SelectedIndex = 0;
 
         //this.TestButton_Click(null, null);
     }
@@ -68,6 +68,9 @@ public partial class OknoGlowne : Form
                         break;
                     case 15:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D15Z01(true) : new Zadania._2024.D15Z02(true);
+                        break;
+                    case 25:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D25Z01(true) : throw new NotImplementedException();
                         break;
                 }
                 break;
@@ -133,6 +136,9 @@ public partial class OknoGlowne : Form
                         break;
                     case 15:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D15Z02() : new Zadania._2024.D15Z02();
+                        break;
+                    case 25:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D25Z01() : throw new NotImplementedException();
                         break;
                 }
                 break;
