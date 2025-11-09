@@ -46,7 +46,7 @@ partial class OknoGlowne
         // 
         RokComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
         RokComboBox.FormattingEnabled = true;
-        RokComboBox.Items.AddRange(new object[] { "2024" });
+        RokComboBox.Items.AddRange(new object[] { "2015", "2024" });
         RokComboBox.Location = new Point(68, 12);
         RokComboBox.Name = "RokComboBox";
         RokComboBox.Size = new Size(100, 23);

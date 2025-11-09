@@ -107,6 +107,13 @@ public partial class OknoGlowne : Form
 
         switch (this.Rok)
         {
+            case 2015:
+                switch(this.Dzien)
+                {
+                    case 1: this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D01Z01() : new Zadania._2015.D01Z02();
+                        break;
+                }
+                break;
             case 2024:
                 switch (this.Dzien)
                 {
