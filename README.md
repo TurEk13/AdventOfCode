@@ -26,6 +26,6 @@ My solutions for the quests
 |Day	20	| - / - |
 |Day	21	| - / - |
 |Day	22	| - / - |
-|Day	23	| - / - |
-|Day	24	| - / - |
+|Day	23	| X / X |
+|Day	24	| X / - |
 |Day	25	| X / - |

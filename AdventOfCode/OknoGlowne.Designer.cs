@@ -56,7 +56,7 @@ partial class OknoGlowne
         // 
         DzienComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
         DzienComboBox.FormattingEnabled = true;
-        DzienComboBox.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "9", "11", "14", "15", "24", "25" });
+        DzienComboBox.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "9", "11", "14", "15", "23", "24", "25" });
         DzienComboBox.Location = new Point(68, 41);
         DzienComboBox.Name = "DzienComboBox";
         DzienComboBox.Size = new Size(100, 23);
