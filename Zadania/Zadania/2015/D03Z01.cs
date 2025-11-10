@@ -16,11 +16,9 @@ public class D03Z01 : IZadanie
         this.OdwiedzoneLokalizacje = new();
         StreamReader sr = new(fs);
 
-       this.Sciezka = sr.ReadToEnd();
+        this.Sciezka = sr.ReadToEnd();
 
         sr.Close(); fs.Close();
-
-        //this.Sciezka = "^v^v^v^v^v";
     }
 
     public void RozwiazanieZadania()
