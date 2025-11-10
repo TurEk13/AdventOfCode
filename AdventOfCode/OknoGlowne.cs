@@ -16,11 +16,9 @@ public partial class OknoGlowne : Form
     {
         InitializeComponent();
 
-        this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 1;
-        this.DzienComboBox.SelectedIndex = 11;
-        this.ZadanieComboBox.SelectedIndex = 1;
-
-        //this.TestButton_Click(null, null);
+        this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 2;
+        this.DzienComboBox.SelectedIndex = 0;
+        this.ZadanieComboBox.SelectedIndex = 0;
     }
 
     private void TestButton_Click(object sender, EventArgs e)
@@ -110,7 +108,11 @@ public partial class OknoGlowne : Form
             case 2015:
                 switch(this.Dzien)
                 {
-                    case 1: this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D01Z01() : new Zadania._2015.D01Z02();
+                    case 1:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D01Z01() : new Zadania._2015.D01Z02();
+                        break;
+                    case 2:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D02Z01() : new Zadania._2015.D02Z02();
                         break;
                 }
                 break;
