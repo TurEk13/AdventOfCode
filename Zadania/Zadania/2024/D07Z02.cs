@@ -33,8 +33,6 @@ public class D07Z02 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        //Możliwe działanie '+' '*' '||'
-
         for (int i = 0; i < this.Dane.Count; i++)
         {
             this.Mnoz(i, this.Dane[i][1], 2);

@@ -33,11 +33,6 @@ public class D07Z01 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        //Możliwe działanie '+' i '*'
-        //3749
-
-        //7498 za mało
-
         for (int i = 0; i < this.Dane.Count; i++)
         {
             this.Mnoz(i, this.Dane[i][1], 2);
