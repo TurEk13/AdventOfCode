@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Zadania._2015;
 
@@ -10,7 +9,6 @@ public class D05Z02 : IZadanie
 {
     private List<string> ListaSlow;
     private int DobreSlowo;
-    private char[] Samogloski;
 
     public D05Z02()
     {
@@ -19,7 +17,6 @@ public class D05Z02 : IZadanie
         string linia;
         this.ListaSlow = new();
         this.DobreSlowo = 0;
-        this.Samogloski = ['a', 'e', 'i', 'o', 'u'];
 
         while((linia = sr.ReadLine()) is not null)
         {
@@ -31,53 +28,51 @@ public class D05Z02 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        bool ZlaCzastka, IleSamoglosek, PodwojneLitery;
+        bool PodwojoneCzastki, PodwojneLitery;
 
         foreach(string slowo in this.ListaSlow)
         {
-            ZlaCzastka = this.ZlaCzastka(slowo);
-
-            IleSamoglosek = this.IleSamoglosek(slowo);
+            PodwojoneCzastki = this.PodwojoneCzastki(slowo);
 
             PodwojneLitery = this.PodwojoneLitery(slowo);
 
-            if(!ZlaCzastka && IleSamoglosek && PodwojneLitery)
+            if(PodwojoneCzastki && PodwojneLitery)
             {
                 this.DobreSlowo++;
             }
         }
     }
 
-    private bool ZlaCzastka(string slowo)
+    private bool PodwojoneCzastki(string slowo)
     {
-        if (slowo.Contains("ab") || slowo.Contains("cd") || slowo.Contains("pq") || slowo.Contains("xy"))
+        Regex wzor;
+        MatchCollection dopasowania;
+        HashSet<string> UzyteWzory = new();
+        int ileDopasowan = 0;
+
+        for(int i = 0; i < slowo.Length - 1; i++)
         {
-            return true;
-        }
-
-        return false;
-    }
-
-    private bool IleSamoglosek(string slowo)
-    {
-        int ileSamoglosek = 0;
-
-        foreach (char litera in slowo)
-        {
-            if (this.Samogloski.Contains(litera))
+            if(!UzyteWzory.Contains($"{slowo[i]}{slowo[i + 1]}"))
             {
-                ileSamoglosek++;
+                UzyteWzory.Add($"{slowo[i]}{slowo[i + 1]}");
+                wzor = new($"{slowo[i]}{slowo[i + 1]}");
+                dopasowania = wzor.Matches(slowo);
+
+                if (dopasowania.Count > 1)
+                {
+                    ileDopasowan++;
+                }
             }
         }
 
-        return ileSamoglosek > 2 ? true : false;
+        return ileDopasowan > 0;
     }
 
     private bool PodwojoneLitery(string slowo)
     {
-        for (int i = 0; i < slowo.Length - 1; i++)
+        for (int i = 0; i < slowo.Length - 2; i++)
         {
-            if (slowo[i] == slowo[i + 1])
+            if (slowo[i] == slowo[i + 2])
             {
                 return true;
             }
