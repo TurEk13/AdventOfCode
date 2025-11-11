@@ -73,8 +73,6 @@ public class D25Z01 : IZadanie
             sr.ReadLine();
             sr.ReadLine();
         }
-
-        int x = 3 + 4;
     }
 
     public void RozwiazanieZadania()

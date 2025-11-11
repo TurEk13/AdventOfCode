@@ -89,8 +89,6 @@ public class D24Z01 : IZadanie
             }
         }
 
-        int x = 3 + 4;
-
         StringBuilder sb = new();
 
         for (int i = 45; i > 9; i--)
@@ -112,8 +110,6 @@ public class D24Z01 : IZadanie
                 this.WynikDec += Convert.ToInt64(Math.Pow(2, p));
             }
         }
-
-        int x1 = 3 + 4;
     }
 
     public string PokazRozwiazanie()
