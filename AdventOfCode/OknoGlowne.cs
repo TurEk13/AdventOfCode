@@ -20,7 +20,7 @@ public partial class OknoGlowne : Form
         DzienComboBox.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "9", "11", "14", "15", "23", "24", "25" });
 
         this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 2;
-        this.DzienComboBox.SelectedIndex = 5;
+        this.DzienComboBox.SelectedIndex = 6;
         this.ZadanieComboBox.SelectedIndex = 0;
     }
 
@@ -34,6 +34,14 @@ public partial class OknoGlowne : Form
 
         switch(this.Rok)
         {
+            case 2015:
+                switch (this.Dzien)
+                {
+                    case 7:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D07Z01(true) : throw new NotImplementedException();
+                        break;
+                }
+                break;
             case 2024:
                 switch(this.Dzien)
                 {
@@ -125,6 +133,9 @@ public partial class OknoGlowne : Form
                         break;
                     case 6:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D06Z01() : new Zadania._2015.D06Z02();
+                        break;
+                    case 7:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D07Z01() : new Zadania._2015.D07Z01();
                         break;
                 }
                 break;
