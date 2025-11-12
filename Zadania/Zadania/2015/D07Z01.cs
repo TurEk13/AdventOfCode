@@ -10,7 +10,7 @@ public class D07Z01 : IZadanie
 {
     private Int32 ZapaloneZarowki;
     private List<string> Komendy;
-	private List<List<string>> Operacje;
+	private List<Operacja> Operacje;
     private SortedDictionary<string, UInt16> Przewody;
 
     public D07Z01(bool daneTestowe = false)
@@ -42,6 +42,7 @@ public class D07Z01 : IZadanie
     private void WczytajPrzewody()
     {
 		string[] przewod;
+		string[] dzialanie;
 
 		foreach(string komenda in this.Komendy)
 		{
@@ -53,7 +54,22 @@ public class D07Z01 : IZadanie
 				continue;
 			}
 
-			this.Operacje.Add([.. przewod[0].Split(' '), przewod[1]]);
+            if ((dzialanie = przewod[0].Split(' ')).Length == 1)
+            {
+                this.Operacje.Add(new(dzialanie[0], przewod[1], string.Empty, string.Empty));
+				continue;
+            }
+
+            if ((dzialanie = przewod[0].Split(' ')).Length == 2)
+			{
+				this.Operacje.Add(new(dzialanie[0], dzialanie[1], przewod[1], string.Empty));
+				continue;
+			}
+
+            if ((dzialanie = przewod[0].Split(' ')).Length == 3)
+            {
+                this.Operacje.Add(new(dzialanie[0], dzialanie[1], dzialanie[2], przewod[1]));
+            }
 		}
     }
 	
@@ -64,103 +80,112 @@ public class D07Z01 : IZadanie
 	
 	private void Wypelnij()
 	{
-		bool dodanoElement = true;
 		bool wartoscB = false, wynikB = false, wartoscLB = false, wartoscPB = false;
 		UInt16 wartosc = 0, wynik = 0, wartoscL = 0,  wartoscP = 0;
-		List<string> operacja; 
+		Operacja operacja;
 
-		while (dodanoElement)
+		while(this.Operacje.Count > 0)
 		{
-			dodanoElement = false;
 			for(int wierszI = 0; wierszI < this.Operacje.Count; wierszI++)
 			{
 				wartoscLB = wartoscPB = wartoscB = wynikB = false;
 
 				operacja = this.Operacje[wierszI];
 
-				if (operacja[0] == "NOT")
+				if(operacja.c.Equals(string.Empty))
 				{
-					//NOT x[1] => x[2] -> NOT wartosc => wynik
-
-					if (this.Przewody.ContainsKey(operacja[1]))
+					if(UInt16.TryParse(operacja.a, out wynik))
 					{
-						this.Przewody.TryGetValue(operacja[1], out wartosc);
+						this.Przewody.Add(operacja.b, wynik);
+					}
+
+					continue;
+				}
+
+				if (operacja.a.Equals("NOT"))
+				{
+					if (this.Przewody.ContainsKey(operacja.b))
+					{
+						this.Przewody.TryGetValue(operacja.b, out wartosc);
 						wartoscB = true;
 						wynikB = false;
 					}
 
-					if (this.Przewody.ContainsKey(operacja[2]))
+					if (this.Przewody.ContainsKey(operacja.c))
 					{
-						this.Przewody.TryGetValue(operacja[2], out wynik);
+						this.Przewody.TryGetValue(operacja.c, out wynik);
 						wartoscB = false;
 						wynikB = true;
 					}
 
-					switch (operacja[0], wartoscB, wynikB)
+					switch (operacja.a, wartoscB, wynikB)
 					{
 						case ("NOT", true, false):
-							this.Przewody.Add(operacja[2], Convert.ToUInt16(UInt16.MaxValue - wartosc));
-							dodanoElement = true;
+							this.Przewody.Add(operacja.c, Convert.ToUInt16(UInt16.MaxValue - wartosc));
 							this.Operacje.RemoveAt(wierszI);
 							wierszI--;
 							continue;
 						case ("NOT", false, true):
-							this.Przewody.Add(operacja[1], Convert.ToUInt16(UInt16.MaxValue - wynik));
-							dodanoElement = true;
+							this.Przewody.Add(operacja.b, Convert.ToUInt16(UInt16.MaxValue - wynik));
+							this.Operacje.RemoveAt(wierszI);
+							wierszI--;
+							continue;
+					}
+
+					continue;
+				}
+
+				if (!operacja.a.Equals("NOT"))
+				{
+					if (this.Przewody.ContainsKey(operacja.a))
+					{
+						this.Przewody.TryGetValue(operacja.a, out wartoscL);
+						wartoscLB = true;
+					}
+
+					if (this.Przewody.ContainsKey(operacja.c))
+					{
+						this.Przewody.TryGetValue(operacja.c, out wartoscP);
+						wartoscPB = true;
+					}
+
+					if (this.Przewody.ContainsKey(operacja.wynik))
+					{
+						this.Przewody.TryGetValue(operacja.wynik, out wynik);
+						wynikB = true;
+					}
+
+					switch (operacja.b, wartoscLB, wartoscPB, wynikB)
+					{
+						case ("LSHIFT", true, false, false):
+							wynik = Convert.ToUInt16(wartoscL << Convert.ToUInt16(operacja.c));
+							this.Przewody.Add(operacja.wynik, wynik);
+							this.Operacje.RemoveAt(wierszI);
+							wierszI--;
+							continue;
+						case ("RSHIFT", true, false, false):
+							wynik = Convert.ToUInt16(wartoscL >> Convert.ToUInt16(operacja.c));
+							this.Przewody.Add(operacja.wynik, wynik);
+							this.Operacje.RemoveAt(wierszI);
+							wierszI--;
+							continue;
+						case ("AND", true, true, false):
+							wynik = Convert.ToUInt16(wartoscL & wartoscP);
+							this.Przewody.Add(operacja.wynik, wynik);
+							this.Operacje.RemoveAt(wierszI);
+							wierszI--;
+							continue;
+						case ("OR", true, true, false):
+							wynik = Convert.ToUInt16(wartoscL | wartoscP);
+							this.Przewody.Add(operacja.wynik, wynik);
 							this.Operacje.RemoveAt(wierszI);
 							wierszI--;
 							continue;
 					}
 				}
-
-				if (this.Przewody.ContainsKey(operacja[0]))
-				{
-					this.Przewody.TryGetValue(operacja[0], out wartoscL);
-					wartoscLB = true;
-				}
-
-				if (this.Przewody.ContainsKey(operacja[2]))
-				{
-					this.Przewody.TryGetValue(operacja[2], out wartoscP);
-					wartoscPB = true;
-				}
-
-				if (this.Przewody.ContainsKey(operacja[3]))
-				{
-					this.Przewody.TryGetValue(operacja[3], out wynik);
-					wynikB = true;
-				}
-				
-				switch(operacja[1], wartoscLB, wartoscPB, wynikB)
-				{
-					case ("LSHIFT", true, false, false):
-						wynik = Convert.ToUInt16(wartoscL << Convert.ToUInt16(operacja[2]));
-						this.Przewody.Add(operacja[3], wynik);
-						this.Operacje.RemoveAt(wierszI);
-						wierszI--;
-						continue;
-					case ("RSHIFT", true, false, false):
-						wynik = Convert.ToUInt16(wartoscL >> Convert.ToUInt16(operacja[2]));
-						this.Przewody.Add(operacja[3], wynik);
-						this.Operacje.RemoveAt(wierszI);
-						wierszI--;
-						continue;
-					case("AND", true, true, false):
-						wynik = Convert.ToUInt16(wartoscL & wartoscP);
-						this.Przewody.Add(operacja[3], wynik);
-						this.Operacje.RemoveAt(wierszI);
-						wierszI--;
-						continue;
-					case("OR", true, true, false):
-						wynik = Convert.ToUInt16(wartoscL | wartoscP);
-						this.Przewody.Add(operacja[3], wynik);
-						this.Operacje.RemoveAt(wierszI);
-						wierszI--;
-						continue;
-				}
 			}
 		}
-		
-		int aa = 3 + 4;
 	}
+
+	private record Operacja(string a, string b, string c, string wynik);
 }
