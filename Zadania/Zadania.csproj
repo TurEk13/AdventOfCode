@@ -13,6 +13,8 @@
     <Folder Include="Dane\2015\05\" />
     <Folder Include="Dane\2015\06\" />
     <Folder Include="Dane\2015\07\" />
+    <Folder Include="Dane\2015\08\" />
+    <Folder Include="Dane\2015\08\" />
     <Folder Include="Dane\2024\01\" />
     <Folder Include="Dane\2024\02\" />
     <Folder Include="Dane\2024\03\" />
@@ -45,43 +47,49 @@
     <None Update="Dane\2015\06\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2015\07\*.txt">
+	  <None Update="Dane\2015\07\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dane\2015\08\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dane\2015\09\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2024\01\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\02\*.txt">
+	  <None Update="Dane\2024\02\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\03\*.txt">
+	  <None Update="Dane\2024\03\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\04\*.txt">
+	  <None Update="Dane\2024\04\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\05\*.txt">
+	  <None Update="Dane\2024\05\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\06\*.txt">
+	  <None Update="Dane\2024\06\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2024\07\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\09\*.txt">
+	  <None Update="Dane\2024\09\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\11\*.txt">
+	  <None Update="Dane\2024\11\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\14\*.txt">
+	  <None Update="Dane\2024\14\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\15\*.txt">
+	  <None Update="Dane\2024\15\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\23\*.txt">
+	  <None Update="Dane\2024\23\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2024\24\*.txt">
