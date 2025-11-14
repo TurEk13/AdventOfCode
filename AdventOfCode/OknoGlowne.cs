@@ -20,8 +20,8 @@ public partial class OknoGlowne : Form
         DzienComboBox.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "11", "14", "15", "23", "24", "25" });
 
         this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 2;
-        this.DzienComboBox.SelectedIndex = 8;
-        this.ZadanieComboBox.SelectedIndex = 0;
+        this.DzienComboBox.SelectedIndex = 7;
+        this.ZadanieComboBox.SelectedIndex = 1;
     }
 
     private void TestButton_Click(object sender, EventArgs e)
@@ -42,6 +42,9 @@ public partial class OknoGlowne : Form
                         break;
                     case 7:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D07Z01(true) : throw new NotImplementedException();
+                        break;
+                    case 8:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D08Z01(true) : new Zadania._2015.D08Z02(true);
                         break;
                     case 9:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D09Z01(true) : throw new NotImplementedException();
@@ -145,6 +148,9 @@ public partial class OknoGlowne : Form
                         break;
                     case 7:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D07Z01() : new Zadania._2015.D07Z01();
+                        break;
+                    case 8:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D08Z01() : new Zadania._2015.D08Z02();
                         break;
                     case 9:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D09Z01() : new Zadania._2015.D09Z01();

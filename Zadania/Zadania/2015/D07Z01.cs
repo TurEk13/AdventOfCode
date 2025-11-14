@@ -79,7 +79,6 @@ public class D07Z01 : IZadanie
 		Operacja operacja;
 		UInt16 lewa = 0, prawa = 0;
 		bool lewaB, prawaB;
-		int i = 0;
 
 		while(this.Operacje.Count > 0)
 		{
