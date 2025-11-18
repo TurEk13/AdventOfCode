@@ -167,6 +167,9 @@ public partial class OknoGlowne : Form
                     case 9:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D09Z01() : new Zadania._2015.D09Z01();
                         break;
+                    case 10:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D10Z01() : throw new NotImplementedException();
+                        break;
                     case 11:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D11Z01() : new Zadania._2015.D11Z01();
                         break;
