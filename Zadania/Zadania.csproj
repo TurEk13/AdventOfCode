@@ -16,6 +16,7 @@
     <Folder Include="Dane\2015\07\" />
     <Folder Include="Dane\2015\08\" />
     <Folder Include="Dane\2015\09\" />
+    <Folder Include="Dane\2015\10\" />
     <Folder Include="Dane\2015\11\" />
     <Folder Include="Dane\2015\12\" />
     <Folder Include="Dane\2015\13\" />
@@ -61,6 +62,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2015\09\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dane\2015\10\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2015\11\*.txt">
