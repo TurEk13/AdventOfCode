@@ -56,8 +56,6 @@ public class D14Z01 : IZadanie
         }
 
         this._maksymalnapPrzebytaDroga = przebytaDroga.Max();
-
-        //1120 1056
     }
 
     public string PokazRozwiazanie()

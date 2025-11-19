@@ -82,8 +82,6 @@ public class D14Z02 : IZadanie
         }
 
         this._maksymalnaIloscPunktow = punktacja.Max();
-
-        //312 689
     }
 
     public string PokazRozwiazanie()

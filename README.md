@@ -18,7 +18,7 @@ My solutions for the quests
 |Day	12	| X / - | - / - |
 |Day	13	| X / X | - / - |
 |Day	14	| X / X | X / X |
-|Day	15	| - / - | X / X |
+|Day	15	| X / X | X / X |
 |Day	16	| - / - | - / - |
 |Day	17	| - / - | - / - |
 |Day	18	| - / - | - / - |
