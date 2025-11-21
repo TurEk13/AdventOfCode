@@ -41,76 +41,50 @@ public class D18Z01 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        //909+
-        StringBuilder sb = new();
         int ileWierszy = this._swiatla.GetLength(0);
         int ileKolumn = this._swiatla.GetLength(1);
         
 
-        int punkt;
+        int wartoscPunktu;
 
         for(int i = 0; i < 100; i++)
         {
             this._noweSwiatla = new char[ileWierszy, ileKolumn];
-            sb.AppendLine($"\r\n{i + 1}:");
-
-            this.Rogi(ileWierszy, ileKolumn);
-            this.PierwszyOstatniWiersz(ileWierszy, ileKolumn);
-            this.PierwszaOstatniaKolumna(ileWierszy, ileKolumn);
+            
+            this.WstawRogi(ileWierszy, ileKolumn);
+            this.WstawBoki(ileWierszy, ileKolumn);
+            this.WstawKrance(ileWierszy, ileKolumn);
 
             for(int w = 1; w < ileWierszy - 1; w++)
             {
                 for(int k = 1; k < ileKolumn - 1; k++)
                 {
-                    punkt = 0;
-                    if(this._swiatla[w, k].Equals('#'))
+                    wartoscPunktu = 0;
+
+                    wartoscPunktu = this.CzyWlaczone(w - 1, k - 1) ? wartoscPunktu + 1 : wartoscPunktu;
+                    wartoscPunktu = this.CzyWlaczone(w - 1, k) ? wartoscPunktu + 1 : wartoscPunktu;
+                    wartoscPunktu = this.CzyWlaczone(w - 1, k + 1) ? wartoscPunktu + 1 : wartoscPunktu;
+
+                    wartoscPunktu = this.CzyWlaczone(w, k - 1) ? wartoscPunktu + 1 : wartoscPunktu;
+                    wartoscPunktu = this.CzyWlaczone(w, k + 1) ? wartoscPunktu + 1 : wartoscPunktu;
+
+                    wartoscPunktu = this.CzyWlaczone(w + 1, k - 1) ? wartoscPunktu + 1 : wartoscPunktu;
+                    wartoscPunktu = this.CzyWlaczone(w + 1, k) ? wartoscPunktu + 1 : wartoscPunktu;
+                    wartoscPunktu = this.CzyWlaczone(w + 1, k + 1) ? wartoscPunktu + 1 : wartoscPunktu;
+
+                    if (this._swiatla[w, k].Equals('#'))
                     {
-                        punkt = this.CzyWlaczone(w - 1, k - 1) ? punkt + 1 : punkt;
-                        punkt = this.CzyWlaczone(w - 1, k) ? punkt + 1 : punkt;
-                        punkt = this.CzyWlaczone(w - 1, k + 1) ? punkt + 1 : punkt;
-
-                        punkt = this.CzyWlaczone(w, k - 1) ? punkt + 1 : punkt;
-                        punkt = this.CzyWlaczone(w, k + 1) ? punkt + 1 : punkt;
-                        
-                        punkt = this.CzyWlaczone(w + 1, k - 1) ? punkt + 1 : punkt;
-                        punkt = this.CzyWlaczone(w + 1, k) ? punkt + 1 : punkt;
-                        punkt = this.CzyWlaczone(w + 1, k + 1) ? punkt + 1 : punkt;
-
-                        this._noweSwiatla[w, k] = punkt == 2 || punkt == 3 ? '#' : '.';
+                        this._noweSwiatla[w, k] = (wartoscPunktu == 2 || wartoscPunktu == 3) ? '#' : '.';
                     }
 
-                    punkt = 0;
-                    if(this._swiatla[w, k].Equals('.'))
+                    if (this._swiatla[w, k].Equals('.'))
                     {
-                        punkt = this.CzyWlaczone(w - 1, k - 1) ? punkt + 1 : punkt;
-                        punkt = this.CzyWlaczone(w - 1, k) ? punkt + 1 : punkt;
-                        punkt = this.CzyWlaczone(w - 1, k + 1) ? punkt + 1 : punkt;
-
-                        punkt = this.CzyWlaczone(w, k - 1) ? punkt + 1 : punkt;
-                        punkt = this.CzyWlaczone(w, k + 1) ? punkt + 1 : punkt;
-                        
-                        punkt = this.CzyWlaczone(w + 1, k - 1) ? punkt + 1 : punkt;
-                        punkt = this.CzyWlaczone(w + 1, k) ? punkt + 1 : punkt;
-                        punkt = this.CzyWlaczone(w + 1, k + 1) ? punkt + 1 : punkt;
-
-                        this._noweSwiatla[w, k] = punkt == 3 ? '#' : '.';
+                        this._noweSwiatla[w, k] = wartoscPunktu == 3 ? '#' : '.';
                     }
                 }
-            }
-
-            for(int w = 0; w < ileWierszy; w++)
-            {
-                for(int k = 0; k < ileKolumn; k++)
-                {
-                    sb.Append(this._noweSwiatla[w, k]);
-                }
-                sb.AppendLine();
             }
 
             this._swiatla = this._noweSwiatla;
-
-            File.AppendAllText("181.txt", sb.ToString());
-            sb.Clear();
         }
 
         for(int w = 0; w < ileWierszy; w++)
@@ -125,228 +99,154 @@ public class D18Z01 : IZadanie
         }
     }
 
-    private void Rogi(int ileWierszy, int ileKolumn)
+    private void WstawBoki(int ileWierszy, int ileKolumn)
     {
-        int punkt = 0;
-        // Włączone
-        // Górne rogi
-        // Lewo góra
-        if(this._swiatla[0, 0].Equals('#'))
-        {
-            punkt = this.CzyWlaczone(0, 1) ? punkt + 1 : punkt;
-
-            punkt = this.CzyWlaczone(1, 1) ? punkt + 1 : punkt;
-            punkt = this.CzyWlaczone(1, 0) ? punkt + 1 : punkt;
-
-            this._noweSwiatla[0, 0] = punkt == 2 || punkt == 3 ? '#' : '.';
-        }
-
-        punkt = 0;
-        // Prawo góra
-        if(this._swiatla[0, ileKolumn - 1].Equals('#'))
-        {
-            punkt = this.CzyWlaczone(0, ileKolumn - 2) ? punkt + 1 : punkt;
-
-            punkt = this.CzyWlaczone(1, ileKolumn - 2) ? punkt + 1 : punkt;
-            punkt = this.CzyWlaczone(1, ileKolumn - 1) ? punkt + 1 : punkt;
-
-            this._noweSwiatla[0, ileKolumn - 1] = punkt == 2 || punkt == 3 ? '#' : '.';
-        }
-
-        // Wyłączone
-        // Górne rogi
-        // Lewo góra
-        if(this._swiatla[0, 0].Equals('.'))
-        {
-            punkt = this.CzyWlaczone(0, 1) ? punkt + 1 : punkt;
-
-            punkt = this.CzyWlaczone(1, 1) ? punkt + 1 : punkt;
-            punkt = this.CzyWlaczone(1, 0) ? punkt + 1 : punkt;
-
-            this._noweSwiatla[0, 0] = punkt == 3 ? '#' : '.';
-        }
-
-        punkt = 0;
-        // Prawo góra
-        if(this._swiatla[0, ileKolumn - 1].Equals('.'))
-        {
-            punkt = this.CzyWlaczone(0, ileKolumn - 2) ? punkt + 1 : punkt;
-
-            punkt = this.CzyWlaczone(1, ileKolumn - 2) ? punkt + 1 : punkt;
-            punkt = this.CzyWlaczone(1, ileKolumn - 1) ? punkt + 1 : punkt;
-
-            this._noweSwiatla[0, ileKolumn - 1] = punkt == 3 ? '#' : '.';
-        }
-
-        punkt = 0;
-        // Włączone
-        // Dolne rogi
-        // Lewo dół
-        if(this._swiatla[ileWierszy - 1, 0].Equals('#'))
-        {
-            punkt = this.CzyWlaczone(ileWierszy - 2, 0) ? punkt + 1 : punkt;
-            punkt = this.CzyWlaczone(ileWierszy - 2, 1) ? punkt + 1 : punkt;
-
-            punkt = this.CzyWlaczone(ileWierszy - 1, 1) ? punkt + 1 : punkt;
-            
-            this._noweSwiatla[ileWierszy - 1, 0] = punkt == 2 || punkt == 3 ? '#' : '.';
-        }
-
-        punkt = 0;
-        // Prawo dół
-        if(this._swiatla[ileWierszy - 1, ileKolumn - 1].Equals('#'))
-        {
-            punkt = this.CzyWlaczone(ileWierszy - 2, ileKolumn - 2) ? punkt + 1 : punkt;
-            punkt = this.CzyWlaczone(ileWierszy - 2, ileKolumn - 1) ? punkt + 1 : punkt;
-
-            punkt = this.CzyWlaczone(ileWierszy - 1, ileKolumn - 2) ? punkt + 1 : punkt;
-
-            this._noweSwiatla[ileWierszy - 1, ileKolumn - 1] = punkt == 2 || punkt == 3 ? '#' : '.';
-        }
-
-        // Wyłączone
-        // Dolne rogi
-        // Lewo dół
-        if(this._swiatla[ileWierszy - 1, 0].Equals('.'))
-        {
-            punkt = this.CzyWlaczone(ileWierszy - 2, 0) ? punkt + 1 : punkt;
-            punkt = this.CzyWlaczone(ileWierszy - 2, 1) ? punkt + 1 : punkt;
-
-            punkt = this.CzyWlaczone(ileWierszy - 1, 1) ? punkt + 1 : punkt;
-
-            this._noweSwiatla[ileWierszy - 1, 0] = punkt == 3 ? '#' : '.';
-        }
-
-        punkt = 0;
-        // Prawo dół
-        if(this._swiatla[ileWierszy - 1, ileKolumn - 1].Equals('.'))
-        {
-            punkt = this.CzyWlaczone(ileWierszy - 2, ileKolumn - 2) ? punkt + 1 : punkt;
-            punkt = this.CzyWlaczone(ileWierszy - 2, ileKolumn - 1) ? punkt + 1 : punkt;
-
-            punkt = this.CzyWlaczone(ileWierszy - 1, ileKolumn - 2) ? punkt + 1 : punkt;
-
-            this._noweSwiatla[ileWierszy - 1, ileKolumn - 1] = punkt == 3 ? '#' : '.';
-        }
-    }
-
-    private void PierwszyOstatniWiersz(int ileWierszy, int ileKolumn)
-    {
-        int punkt;
-
-        for(int k = 1; k < ileKolumn - 1; k++)
-        {
-            punkt = 0;
-            if(this._swiatla[0, k].Equals('#'))
-            {
-                punkt = this.CzyWlaczone(0, k - 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(0, k + 1) ? punkt + 1 : punkt;
-
-                punkt = this.CzyWlaczone(1, k - 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(1, k) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(1, k + 1) ? punkt + 1 : punkt;
-
-                this._noweSwiatla[0, k] = punkt == 2 || punkt == 3 ? '#' : '.';
-            }
-
-            punkt = 0;
-            if(this._swiatla[0, k].Equals('.'))
-            {
-                punkt = this.CzyWlaczone(0, k - 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(0, k + 1) ? punkt + 1 : punkt;
-
-                punkt = this.CzyWlaczone(1, k - 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(1, k) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(1, k + 1) ? punkt + 1 : punkt;
-
-                this._noweSwiatla[0, k] = punkt == 3 ? '#' : '.';
-            }
-
-            punkt = 0;
-            if(this._swiatla[ileWierszy - 1, k].Equals('#'))
-            {
-                punkt = this.CzyWlaczone(ileWierszy - 2, k - 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(ileWierszy - 2, k) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(ileWierszy - 2, k + 1) ? punkt + 1 : punkt;
-
-                punkt = this.CzyWlaczone(ileWierszy - 1, k - 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(ileWierszy - 1, k + 1) ? punkt + 1 : punkt;
-
-                this._noweSwiatla[ileWierszy - 1, k] = punkt == 2 || punkt == 3 ? '#' : '.';
-            }
-
-            punkt = 0;
-            if(this._swiatla[ileWierszy - 1, k].Equals('.'))
-            {
-                punkt = this.CzyWlaczone(ileWierszy - 2, k - 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(ileWierszy - 2, k) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(ileWierszy - 2, k + 1) ? punkt + 1 : punkt;
-
-                punkt = this.CzyWlaczone(ileWierszy - 1, k - 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(ileWierszy - 1, k + 1) ? punkt + 1 : punkt;
-
-                this._noweSwiatla[ileWierszy - 1, k] = punkt == 3 ? '#' : '.';
-            }
-        }
-    }
-
-    private void PierwszaOstatniaKolumna(int ileWierszy, int ileKolumn)
-    {
-        int punkt;
+        int wartoscPunktuL, wartoscPunktuP;
 
         for(int w = 1; w < ileWierszy - 1; w++)
         {
-            punkt = 0;
-            if(this._swiatla[w, 0].Equals('#'))
+            wartoscPunktuL = wartoscPunktuP = 0;
+
+            wartoscPunktuL = this.CzyWlaczone(w - 1, 0) ? wartoscPunktuL + 1 : wartoscPunktuL;
+            wartoscPunktuL = this.CzyWlaczone(w + 1, 0) ? wartoscPunktuL + 1 : wartoscPunktuL;
+
+            wartoscPunktuL = this.CzyWlaczone(w - 1, 1) ? wartoscPunktuL + 1 : wartoscPunktuL;
+            wartoscPunktuL = this.CzyWlaczone(w, 1) ? wartoscPunktuL + 1 : wartoscPunktuL;
+            wartoscPunktuL = this.CzyWlaczone(w + 1, 1) ? wartoscPunktuL + 1 : wartoscPunktuL;
+
+            if (this._swiatla[w, 0].Equals('#'))
             {
-                punkt = this.CzyWlaczone(w - 1, 0) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(w + 1, 0) ? punkt + 1 : punkt;
-
-                punkt = this.CzyWlaczone(w - 1, 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(w, 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(w + 1, 1) ? punkt + 1 : punkt;
-
-                this._noweSwiatla[w, 0] = punkt == 2 || punkt == 3 ? '#' : '.';
+                this._noweSwiatla[w, 0] = (wartoscPunktuL == 2 || wartoscPunktuL == 3) ? '#' : '.';
             }
 
-            punkt = 0;
-            if(this._swiatla[w, 0].Equals('.'))
+            if (this._swiatla[w, 0].Equals('.'))
             {
-                punkt = this.CzyWlaczone(w - 1, 0) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(w + 1, 0) ? punkt + 1 : punkt;
-                
-                punkt = this.CzyWlaczone(w - 1, 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(w, 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(w + 1, 1) ? punkt + 1 : punkt;
-
-                this._noweSwiatla[w, 0] = punkt == 3 ? '#' : '.';
+                this._noweSwiatla[w, 0] = wartoscPunktuL == 3 ? '#' : '.';
             }
 
-            punkt = 0;
-            if(this._swiatla[w, ileKolumn - 1].Equals('#'))
+            wartoscPunktuP = this.CzyWlaczone(w - 1, ileKolumn - 1) ? wartoscPunktuP + 1 : wartoscPunktuP;
+            wartoscPunktuP = this.CzyWlaczone(w + 1, ileKolumn - 1) ? wartoscPunktuP + 1 : wartoscPunktuP;
+
+            wartoscPunktuP = this.CzyWlaczone(w - 1, ileKolumn - 2) ? wartoscPunktuP + 1 : wartoscPunktuP;
+            wartoscPunktuP = this.CzyWlaczone(w, ileKolumn - 2) ? wartoscPunktuP + 1 : wartoscPunktuP;
+            wartoscPunktuP = this.CzyWlaczone(w + 1, ileKolumn - 2) ? wartoscPunktuP + 1 : wartoscPunktuP;
+
+            if (this._swiatla[w, ileKolumn - 1].Equals('#'))
             {
-                punkt = this.CzyWlaczone(w - 1, ileKolumn - 2) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(w, ileKolumn - 2) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(w + 1, ileKolumn - 2) ? punkt + 1 : punkt;
-
-                punkt = this.CzyWlaczone(w - 1, ileKolumn - 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(w + 1, ileKolumn - 1) ? punkt + 1 : punkt;
-
-                this._noweSwiatla[w, ileKolumn - 1] = punkt == 2 || punkt == 3 ? '#' : '.';
+                this._noweSwiatla[w, ileKolumn - 1] = (wartoscPunktuP == 2 || wartoscPunktuP == 3) ? '#' : '.';
             }
 
-            punkt = 0;
-            if(this._swiatla[w, ileKolumn - 1].Equals('.'))
+            if (this._swiatla[w, ileKolumn - 1].Equals('.'))
             {
-                punkt = this.CzyWlaczone(w - 1, ileKolumn - 2) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(w, ileKolumn - 2) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(w + 1, ileKolumn - 2) ? punkt + 1 : punkt;
-                
-                punkt = this.CzyWlaczone(w - 1, ileKolumn - 1) ? punkt + 1 : punkt;
-                punkt = this.CzyWlaczone(w + 1, ileKolumn - 1) ? punkt + 1 : punkt;
-
-                this._noweSwiatla[w, ileKolumn - 1] = punkt == 3 ? '#' : '.';
+                this._noweSwiatla[w, ileKolumn - 1] = wartoscPunktuP == 3 ? '#' : '.';
             }
+        }
+    }
+
+    private void WstawKrance(int ileWierszy, int ileKolumn)
+    {
+        int wartoscPunktuG, wartoscPunktuD;
+
+        for(int k = 1; k < ileKolumn - 1; k++)
+        {
+            wartoscPunktuG = wartoscPunktuD = 0;
+
+            wartoscPunktuG = this.CzyWlaczone(0, k - 1) ? wartoscPunktuG + 1 : wartoscPunktuG;
+            wartoscPunktuG = this.CzyWlaczone(0, k + 1) ? wartoscPunktuG + 1 : wartoscPunktuG;
+
+            wartoscPunktuG = this.CzyWlaczone(1, k - 1) ? wartoscPunktuG + 1 : wartoscPunktuG;
+            wartoscPunktuG = this.CzyWlaczone(1, k) ? wartoscPunktuG + 1 : wartoscPunktuG;
+            wartoscPunktuG = this.CzyWlaczone(1, k + 1) ? wartoscPunktuG + 1 : wartoscPunktuG;
+
+            if (this._swiatla[0, k].Equals('#'))
+            {
+                this._noweSwiatla[0, k] = (wartoscPunktuG == 2 || wartoscPunktuG == 3) ? '#' : '.';
+            }
+
+            if (this._swiatla[0, k].Equals('.'))
+            {
+                this._noweSwiatla[0, k] = wartoscPunktuG == 3 ? '#' : '.';
+            }
+
+            wartoscPunktuD = this.CzyWlaczone(ileWierszy - 1, k - 1) ? wartoscPunktuD + 1 : wartoscPunktuD;
+            wartoscPunktuD = this.CzyWlaczone(ileWierszy - 1, k + 1) ? wartoscPunktuD + 1 : wartoscPunktuD;
+
+            wartoscPunktuD = this.CzyWlaczone(ileWierszy - 2, k - 1) ? wartoscPunktuD + 1 : wartoscPunktuD;
+            wartoscPunktuD = this.CzyWlaczone(ileWierszy - 2, k) ? wartoscPunktuD + 1 : wartoscPunktuD;
+            wartoscPunktuD = this.CzyWlaczone(ileWierszy - 2, k + 1) ? wartoscPunktuD + 1 : wartoscPunktuD;
+
+            if (this._swiatla[ileWierszy - 1, k].Equals('#'))
+            {
+                this._noweSwiatla[ileWierszy - 1, k] = (wartoscPunktuD == 2 || wartoscPunktuD == 3) ? '#' : '.';
+            }
+
+            if (this._swiatla[ileWierszy - 1, k].Equals('.'))
+            {
+                this._noweSwiatla[ileWierszy - 1, k] = wartoscPunktuD == 3 ? '#' : '.';
+            }
+        }
+    }
+
+    private void WstawRogi(int ileWierszy, int ileKolumn)
+    {
+        int wartoscPunktu = 0;
+        wartoscPunktu = this.CzyWlaczone(0, 1) ? wartoscPunktu + 1 : wartoscPunktu;
+        wartoscPunktu = this.CzyWlaczone(1, 0) ? wartoscPunktu + 1 : wartoscPunktu;
+        wartoscPunktu = this.CzyWlaczone(1, 1) ? wartoscPunktu + 1 : wartoscPunktu;
+
+        if (this._swiatla[0, 0].Equals('#'))
+        {
+            this._noweSwiatla[0, 0] = (wartoscPunktu == 2 || wartoscPunktu == 3) ? '#' : '.';
+        }
+
+        if (this._swiatla[0, 0].Equals('.'))
+        {
+            this._noweSwiatla[0, 0] = wartoscPunktu == 3 ? '#' : '.';
+        }
+
+        wartoscPunktu = 0;
+        wartoscPunktu = this.CzyWlaczone(0, ileKolumn - 2) ? wartoscPunktu + 1 : wartoscPunktu;
+        wartoscPunktu = this.CzyWlaczone(1, ileKolumn - 2) ? wartoscPunktu + 1 : wartoscPunktu;
+        wartoscPunktu = this.CzyWlaczone(1, ileKolumn - 1) ? wartoscPunktu + 1 : wartoscPunktu;
+
+        if (this._swiatla[0, ileKolumn - 1].Equals('#'))
+        {
+            this._noweSwiatla[0, ileKolumn - 1] = (wartoscPunktu == 2 || wartoscPunktu == 3) ? '#' : '.';
+        }
+
+        if (this._swiatla[0, ileKolumn - 1].Equals('.'))
+        {
+            this._noweSwiatla[0, ileKolumn - 1] = wartoscPunktu == 3 ? '#' : '.';
+        }
+
+        wartoscPunktu = 0;
+        wartoscPunktu = this.CzyWlaczone(ileWierszy - 2, 0) ? wartoscPunktu + 1 : wartoscPunktu;
+        wartoscPunktu = this.CzyWlaczone(ileWierszy - 2, 1) ? wartoscPunktu + 1 : wartoscPunktu;
+        wartoscPunktu = this.CzyWlaczone(ileWierszy - 1, 1) ? wartoscPunktu + 1 : wartoscPunktu;
+
+        if (this._swiatla[ileWierszy - 1, 0].Equals('#'))
+        {
+            this._noweSwiatla[ileWierszy - 1, 0] = (wartoscPunktu == 2 || wartoscPunktu == 3) ? '#' : '.';
+        }
+
+        if (this._swiatla[ileWierszy - 1, 0].Equals('.'))
+        {
+            this._noweSwiatla[ileWierszy - 1, 0] = wartoscPunktu == 3 ? '#' : '.';
+        }
+
+        wartoscPunktu = 0;
+        wartoscPunktu = this.CzyWlaczone(ileWierszy - 2, ileKolumn - 2) ? wartoscPunktu + 1 : wartoscPunktu;
+        wartoscPunktu = this.CzyWlaczone(ileWierszy - 2, ileKolumn - 1) ? wartoscPunktu + 1 : wartoscPunktu;
+        wartoscPunktu = this.CzyWlaczone(ileWierszy - 1, ileKolumn - 2) ? wartoscPunktu + 1 : wartoscPunktu;
+
+        if (this._swiatla[ileWierszy - 1, ileKolumn - 1].Equals('#'))
+        {
+            this._noweSwiatla[ileWierszy - 1, ileKolumn - 1] = (wartoscPunktu == 2 || wartoscPunktu == 3) ? '#' : '.';
+        }
+
+        if (this._swiatla[ileWierszy - 1, ileKolumn - 1].Equals('.'))
+        {
+            this._noweSwiatla[ileWierszy - 1, ileKolumn - 1] = wartoscPunktu == 3 ? '#' : '.';
         }
     }
 
