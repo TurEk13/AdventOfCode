@@ -21,7 +21,7 @@ public partial class OknoGlowne : Form
 
         this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 2;
         this.DzienComboBox.SelectedIndex = 19;
-        this.ZadanieComboBox.SelectedIndex = 0;
+        this.ZadanieComboBox.SelectedIndex = 1;
     }
 
     private void TestButton_Click(object sender, EventArgs e)
@@ -32,7 +32,7 @@ public partial class OknoGlowne : Form
 
         this.WynikTextBox.Text = $"{this.Rok} {this.Dzien} {this.Zadanie}";
 
-        switch(this.Rok)
+        switch (this.Rok)
         {
             case 2015:
                 switch (this.Dzien)
@@ -73,7 +73,7 @@ public partial class OknoGlowne : Form
                 }
                 break;
             case 2024:
-                switch(this.Dzien)
+                switch (this.Dzien)
                 {
                     case 1:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D01Z01(true) : new Zadania._2024.D01Z02(true);
@@ -125,12 +125,12 @@ public partial class OknoGlowne : Form
         {
             this.wykonajZadanie.RozwiazanieZadania();
         }
-        catch(NullReferenceException)
+        catch (NullReferenceException)
         {
             MessageBox.Show("Podany dzień lub zadanie zostały nie utworzone");
             return;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             //
         }
@@ -147,7 +147,7 @@ public partial class OknoGlowne : Form
         switch (this.Rok)
         {
             case 2015:
-                switch(this.Dzien)
+                switch (this.Dzien)
                 {
                     case 1:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D01Z01() : new Zadania._2015.D01Z02();
@@ -201,7 +201,7 @@ public partial class OknoGlowne : Form
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D18Z01() : new Zadania._2015.D18Z02();
                         break;
                     case 20:
-                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D20Z01() : throw new NotImplementedException();
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D20Z01() : new Zadania._2015.D20Z02();
                         break;
                 }
                 break;
@@ -229,7 +229,7 @@ public partial class OknoGlowne : Form
                     case 7:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D07Z01() : new Zadania._2024.D07Z02();
                         break;
-					case 9:
+                    case 9:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D09Z01() : new Zadania._2024.D09Z02();
                         break;
                     case 11:
@@ -258,7 +258,7 @@ public partial class OknoGlowne : Form
         {
             this.wykonajZadanie.RozwiazanieZadania();
         }
-        catch(NullReferenceException)
+        catch (NullReferenceException)
         {
             MessageBox.Show("Podany dzień lub zadanie zostały nie utworzone");
             return;

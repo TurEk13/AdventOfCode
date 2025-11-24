@@ -40,6 +40,10 @@ partial class OknoGlowne
         TestButton = new Button();
         ZadanieButton = new Button();
         WynikTextBox = new TextBox();
+        StatusPostepu = new StatusStrip();
+        PasekStatusPostepu = new ToolStripProgressBar();
+        TekstStatusPostepu = new ToolStripStatusLabel();
+        StatusPostepu.SuspendLayout();
         SuspendLayout();
         // 
         // RokComboBox
@@ -123,14 +127,35 @@ partial class OknoGlowne
         WynikTextBox.Multiline = true;
         WynikTextBox.Name = "WynikTextBox";
         WynikTextBox.ReadOnly = true;
-        WynikTextBox.Size = new Size(584, 542);
+        WynikTextBox.Size = new Size(584, 519);
         WynikTextBox.TabIndex = 10;
+        // 
+        // StatusPostepu
+        // 
+        StatusPostepu.Items.AddRange(new ToolStripItem[] { PasekStatusPostepu, TekstStatusPostepu });
+        StatusPostepu.Location = new Point(0, 539);
+        StatusPostepu.Name = "StatusPostepu";
+        StatusPostepu.Size = new Size(784, 22);
+        StatusPostepu.TabIndex = 12;
+        StatusPostepu.Text = "statusStrip1";
+        // 
+        // PasekStatusPostepu
+        // 
+        PasekStatusPostepu.Name = "PasekStatusPostepu";
+        PasekStatusPostepu.Size = new Size(100, 16);
+        // 
+        // TekstStatusPostepu
+        // 
+        TekstStatusPostepu.Name = "TekstStatusPostepu";
+        TekstStatusPostepu.Size = new Size(118, 17);
+        TekstStatusPostepu.Text = "toolStripStatusLabel1";
         // 
         // OknoGlowne
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(784, 561);
+        Controls.Add(StatusPostepu);
         Controls.Add(WynikTextBox);
         Controls.Add(ZadanieButton);
         Controls.Add(TestButton);
@@ -143,6 +168,8 @@ partial class OknoGlowne
         IsMdiContainer = true;
         Name = "OknoGlowne";
         Text = "Advent of Code";
+        StatusPostepu.ResumeLayout(false);
+        StatusPostepu.PerformLayout();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -158,4 +185,7 @@ partial class OknoGlowne
     private Button TestButton;
     private Button ZadanieButton;
     private TextBox WynikTextBox;
+    private StatusStrip StatusPostepu;
+    private ToolStripProgressBar PasekStatusPostepu;
+    private ToolStripStatusLabel TekstStatusPostepu;
 }
