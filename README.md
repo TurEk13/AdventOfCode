@@ -21,9 +21,9 @@ My solutions for the quests
 |Day	15	| X / X | X / X |
 |Day	16	| X / X | - / - |
 |Day	17	| - / - | - / - |
-|Day	18	| - / - | - / - |
-|Day	19	| - / - | - / - |
-|Day	20	| - / - | - / - |
+|Day	18	| X / X | - / - |
+|Day	19	| X / - | - / - |
+|Day	20	| X / X | - / - |
 |Day	21	| - / - | - / - |
 |Day	22	| - / - | - / - |
 |Day	23	| - / - | X / X |
