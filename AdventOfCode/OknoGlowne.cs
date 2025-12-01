@@ -16,12 +16,12 @@ public partial class OknoGlowne : Form
     {
         InitializeComponent();
 
-        RokComboBox.Items.AddRange(["2015", "2024"]);
+        RokComboBox.Items.AddRange(["2015", "2024", "2025"]);
         DzienComboBox.Items.AddRange(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]);
 
-        this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 2;
-        this.DzienComboBox.SelectedIndex = 16;
-        this.ZadanieComboBox.SelectedIndex = 1;
+        this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 3;
+        this.DzienComboBox.SelectedIndex = 0;
+        this.ZadanieComboBox.SelectedIndex = 0;
     }
 
     private void TestButton_Click(object sender, EventArgs e)
@@ -126,6 +126,28 @@ public partial class OknoGlowne : Form
                     case 25:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D25Z01(true) : throw new NotImplementedException();
                         break;
+                }
+                break;
+            case 2025:
+                switch(this.Dzien)
+                {
+                    case 1:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2025.D01Z01(true) : new Zadania._2025.D01Z02(true);
+                        break;
+                    case 13:
+                    case 14:
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                    case 19:
+                    case 20:
+                    case 21:
+                    case 22:
+                    case 23:
+                    case 24:
+                    case 25:
+                        throw new NotImplementedException();
                 }
                 break;
         }
@@ -268,6 +290,28 @@ public partial class OknoGlowne : Form
                     case 25:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2024.D25Z01() : throw new NotImplementedException();
                         break;
+                }
+                break;
+            case 2025:
+                switch(this.Dzien)
+                {
+                    case 1:
+                    this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2025.D01Z01() : new Zadania._2025.D01Z02();
+                    break;
+                    case 13:
+                    case 14:
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                    case 19:
+                    case 20:
+                    case 21:
+                    case 22:
+                    case 23:
+                    case 24:
+                    case 25:
+                        throw new NotImplementedException();
                 }
                 break;
         }
