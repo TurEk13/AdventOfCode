@@ -1,8 +1,9 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace Zadania._2015;
 
-public class D21Z01 : IZadanie
+public class D21Z02 : IZadanie
 {
     private StatystykiPostaci Gracz;
     private StatystykiPostaci Boss;
@@ -10,17 +11,17 @@ public class D21Z01 : IZadanie
     private StatystykiZbroi[] SpisZbroi;
     private StatystykiPierscieni[] SpisPierscieni;
     private int ZuzyteZloto;
-    public D21Z01()
+    public D21Z02()
     {
         this.SpisBroni = [new (8, 4, 0), new (10, 5, 0), new (25, 6, 0), new (40, 7, 0), new (74, 8, 0)];
         this.SpisZbroi = [new (0, 0, 0), new (13, 0, 1), new (31, 0, 2), new (53, 0, 3), new (75, 0, 4), new (102, 0, 5)];
         this.SpisPierscieni = [new (0, 0, 0), new (0, 0, 0), new (25, 1, 0), new (50, 2, 0), new (100, 0, 3), new (20, 0, 1), new (40, 0, 2), new (80, 0, 3)];
-        this.ZuzyteZloto = int.MaxValue;
     }
 
     public void RozwiazanieZadania()
     {
         int uzyteZloto;
+        this.ZuzyteZloto = int.MinValue;
 
         for(int b = 0; b < this.SpisBroni.Length; b++)
         {
@@ -44,7 +45,7 @@ public class D21Z01 : IZadanie
                             this.WykonajTure();
                         }
 
-                        if(this.Gracz.PunktyZycia > 0 && this.Boss.PunktyZycia < 0 &&this.ZuzyteZloto > uzyteZloto)
+                        if(this.Gracz.PunktyZycia <= 0 && this.Boss.PunktyZycia > 0 && this.ZuzyteZloto < uzyteZloto)
                         {
                             this.ZuzyteZloto = uzyteZloto;
                         }
@@ -56,15 +57,17 @@ public class D21Z01 : IZadanie
 
     private void WykonajTure()
     {
-        int obrazeniaBoss = this.Gracz.Obrazenia - this.Boss.Obrona;
-        this.Boss = obrazeniaBoss == 0 ? this.Boss with { PunktyZycia = this.Boss.PunktyZycia - 1 } : this.Boss with { PunktyZycia = this.Boss.PunktyZycia - obrazeniaBoss };
+        int obrazeniaBossa = Math.Max(1, this.Gracz.Obrazenia - this.Boss.Obrona);
+        this.Boss = this.Boss with { PunktyZycia = this.Boss.PunktyZycia - obrazeniaBossa };
+
         if(this.Boss.PunktyZycia < 1)
         {
             return;
         }
 
-        int obrazeniaGracz = this.Boss.Obrazenia - this.Gracz.Obrona;
-        this.Gracz = obrazeniaGracz == 0 ? this.Gracz with { PunktyZycia = this.Gracz.PunktyZycia - 1 } : this.Gracz with { PunktyZycia = this.Gracz.PunktyZycia - obrazeniaGracz };
+        int obrazeniaGracza = Math.Max(1, this.Boss.Obrazenia - this.Gracz.Obrona);
+
+        this.Gracz = this.Gracz with { PunktyZycia = this.Gracz.PunktyZycia - obrazeniaGracza };
     }
 
     private void UtworzGracza(int Bron, int Zbroja, int Pierscien1, int Pierscien2)
