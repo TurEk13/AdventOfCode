@@ -3,7 +3,7 @@
 My solutions for the quests
 
 |       |  2015 |  2024 |  2025 |
-|---|---|---|
+|---|---|---|---|
 |Day	 1	| X / X | X / X | X / X |
 |Day	 2	| X / X | X / X | - / - |
 |Day	 3	| X / X | X / X | - / - |
@@ -25,7 +25,7 @@ My solutions for the quests
 |Day	19	| X / - | - / - | --- |
 |Day	20	| X / X | - / - | --- |
 |Day	21	| - / - | - / - | --- |
-|Day	22	| - / - | - / - | --- |
+|Day	22	| X / - | - / - | --- |
 |Day	23	| X / X | X / X | --- |
 |Day	24	| - / - | X / - | --- |
 |Day	25	| - / - | X / - | --- |
