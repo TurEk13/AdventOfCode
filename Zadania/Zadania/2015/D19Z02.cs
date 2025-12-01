@@ -51,20 +51,11 @@ public class D19Z02 : IZadanie
         this.Uruchom("e");
     }
 
-    private void Uruchom(string czastka, int runda = 0)
+    private void Uruchom(string czastka, int runda = 1)
     {
         Regex r;
         MatchCollection mc;
         StringBuilder sb;
-
-        if(this._MolekulaDocelowa.Equals(czastka))
-        {
-            if(runda < this._Wynik)
-            {
-                this._Wynik = runda;
-            }
-            return;
-        }
 
         if(czastka.Length > this._MolekulaDocelowa.Length)
         {
@@ -88,6 +79,12 @@ public class D19Z02 : IZadanie
                             sb.Remove(m.Index, m.Length);
                             sb.Insert(m.Index, this._ListaZmian[molekula].PokazNaCoZmienic(i));
 
+                            if(this.SprawdzMolekule(sb.ToString()))
+                            {
+                                this._Wynik = runda;
+                                return;
+                            }
+
                             this.Uruchom(sb.ToString(), runda + 1);
                             sb.Clear();
                         }
@@ -95,6 +92,11 @@ public class D19Z02 : IZadanie
                 }
             }
         }
+    }
+
+    private bool SprawdzMolekule(string molekulaDoSprawdzenia)
+    {
+        return this._MolekulaDocelowa.Equals(molekulaDoSprawdzenia);
     }
 
     public string PokazRozwiazanie()

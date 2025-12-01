@@ -52,7 +52,6 @@ public class D19Z01 : IZadanie
         Regex r;
         MatchCollection mc;
         int i;
-        string wstaw;
 
         foreach(string molekula in this._Molekuly)
         {
@@ -62,6 +61,7 @@ public class D19Z01 : IZadanie
             foreach(Match m in mc)
             {
                 i = 0;
+                
                 while(i < this._ListaZmian[molekula].PokazIloscZmian)
                 {
                     sb.Remove(m.Index, m.Length);
