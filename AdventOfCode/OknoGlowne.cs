@@ -16,12 +16,12 @@ public partial class OknoGlowne : Form
     {
         InitializeComponent();
 
-        RokComboBox.Items.AddRange(["2015", "2024", "2025"]);
+        RokComboBox.Items.AddRange(["2015", "2016", "2024", "2025"]);
         DzienComboBox.Items.AddRange(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]);
 
-        this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 1;
-        this.DzienComboBox.SelectedIndex = 1;
-        this.ZadanieComboBox.SelectedIndex = 1;
+        this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 3;
+        this.DzienComboBox.SelectedIndex = 0;
+        this.ZadanieComboBox.SelectedIndex = 0;
     }
 
     private void TestButton_Click(object sender, EventArgs e)
@@ -78,6 +78,14 @@ public partial class OknoGlowne : Form
                         break;
                     case 23:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D23Z01(true) : new Zadania._2015.D23Z01(true);
+                        break;
+                }
+                break;
+            case 2016:
+                switch(this.Dzien)
+                {
+                    case 1:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2016.D01Z01(true) : new Zadania._2016.D01Z02(true);
                         break;
                 }
                 break;
@@ -248,6 +256,14 @@ public partial class OknoGlowne : Form
                         break;
                     case 23:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2015.D23Z01() : new Zadania._2015.D23Z01();
+                        break;
+                }
+                break;
+            case 2016:
+                switch(this.Dzien)
+                {
+                    case 1:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2016.D01Z01() : new Zadania._2016.D01Z02();
                         break;
                 }
                 break;
