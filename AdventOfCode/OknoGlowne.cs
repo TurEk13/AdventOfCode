@@ -19,8 +19,8 @@ public partial class OknoGlowne : Form
         RokComboBox.Items.AddRange(["2015", "2024", "2025"]);
         DzienComboBox.Items.AddRange(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]);
 
-        this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 3;
-        this.DzienComboBox.SelectedIndex = 20;
+        this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 1;
+        this.DzienComboBox.SelectedIndex = 1;
         this.ZadanieComboBox.SelectedIndex = 1;
     }
 
@@ -133,6 +133,9 @@ public partial class OknoGlowne : Form
                 {
                     case 1:
                         this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2025.D01Z01(true) : new Zadania._2025.D01Z02(true);
+                        break;
+                    case 2:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2025.D02Z01(true) : new Zadania._2025.D02Z02(true);
                         break;
                     case 13:
                     case 14:
@@ -299,8 +302,11 @@ public partial class OknoGlowne : Form
                 switch(this.Dzien)
                 {
                     case 1:
-                    this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2025.D01Z01() : new Zadania._2025.D01Z02();
-                    break;
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2025.D01Z01() : new Zadania._2025.D01Z02();
+                        break;
+                    case 2:
+                        this.wykonajZadanie = this.Zadanie == 0 ? new Zadania._2025.D02Z01() : new Zadania._2025.D02Z02();
+                        break;
                     case 13:
                     case 14:
                     case 15:

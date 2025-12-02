@@ -5,7 +5,7 @@ My solutions for the quests
 |       |  2015 |  2024 |  2025 |
 |---|---|---|---|
 |Day	 1	| X / X | X / X | X / X |
-|Day	 2	| X / X | X / X | - / - |
+|Day	 2	| X / X | X / X | X / X |
 |Day	 3	| X / X | X / X | - / - |
 |Day	 4	| X / X | X / X | - / - |
 |Day	 5	| X / X | X / X | - / - |
