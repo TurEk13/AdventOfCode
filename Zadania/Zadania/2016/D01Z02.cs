@@ -14,12 +14,14 @@ public class D01Z02 : IZadanie
     private int _ObecnyKierunek;
     private Kierunek _Kierunek;
     private List<Zwrot> _OdwiedzonePunkty;
+
     public D01Z02(bool daneTestowe = false)
     {
         this._ObecnyPunkt = new (0, 0);
         this._ObecnyKierunek = 0;
         this._Kierunek = new Kierunek();
-        this._OdwiedzonePunkty = [this._ObecnyPunkt];
+        this._OdwiedzonePunkty = [new (this._ObecnyPunkt)];
+
         FileStream fs = new(daneTestowe ? ".\\Dane\\2016\\01\\proba.txt" : ".\\Dane\\2016\\01\\dane.txt", FileMode.Open, FileAccess.Read);
 
         StreamReader sr = new(fs);
@@ -52,25 +54,47 @@ public class D01Z02 : IZadanie
 
             if(this._ObecnyKierunek == 0 || this._ObecnyKierunek == 2)
             {
-                this._ObecnyPunkt.Y += r.Odleglosc * this._Kierunek.Zwrot[this._ObecnyKierunek].Y;
+                for(int i = 0; i < r.Odleglosc; i++)
+                {
+                    this._ObecnyPunkt.Y += this._Kierunek.Zwrot[this._ObecnyKierunek].Y;
+
+                    if (!this.CzyPunktJestOdwiedzony())
+                    {
+                        this._Odleglosc = Math.Abs(this._ObecnyPunkt.X) + Math.Abs(this._ObecnyPunkt.Y);
+                        return;
+                    }
+
+                    if (this.CzyPunktJestOdwiedzony())
+                    {
+                        this._OdwiedzonePunkty.Add(new (this._ObecnyPunkt));
+                    }
+                }
             }
 
             if (this._ObecnyKierunek == 1 || this._ObecnyKierunek == 3)
             {
-                this._ObecnyPunkt.X += r.Odleglosc * this._Kierunek.Zwrot[this._ObecnyKierunek].X;
-            }
+                for (int i = 0; i < r.Odleglosc; i++)
+                {
+                    this._ObecnyPunkt.X += this._Kierunek.Zwrot[this._ObecnyKierunek].X;
 
-            if(this._OdwiedzonePunkty.FirstOrDefault(op => op.X == this._ObecnyPunkt.X && op.Y == this._ObecnyPunkt.Y) is null)
-            {
-                this._OdwiedzonePunkty.Add(this._ObecnyPunkt);
-            }
+                    if (!this.CzyPunktJestOdwiedzony())
+                    {
+                        this._Odleglosc = Math.Abs(this._ObecnyPunkt.X) + Math.Abs(this._ObecnyPunkt.Y);
+                        return;
+                    }
 
-            if (this._OdwiedzonePunkty.FirstOrDefault(op => op.X == this._ObecnyPunkt.X && op.Y == this._ObecnyPunkt.Y) is not null)
-            {
-                this._Odleglosc = Math.Abs(this._ObecnyPunkt.X) + Math.Abs(this._ObecnyPunkt.Y);
-                return;
+                    if (this.CzyPunktJestOdwiedzony())
+                    {
+                        this._OdwiedzonePunkty.Add(new (this._ObecnyPunkt));
+                    }
+                }
             }
         }
+    }
+
+    private bool CzyPunktJestOdwiedzony()
+    {
+        return this._OdwiedzonePunkty.FirstOrDefault(op => op.X == this._ObecnyPunkt.X && op.Y == this._ObecnyPunkt.Y) is null;
     }
 
     public string PokazRozwiazanie()
@@ -89,6 +113,12 @@ public class D01Z02 : IZadanie
         {
             this.X = x;
             this.Y = y;
+        }
+
+        public Zwrot(Zwrot z)
+        {
+            this.X = z.X;
+            this.Y = z.Y;
         }
     }
 

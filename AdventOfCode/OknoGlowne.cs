@@ -21,7 +21,7 @@ public partial class OknoGlowne : Form
 
         this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 3;
         this.DzienComboBox.SelectedIndex = 0;
-        this.ZadanieComboBox.SelectedIndex = 0;
+        this.ZadanieComboBox.SelectedIndex = 1;
     }
 
     private void TestButton_Click(object sender, EventArgs e)
