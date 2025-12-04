@@ -53,11 +53,9 @@ public class D03Z02 : IZadanie
     private Int32 ZnajdzMaksCyfre(ReadOnlySpan<char> bank, int poziom, int indeks)
     {
         int start = indeks > poziom ? indeks : poziom;
-        int maks = start;
-        int nowe, stare = bank[maks] - '0';
-        int koniec = bank.Length - (11 - poziom);
+        int maks = start, stare = bank[maks] - '0', nowe;
 
-        for(int i = start; i < koniec; i++)
+        for(int i = start; i < bank.Length - (11 - poziom); i++)
         {
             nowe = bank[i] - '0';
             if(nowe > stare)
