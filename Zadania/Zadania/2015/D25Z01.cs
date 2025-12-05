@@ -16,7 +16,7 @@ public class D25Z01 : IZadanie
         this._Wartosc = 20_151_125;
         bool stop = false;
 
-        for(kolumna = 1, wierszMax = 2;kolumna <= 3_019; wierszMax++)
+        for(kolumna = 1, wierszMax = 2;; wierszMax++)
         {
             for(wiersz = wierszMax; wiersz > 0; wiersz--)
             {
