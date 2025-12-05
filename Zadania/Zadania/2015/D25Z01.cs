@@ -12,7 +12,7 @@ public class D25Z01 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        int kolumna, wiersz = 1, wierszMax;
+        int kolumna, wiersz, wierszMax;
         this._Wartosc = 20_151_125;
         bool stop = false;
 
