@@ -7,9 +7,9 @@ My solutions for the quests
 |Day	 1	| X / X | X / X | X / X | X / X |
 |Day	 2	| X / X | X / X | X / X | X / X |
 |Day	 3	| X / X | X / X | X / X | X / X |
-|Day	 4	| X / X | - / - | X / X | - / - |
-|Day	 5	| X / X | - / - | X / X | - / - |
-|Day	 6	| X / X | - / - | X / - | - / - |
+|Day	 4	| X / X | - / - | X / X | X / X |
+|Day	 5	| X / X | - / - | X / X | X / X |
+|Day	 6	| X / X | - / - | X / - | X / X |
 |Day	 7	| X / X | - / - | X / X | - / - |
 |Day	 8	| X / X | - / - | - / - | - / - |
 |Day	 9	| X / X | - / - | X / X | - / - |
@@ -28,4 +28,4 @@ My solutions for the quests
 |Day	22	| - / - | - / - | - / - | --- |
 |Day	23	| X / X | - / - | X / X | --- |
 |Day	24	| - / - | - / - | X / - | --- |
-|Day	25	| - / - | - / - | X / - | --- |
+|Day	25	| X / - | - / - | X / - | --- |
