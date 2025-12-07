@@ -50,6 +50,7 @@
     <Folder Include="Dane\2025\04\" />
     <Folder Include="Dane\2025\05\" />
     <Folder Include="Dane\2025\06\" />
+    <Folder Include="Dane\2025\07\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -180,6 +181,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2025\06\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dane\2025\07\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
