@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace Zadania._2025;
 
@@ -32,21 +32,36 @@ public partial class D07Z02 : IZadanie
 
     public void RozwiazanieZadania()
     {
-    }
+        int szerokosc = this._Mapa[0].Length;
+        int wysokosc = this._Mapa.Count;
 
-    {
+        this._Mapa[1][new string(this._Mapa[0]).IndexOf('S')] = '|';
+
+        for (int w = 2; w < wysokosc; w += 2)
         {
+            for (int s = 0; s < szerokosc; s++)
             {
+                if (this._Mapa[w][s].Equals('.') && this._Mapa[w - 1][s].Equals('|'))
                 {
+                    this._Mapa[w + 1][s] = '|';
+                }
+
+                if (this._Mapa[w][s].Equals('^') && this._Mapa[w - 1][s].Equals('|') && this._Liczniki[s] > 0)
+                {
+                    this._Liczniki[s - 1] += this._Liczniki[s];
+                    this._Liczniki[s + 1] += this._Liczniki[s];
+                    this._Liczniki[s] = 0;
+                    this._Mapa[w + 1][s - 1] = '|';
+                    this._Mapa[w + 1][s + 1] = '|';
+                }
             }
         }
-    }
 
-    {
-        }
+        this._Wynik = this._Liczniki.Sum();
     }
 
     public string PokazRozwiazanie()
     {
+        return this._Wynik.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
     }
 }

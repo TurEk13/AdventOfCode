@@ -27,21 +27,24 @@ public partial class D07Z01 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        int start = new string(this._Mapa[0]).IndexOf('S');
         int szerokosc = this._Mapa[0].Length;
         int wysokosc = this._Mapa.Count;
 
         this._Mapa[1][new string(this._Mapa[0]).IndexOf('S')] = '|';
 
+        for(int w = 2; w < wysokosc; w += 2)
         {
             for (int s = 0; s < szerokosc; s++)
             {
                 if (this._Mapa[w][s].Equals('.') && this._Mapa[w - 1][s].Equals('|'))
                 {
+                    this._Mapa[w + 1][s] = '|';
                 }
 
                 if (this._Mapa[w][s].Equals('^') && this._Mapa[w - 1][s].Equals('|'))
                 {
+                    this._Mapa[w + 1][s - 1] = '|';
+                    this._Mapa[w + 1][s + 1] = '|';
                     this._Licznik++;
                 }
             }
