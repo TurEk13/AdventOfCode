@@ -10,12 +10,11 @@ public partial class D08Z01 : IZadanie
 {
     private readonly List<Skrzynka> _Skrzynki;
     private List<Polaczenie> _Polaczenia = new ();
-    private Dictionary<Skrzynka, List<(Skrzynka Id, Int32 Odleglosc)>> _Siec;
+    private int _Wynik;
 
     public D08Z01(bool daneTestowe = false)
     {
         this._Skrzynki = new ();
-        this._Siec = new ();
         FileStream fs = new(daneTestowe ? ".\\Dane\\2025\\08\\proba.txt" : ".\\Dane\\2025\\08\\dane.txt", FileMode.Open, FileAccess.Read);
         StreamReader sr = new(fs);
         string linia;
@@ -30,54 +29,44 @@ public partial class D08Z01 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        int odleglosc;
-        HashSet<Skrzynka> sk = new ();
-
         for (int i = 0; i < this._Skrzynki.Count - 1; i++)
         {
             for (int j = i + 1; j < this._Skrzynki.Count; j++)
             {
-                odleglosc = this.ObliczOdleglosc(this._Skrzynki[i], this._Skrzynki[j]);
-
-                this._Polaczenia.Add(new (this._Skrzynki[i], this._Skrzynki[j], odleglosc));
+                this._Polaczenia.Add(new (this._Skrzynki[i], this._Skrzynki[j], this._Skrzynki[i].ObliczOdleglosc(this._Skrzynki[j])));
             }
         }
 
         this._Polaczenia = this._Polaczenia.OrderBy(p => p.Odleglosc).ToList<Polaczenie>();
 
-        this._Polaczenia = this._Polaczenia.Take(11).ToList<Polaczenie>();
-
-        for(int i = 0; i < this._Polaczenia.Count; i++)
+        List<HashSet<Skrzynka>> obwody = new ();
+        
+        foreach(Skrzynka s in this._Skrzynki)
         {
-            if(!this._Siec.ContainsKey(this._Polaczenia[i].Start))
-            {
-                this._Siec[this._Polaczenia[i].Start] = new ();
-            }
-
-            if(!this._Siec.ContainsKey(this._Polaczenia[i].Stop))
-            {
-                this._Siec[this._Polaczenia[i].Stop] = new ();
-            }
-
-            //sk.Add(this._Polaczenia[i].Start);
-            //sk.Add(this._Polaczenia[i].Stop);
-
-            this._Siec[this._Polaczenia[i].Start].Add(new (this._Polaczenia[i].Stop, this._Polaczenia[i].Odleglosc));
-            
-            //this._Siec[this._Polaczenia[i].Stop].Add(new (this._Polaczenia[i].Start, this._Polaczenia[i].Odleglosc));
+            obwody.Add([s]);
         }
 
+        for(int i = 0; i < 1_000; i++)
+        {
+            (Skrzynka Z, Skrzynka Do, int _) = this._Polaczenia[i];
+            HashSet<Skrzynka> ob1 = obwody.First(o => o.Contains(Z));
+            HashSet<Skrzynka> ob2 = obwody.First(o => o.Contains(Do));
 
-    }
+            if (ob1 != ob2)
+            {
+                ob1.UnionWith(ob2);
+                obwody.Remove(ob2);
+            }
+        }
 
-    private Int32 ObliczOdleglosc(Skrzynka s1, Skrzynka s2)
-    {
-        return Convert.ToInt32(Math.Sqrt(Math.Pow(Math.Abs(s1.X - s2.X), 2) + Math.Pow(Math.Abs(s1.Y - s2.Y), 2) + Math.Pow(Math.Abs(s1.Z - s2.Z), 2)));
+        obwody = obwody.OrderByDescending(o => o.Count).ToList();
+
+        this._Wynik = obwody[0].Count * obwody[1].Count * obwody[2].Count;
     }
 
     public string PokazRozwiazanie()
     {
-        return 0.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
+        return this._Wynik.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
     }
 
     record Skrzynka
@@ -93,9 +82,9 @@ public partial class D08Z01 : IZadanie
             this.Z = Convert.ToInt32(wspolrzedne[2]);
         }
 
-        public override string ToString()
+        public Int32 ObliczOdleglosc(Skrzynka s)
         {
-            return $"X: {this.X}, Y: {this.Y}, Z: {this.Z}";
+            return Convert.ToInt32(Math.Sqrt(Math.Pow(Math.Abs(this.X - s.X), 2) + Math.Pow(Math.Abs(this.Y - s.Y), 2) + Math.Pow(Math.Abs(this.Z - s.Z), 2)));
         }
     }
 
