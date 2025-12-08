@@ -22,8 +22,7 @@ public class D23Z02 : IZadanie
         StreamReader sr = new(fs);
         string linia;
 
-        //Wczytanie wartości początkowych
-        while ((linia = sr.ReadLine()) != null)
+        while ((linia = sr.ReadLine()) is not null)
         {
             this.Dane.Add(linia.Split('-'));
         }
