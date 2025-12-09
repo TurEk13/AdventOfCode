@@ -34,7 +34,7 @@ public partial class D09Z01 : IZadanie
         {
             for(int j = i + 1; j < this._Punkty.Count; j++)
             {
-                pole = (Math.Abs(this._Punkty[i].X - this._Punkty[j].X) + 1) * (Math.Abs(this._Punkty[i].Y - this._Punkty[j].Y) + 1);
+                pole = this.ObliczPole(this._Punkty[i], this._Punkty[j]);
 
                 if(this._Wynik < pole)
                 {
@@ -42,6 +42,11 @@ public partial class D09Z01 : IZadanie
                 }
             }
         }
+    }
+
+    private Int64 ObliczPole(Punkt A, Punkt B)
+    {
+        return (Math.Abs(A.X - B.X) + 1) * (Math.Abs(A.Y - B.Y) + 1);
     }
 
     public string PokazRozwiazanie()
