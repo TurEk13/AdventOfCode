@@ -31,6 +31,7 @@ public partial class D10Z02 : IZadanie
             List<bool> stanDocelowy = new ();
             List<List<int>> przyciski = new ();
             int dlugosc;
+            int[] joltage;
 
             dane = linia[..linia.IndexOf(' ')];
             
@@ -56,7 +57,11 @@ public partial class D10Z02 : IZadanie
                 dane = dane.Contains(' ') ? dane[(dlugosc + 1)..] : "";
             }
 
-            this._Maszyny.Add(new ([.. stanDocelowy], przyciski));
+            mc = liczby.Matches(linia[linia.LastIndexOf(' ')..]);
+            
+            joltage = mc.Select(m => Convert.ToInt32(m.Value)).ToArray();
+
+            this._Maszyny.Add(new ([.. stanDocelowy], przyciski, joltage));
         }
         
         sr.Close(); fs!.Close();
@@ -64,51 +69,7 @@ public partial class D10Z02 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        int maks;
-        foreach(Maszyna m in this._Maszyny)
-        {
-            maks = int.MaxValue;
-            for (int obecneKlikniecia = 0; obecneKlikniecia <= m.Przyciski.Count; obecneKlikniecia++)
-            {
-                if (UruchomMaszyne(m, obecneKlikniecia, 0, 0, new bool[m.StanDocelowy.Length]))
-                {
-                   if(maks > obecneKlikniecia)
-                    {
-                        maks = obecneKlikniecia;
-                    }
-                }
-            }
-            this._Wynik += maks;
-        }
-    }
-
-    private bool UruchomMaszyne(Maszyna maszyna, int iloscKlikniec, int start, int poziom, bool[] aktualnyStan)
-    {
-        if (poziom == iloscKlikniec)
-        {
-            return aktualnyStan.SequenceEqual(maszyna.StanDocelowy);
-        }
-
-        for (int i = start; i <= maszyna.Przyciski.Count - (iloscKlikniec - poziom); i++)
-        {
-            PrzelaczSwiatla(maszyna.Przyciski[i], aktualnyStan);
-
-            if (UruchomMaszyne(maszyna, iloscKlikniec, i + 1, poziom + 1, aktualnyStan))
-            {
-                return true;
-            }
-
-            PrzelaczSwiatla(maszyna.Przyciski[i], aktualnyStan);
-        }
-        return false;
-    }
-
-    private void PrzelaczSwiatla(List<int> swiatla, bool[] stan)
-    {
-        foreach (int sw in swiatla.Where(st => st < stan.Length))
-        {
-            stan[sw] = !stan[sw];
-        }
+        //
     }
 
     public string PokazRozwiazanie()
@@ -116,5 +77,5 @@ public partial class D10Z02 : IZadanie
         return this._Wynik.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
     }
 
-    private record Maszyna(bool[] StanDocelowy, List<List<int>> Przyciski);
+    private record Maszyna(bool[] StanDocelowy, List<List<int>> Przyciski, int[] JoltageDocelowy);
 }

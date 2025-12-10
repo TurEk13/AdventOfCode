@@ -105,9 +105,9 @@ public partial class D10Z01 : IZadanie
 
     private void PrzelaczSwiatla(List<int> swiatla, bool[] stan)
     {
-        foreach (int sw in swiatla.Where(st => st < stan.Length))
+        foreach (int i in swiatla)
         {
-            stan[sw] = !stan[sw];
+            stan[i] = !stan[i];
         }
     }
 
