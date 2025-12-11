@@ -34,26 +34,24 @@ public partial class D11Z01 : IZadanie
     {
         foreach(Polaczenie p in this._Polaczenia.FindAll(pl => pl.Poczatek.Equals("you")))
         {
-            Obwod o = new (new ());
-            o.Stacje.Add("you");
-            o.Stacje.Add(p.Koniec);
-            this.ZnajdzObwod(o);
+            List<string> ls = [p.Poczatek, p.Koniec];
+            this.ZnajdzObwod(new (ls));
         }
     }
 
-    private void ZnajdzObwod(Obwod o)
+    private void ZnajdzObwod(List<string> ls)
     {
-        foreach(Polaczenie p in this._Polaczenia.FindAll(pl => pl.Poczatek.Equals(o.Stacje[^1])))
+        foreach(Polaczenie p in this._Polaczenia.FindAll(pl => pl.Poczatek.Equals(ls[^1])))
         {
-            o.Stacje.Add(p.Koniec);
+            ls.Add(p.Koniec);
 
             if(p.Koniec.Equals("out"))
             {
-                o.Stacje.Add(p.Koniec);
-                this._Obwody.Add(o);
+                this._Obwody.Add(new (ls));
+                return;
             }
 
-            this.ZnajdzObwod(o);
+            this.ZnajdzObwod(new (ls));
         }
     }
 
