@@ -7,24 +7,18 @@ namespace Zadania._2025;
 
 public partial class D11Z02 : IZadanie
 {
-    private List<Polaczenie> _Polaczenia;
-    private List<Obwod> _Obwody;
+    private Dictionary<string, string[]> _Stacje;
+
     public D11Z02(bool daneTestowe = false)
     {
-        this._Polaczenia = new ();
-        this._Obwody = new ();
+        this._Stacje = new Dictionary<string, string[]>();
         FileStream fs = new(daneTestowe ? ".\\Dane\\2025\\11\\proba.txt" : ".\\Dane\\2025\\11\\dane.txt", FileMode.Open, FileAccess.Read);
         StreamReader sr = new(fs);
         string linia;
-        string[] Koniec;
 
         while ((linia = sr.ReadLine()) is not null)
         {
-            Koniec = linia[5 ..].Split(' ');
-            foreach(string s in Koniec)
-            {
-                this._Polaczenia.Add(new (linia[.. 3], s));
-            }
+            this._Stacje.Add(linia[..3], linia[5..].Split(' '));
         }
         
         sr.Close(); fs!.Close();
@@ -32,36 +26,41 @@ public partial class D11Z02 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        foreach(Polaczenie p in this._Polaczenia.FindAll(pl => pl.Poczatek.Equals("you")))
-        {
-            Obwod o = new (new ());
-            o.Stacje.Add("you");
-            o.Stacje.Add(p.Koniec);
-            this.ZnajdzObwod(o);
-        }
+        // 14 976, 56 070 144-
+        string Svr = "svr", Out = "out", Dac = "dac", Fft = "fft";
+
+        int sd = this.ZnajdzSciezke(Svr, Dac);
+        int df = this.ZnajdzSciezke(Dac, Fft);
+        int fo = this.ZnajdzSciezke(Fft, Out);
+
+        int sf = this.ZnajdzSciezke(Svr, Fft);
+        int fd = this.ZnajdzSciezke(Fft, Dac);
+        int od = this.ZnajdzSciezke(Dac, Out);
+
+        int x = sd * df * fo + sf * fd * od;
+        int y = sd * df * fo * sf * fd * od;
     }
 
-    private void ZnajdzObwod(Obwod o)
+    private int ZnajdzSciezke(string poczatek, string koniec)
     {
-        foreach(Polaczenie p in this._Polaczenia.FindAll(pl => pl.Poczatek.Equals(o.Stacje[^1])))
+        foreach(KeyValuePair<string, string[]> kvp in this._Stacje.Where(s => s.Key.Equals(poczatek)))
         {
-            o.Stacje.Add(p.Koniec);
-
-            if(p.Koniec.Equals("out"))
+            foreach (string s in kvp.Value)
             {
-                o.Stacje.Add(p.Koniec);
-                this._Obwody.Add(o);
-            }
+                if(s.Equals(koniec))
+                {
+                    return 1;
+                }
 
-            this.ZnajdzObwod(o);
+                return this.ZnajdzSciezke(s, koniec) + 1;
+            }
         }
+
+        return 0;
     }
 
     public string PokazRozwiazanie()
     {
-        return this._Obwody.Count().ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
+        return 0.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
     }
-
-    private record Polaczenie(string Poczatek, string Koniec);
-    private record Obwod(List<string> Stacje);
 }
