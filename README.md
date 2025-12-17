@@ -9,7 +9,7 @@ My solutions for the quests
 |Day	 3	| X / X | X / X | X / X | X / X |
 |Day	 4	| X / X | - / - | X / X | X / X |
 |Day	 5	| X / X | X / X | X / X | X / X |
-|Day	 6	| X / X | - / - | X / - | X / X |
+|Day	 6	| X / X | X / X | X / - | X / X |
 |Day	 7	| X / X | - / - | X / X | X / X |
 |Day	 8	| X / X | - / - | - / - | X / X |
 |Day	 9	| X / X | - / - | X / X | X / X |
