@@ -38,7 +38,7 @@ public class D06Z01 : IZadanie
                     this._IloscLiter[this._Ciagi[wiersz][kolumna]]++;
                 }
 
-                _IloscLiter.TryAdd(this._Ciagi[wiersz][kolumna], 1);
+                this._IloscLiter.TryAdd(this._Ciagi[wiersz][kolumna], 1);
             }
 
             KeyValuePair<char, int> NajczestrzaLitera = this._IloscLiter.OrderBy(il => il.Value).ToList()[^1];
