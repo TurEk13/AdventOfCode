@@ -11,7 +11,7 @@ My solutions for the quests
 |Day	 5	| X / X | X / X | X / X | X / X |
 |Day	 6	| X / X | X / X | X / - | X / X |
 |Day	 7	| X / X | X / X | X / X | X / X |
-|Day	 8	| X / X | - / - | - / - | X / X |
+|Day	 8	| X / X | X / - | - / - | X / X |
 |Day	 9	| X / X | - / - | X / X | X / X |
 |Day	10	| X / X | - / - | - / - | X / - |
 |Day	11	| X / X | - / - | X / X | X / - |
