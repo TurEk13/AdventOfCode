@@ -20,7 +20,7 @@ My solutions for the quests
 |Day	14	| X / X | X / - | X / X | --- |
 |Day	15	| X / X | - / - | X / X | --- |
 |Day	16	| X / X | X / X | - / - | --- |
-|Day	17	| X / X | - / - | - / - | --- |
+|Day	17	| X / X | X / - | - / - | --- |
 |Day	18	| X / X | X / X | - / - | --- |
 |Day	19	| X / - | - / - | - / - | --- |
 |Day	20	| X / X | - / - | - / - | --- |
