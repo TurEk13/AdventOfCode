@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -15,23 +14,12 @@ public partial class D17Z01 : IZadanie
     private Pozycja _Pozycja;
     private char[] _DrzwiOtwarte;
     private string _NajkrotszaDroga;
-
-    //private const int MAKS = 1000;
-
     public D17Z01(bool daneTestowe = false)
     {
         this._Mapa = new ();
         this._DrzwiOtwarte = ['b', 'c', 'd', 'e', 'f'];
 
-        StringBuilder sb = new ();
-        /*for (int i = 0; i < MAKS; i++)
-        {
-            sb.Append('a');
-        }*/
-
-        this._NajkrotszaDroga = string.Empty;// sb.ToString();
-        //sb.Clear();
-
+        this._NajkrotszaDroga = string.Empty;
         FileStream fs = new(daneTestowe ? ".\\Dane\\2016\\17\\proba.txt" : ".\\Dane\\2016\\17\\dane.txt", FileMode.Open, FileAccess.Read);
 		StreamReader sr = new(fs);
         string linia;
@@ -68,7 +56,6 @@ public partial class D17Z01 : IZadanie
             return;
         }
 
-        // GÓRA
         if(this._DrzwiOtwarte.Contains(hash[0]))
         {
             p = this.SprawdzPrzejscie(new (pozycja.Y - 1, pozycja.X));
@@ -86,7 +73,6 @@ public partial class D17Z01 : IZadanie
             }
         }
 
-        // DÓŁ
         if(this._DrzwiOtwarte.Contains(hash[1]))
         {
             p = this.SprawdzPrzejscie(new (pozycja.Y + 1, pozycja.X));
@@ -104,7 +90,6 @@ public partial class D17Z01 : IZadanie
             }
         }
 
-        // LEWO
         if(this._DrzwiOtwarte.Contains(hash[2]))
         {
             p = this.SprawdzPrzejscie(new (pozycja.Y, pozycja.X - 1));
@@ -122,7 +107,6 @@ public partial class D17Z01 : IZadanie
             }
         }
 
-        // PRAWO
         if(this._DrzwiOtwarte.Contains(hash[3]))
         {
             p = this.SprawdzPrzejscie(new (pozycja.Y, pozycja.X + 1));
