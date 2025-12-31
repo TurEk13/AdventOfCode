@@ -18,8 +18,16 @@ public partial class D17Z01 : IZadanie
     {
         this._Mapa = new ();
         this._DrzwiOtwarte = ['b', 'c', 'd', 'e', 'f'];
+        
+        StringBuilder sb = new ();
+        while(sb.Length < 1001)
+        {
+            sb.Append('a');
+        }
 
-        this._NajkrotszaDroga = string.Empty;
+        this._NajkrotszaDroga = sb.ToString();
+        sb.Clear();
+
         FileStream fs = new(daneTestowe ? ".\\Dane\\2016\\17\\proba.txt" : ".\\Dane\\2016\\17\\dane.txt", FileMode.Open, FileAccess.Read);
 		StreamReader sr = new(fs);
         string linia;
@@ -44,14 +52,14 @@ public partial class D17Z01 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        this.ZnajdzDroge(this.ObliczHash(this._Hash), "", new Pozycja(this._Pozycja.X, this._Pozycja.Y));
+        this.ZnajdzDroge(this.ObliczHash(""), "", new Pozycja(this._Pozycja.X, this._Pozycja.Y));
     }
 
     private void ZnajdzDroge(string hash, string przebytaDroga, Pozycja pozycja)
     {
         Przejscie p;
 
-        if(!this._NajkrotszaDroga.Equals(string.Empty) && przebytaDroga.Length > this._NajkrotszaDroga.Length)
+        if(przebytaDroga.Length > this._NajkrotszaDroga.Length)
         {
             return;
         }
@@ -66,7 +74,7 @@ public partial class D17Z01 : IZadanie
                     this.SprawdzDlugosc(przebytaDroga);
                     return;
                 case Przejscie.OTWARTE:
-                    this.ZnajdzDroge(this.ObliczHash($"{this._Hash}{przebytaDroga}U"), new string($"{przebytaDroga}U"), pozycja with { Y = pozycja.Y - 2 });
+                    this.ZnajdzDroge(this.ObliczHash($"{przebytaDroga}U"), new string($"{przebytaDroga}U"), pozycja with { Y = pozycja.Y - 2 });
                     break;
                 default:
                     break;
@@ -83,7 +91,7 @@ public partial class D17Z01 : IZadanie
                     this.SprawdzDlugosc(przebytaDroga);
                     return;
                 case Przejscie.OTWARTE:
-                    this.ZnajdzDroge(this.ObliczHash($"{this._Hash}{przebytaDroga}D"), new string($"{przebytaDroga}D"), pozycja with { Y = pozycja.Y + 2 });
+                    this.ZnajdzDroge(this.ObliczHash($"{przebytaDroga}D"), new string($"{przebytaDroga}D"), pozycja with { Y = pozycja.Y + 2 });
                     break;
                 default:
                     break;
@@ -100,7 +108,7 @@ public partial class D17Z01 : IZadanie
                     this.SprawdzDlugosc(przebytaDroga);
                     return;
                 case Przejscie.OTWARTE:
-                    this.ZnajdzDroge(this.ObliczHash($"{this._Hash}{przebytaDroga}L"), new string($"{przebytaDroga}L"), pozycja with { X = pozycja.X - 2 });
+                    this.ZnajdzDroge(this.ObliczHash($"{przebytaDroga}L"), new string($"{przebytaDroga}L"), pozycja with { X = pozycja.X - 2 });
                     break;
                 default:
                     break;
@@ -117,7 +125,7 @@ public partial class D17Z01 : IZadanie
                     this.SprawdzDlugosc(przebytaDroga);
                     return;
                 case Przejscie.OTWARTE:
-                    this.ZnajdzDroge(this.ObliczHash($"{this._Hash}{przebytaDroga}R"), new string($"{przebytaDroga}R"), pozycja with { X = pozycja.X + 2 });
+                    this.ZnajdzDroge(this.ObliczHash($"{przebytaDroga}R"), new string($"{przebytaDroga}R"), pozycja with { X = pozycja.X + 2 });
                     break;
                 default:
                     break;
@@ -140,18 +148,13 @@ public partial class D17Z01 : IZadanie
         return Przejscie.OTWARTE;
     }
 
-    private string ObliczHash(string baza)
+    private string ObliczHash(string reszta)
     {
-        return string.Join("", MD5.HashData(Encoding.UTF8.GetBytes($"{baza}")).Select(o => o.ToString("x2")))[.. 4];
+        return string.Join("", MD5.HashData(Encoding.UTF8.GetBytes($"{this._Hash}{reszta}")).Select(o => o.ToString("x2")))[.. 4];
     }
 
     private void SprawdzDlugosc(string ciag)
     {
-        if(this._NajkrotszaDroga.Equals(string.Empty))
-        {
-            this._NajkrotszaDroga = ciag;
-        }
-
         if(this._NajkrotszaDroga.Length > ciag.Length)
         {
             this._NajkrotszaDroga = ciag;
