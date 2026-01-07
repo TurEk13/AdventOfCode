@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Zadania._2016;
 
-public class D09Z01 : IZadanie
+public partial class D09Z01 : IZadanie
 {
     private Int64 _Wynik;
     private string _Kompresja;
@@ -21,48 +22,30 @@ public class D09Z01 : IZadanie
         sr.Close(); fs!.Close();
     }
 
+    [GeneratedRegex(@"\((?<ileZnakow>[0-9]{1,})x(?<mnoznik>[0-9]{1,})\)|(?:\w{1})\((?<ileZnakow>[0-9]{1,})x(?<mnoznik>[0-9]{1,})\)(?:[\(])")]
+    private static partial Regex Zakresy();
     public void RozwiazanieZadania()
     {
-        int ileZnakow, ilePowtorzen, koniec;
+        Regex r = Zakresy();
+        MatchCollection mc = r.Matches(this._Kompresja);
 
-        for(int i = 0; i < this._Kompresja.Length; i++)
+        for (int i = 0, m = 0; i < this._Kompresja.Length; i++)
         {
-            if(this._Kompresja[i].Equals('('))
+            if (i == mc[m].Groups["ileZnakow"].Index - 1)
             {
-                (ileZnakow, ilePowtorzen, koniec) = this.Kompresja(i);
-                this._Wynik += this.ObliczDlugosc(ileZnakow, ilePowtorzen);
-                i = koniec + ileZnakow;
+                this._Wynik += Convert.ToInt32(mc[m].Groups["ileZnakow"].Value) * Convert.ToInt32(mc[m].Groups["mnoznik"].Value);
+                i += Convert.ToInt32(mc[m].Groups["ileZnakow"].Value) + mc[m].Groups["ileZnakow"].Length + mc[m].Groups["mnoznik"].Length + 2;
+                m++;
+                
+                while (!(i < mc[m].Groups["ileZnakow"].Index - 1))
+                {
+                    m++;
+                }
+                continue;
             }
-            else
-            {
-                this._Wynik++;
-            }
+
+            this._Wynik++;
         }
-    }
-
-    private int ObliczDlugosc(int ileZnakow, int ilePowtorzen)
-    {
-        return ileZnakow * ilePowtorzen;
-    }
-
-    private (int ileZnakow, int ilePowtorzen, int dalszaPozycja) Kompresja(int pozycja)
-    {
-        int poczatek = pozycja += 1;
-        int koniec = poczatek;
-        int ileZnakow, ilePowtorzen;
-        string kompresja;
-        
-        while(!this._Kompresja[koniec].Equals(')'))
-        {
-            koniec++;
-        }
-
-        kompresja = this._Kompresja[poczatek .. koniec];
-
-        ileZnakow = Convert.ToInt32(kompresja[.. kompresja.IndexOf('x')]);
-        ilePowtorzen = Convert.ToInt32(kompresja[(kompresja.IndexOf('x') + 1) ..]);
-        
-        return (ileZnakow, ilePowtorzen, koniec);
     }
 
     public string PokazRozwiazanie()
