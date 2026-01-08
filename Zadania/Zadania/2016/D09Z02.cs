@@ -9,6 +9,7 @@ public partial class D09Z02 : IZadanie
 {
     private Int64 _Wynik;
     private string _Kompresja;
+    
     public D09Z02(bool daneTestowe = false)
     {
         this._Wynik = 0;
@@ -22,72 +23,90 @@ public partial class D09Z02 : IZadanie
         sr.Close(); fs!.Close();
     }
 
-    [GeneratedRegex(@"\((?<ileZnakow>[0-9]{1,})x(?<mnoznik>[0-9]{1,})\)|(?:\w{1})\((?<ileZnakow>[0-9]{1,})x(?<mnoznik>[0-9]{1,})\)(?:[\(])")]
+    //[GeneratedRegex(@"\((?<ileZnakow>[0-9]{1,})x(?<mnoznik>[0-9]{1,})\)|(?:\w{1})\((?<ileZnakow>[0-9]{1,})x(?<mnoznik>[0-9]{1,})\)(?:[\(])")]
+    [GeneratedRegex(@"\((?<ileZnakow>[0-9]{1,})x(?<mnoznik>[0-9]{1,})\)|\((?<ileZnakow>[0-9]{1,})x(?<mnoznik>[0-9]{1,})\)")]
     private static partial Regex Zakresy();
     public void RozwiazanieZadania()
     {
         Regex r = Zakresy();
         MatchCollection mc = r.Matches(this._Kompresja);
-        string tmp;
 
-        for (int i = 0, m = 0; i < this._Kompresja.Length; i++)
+        for (int i = 0, m = 0; i < this._Kompresja.Length;)
         {
-            if (i == mc[m].Groups["ileZnakow"].Index - 1)
+            if(i != mc[m].Index)
             {
-                this._Wynik += Convert.ToInt32(mc[m].Groups["ileZnakow"].Value) * Convert.ToInt32(mc[m].Groups["mnoznik"].Value);
-                i += Convert.ToInt32(mc[m].Groups["ileZnakow"].Value) + mc[m].Groups["ileZnakow"].Length + mc[m].Groups["mnoznik"].Length + 2;
-
-                tmp = this._Kompresja[(mc[m].Index + mc[m].Groups["ileZnakow"].Length + mc[m].Groups["mnoznik"].Length + 3)..(i + 1)];
-
-                if(tmp.Contains('('))
-                {
-                    this.ObliczDlugosc(tmp);
-                }
-
-                m++;
-
-                while (!(i < mc[m].Groups["ileZnakow"].Index - 1))
-                {
-                    m++;
-                }
-                continue;
+                this._Wynik++;
+                i++;
             }
 
-            this._Wynik++;
+            if(i == mc[m].Index)
+            {
+                (Int64 Dlugosc, i) = this.ObliczDlugosc(mc[m], 0);
+                this._Wynik += Dlugosc;
+                m++;
+
+                int indeks = mc[m].Index;
+
+                while (m < mc.Count && !(i <= indeks))
+                {
+                    m++;
+                    indeks = mc[m].Index;
+                }
+            }
         }
     }
 
-    public void ObliczDlugosc(string s)
+    public (Int64 Dlugosc, int NowaPozycja) ObliczDlugosc(Match m, int indeks)
     {
-        Regex r = Zakresy();
-        MatchCollection mc = r.Matches(this._Kompresja);
-        string tmp;
+        //(141x10)(20x4)PSFDROQLSZCXJYTATIBY(2x9)NN(60x14)(3x15)WUO(2x13)WF(10x14)KRXBNHFEGQ(20x4)SWJUMHNRCRJUPDVFAKMI[(35x8)(3x14)VZB(8x15)SWKZSEFU(7x1)FZTLTXZ]
+        Int64 dlugosc;
+        int ileZnakow = Convert.ToInt32(m.Groups["ileZnakow"].Value);
+        int mnoznik = Convert.ToInt32(m.Groups["mnoznik"].Value);
+        int poczatekZakresu = Convert.ToInt32(indeks + m.Groups["mnoznik"].Index + m.Groups["mnoznik"].Length + 1);
+        int koniecZakresu = Convert.ToInt32(indeks + m.Groups["mnoznik"].Index + m.Groups["mnoznik"].Length + 1 + ileZnakow);
 
-        for (int i = 0, m = 0; i < s.Length; i++)
+        dlugosc = 0;
+
+        string s = this._Kompresja[poczatekZakresu .. koniecZakresu];
+
+        if(s.Contains('('))
         {
-            if (i == mc[m].Groups["ileZnakow"].Index - 1)
+            Regex r = Zakresy();
+            MatchCollection mc = r.Matches(s);
+
+            if(mc.Count > 1)
             {
-                this._Wynik += Convert.ToInt32(mc[m].Groups["ileZnakow"].Value) * Convert.ToInt32(mc[m].Groups["mnoznik"].Value);
-                i += Convert.ToInt32(mc[m].Groups["ileZnakow"].Value) + mc[m].Groups["ileZnakow"].Length + mc[m].Groups["mnoznik"].Length + 2;
-
-                tmp = s[(mc[m].Index + mc[m].Groups["ileZnakow"].Length + mc[m].Groups["mnoznik"].Length + 2)..(i + 1)];
-
-                if (tmp.Contains('{'))
+                if(mc[1].Index == mc[0].Index + mc[0].Length)
                 {
-                    this.ObliczDlugosc(tmp);
+                    (Int64 DodatkowaDlugosc, _) = this.ObliczDlugosc(mc[0], poczatekZakresu); 
+                    dlugosc = DodatkowaDlugosc * mnoznik;
                 }
 
-                m++;
-
-                while (!(i < mc[m].Groups["ileZnakow"].Index - 1))
+                if(mc[1].Index > mc[0].Index + mc[0].Length)
                 {
-                    m++;
+                    foreach(Match mN in mc)
+                    {
+                        (Int64 DodatkowaDlugosc, _) = this.ObliczDlugosc(mN, poczatekZakresu); 
+                        dlugosc += DodatkowaDlugosc;
+                    }
+                    
+                    dlugosc *= mnoznik;
                 }
-                continue;
             }
 
-            this._Wynik++;
+            if(mc.Count == 1)
+            {
+                (Int64 DodatkowaDlugosc, _) = this.ObliczDlugosc(mc[0], poczatekZakresu); 
+                dlugosc = DodatkowaDlugosc * mnoznik;
+            }
         }
+
+        if(!s.Contains('('))
+        {
+            dlugosc = ileZnakow * mnoznik;
+        }
+
+        return (dlugosc, koniecZakresu);
     }
 
     public string PokazRozwiazanie()
