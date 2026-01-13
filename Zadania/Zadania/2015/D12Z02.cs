@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Zadania._2015;
@@ -19,49 +20,20 @@ public partial class D12Z02 : IZadanie
         sr.Close(); fs.Close();
     }
 
-    [GeneratedRegex(@"[+-]?(\d+)\1*")]
+    [GeneratedRegex(@"[+-]?([0-9]{1,})")]
     private static partial Regex SzukajLiczb();
     [GeneratedRegex(@"{(?>[^{}:]+|[^{}]+?|({(?>[^{}]+|'1')*}))*:""red(?>[^{}]+|({(?>[^{}]+|'2')*}))*}")]
     private static partial Regex SzukajRed();
     public void RozwiazanieZadania()
     {
-        // 141962 +
+        // 141 962 +
         Regex wzorRed = SzukajRed();
-        MatchCollection dopasowaniaRed = wzorRed.Matches(this.JSON);
-
         Regex wzorLiczb = SzukajLiczb();
-        MatchCollection dopasowaniaLiczb = wzorLiczb.Matches(this.JSON);
 
-        int red = 0, liczba = 0;
-        Int64 wynik = 0;
-        while(red < dopasowaniaRed.Count)
-        {
-            if(dopasowaniaLiczb[liczba].Index < dopasowaniaRed[red].Index)
-            {
-                wynik += Convert.ToInt64(dopasowaniaLiczb[liczba].Value);
-                liczba++;
-                continue;
-            }
+        Int64 sumaRed = wzorRed.Matches(this.JSON).Sum(m => wzorLiczb.Matches(m.Value).Sum(l => Convert.ToInt64(l.Value)));
+        Int64 sumaCalkowita = wzorLiczb.Matches(this.JSON).Sum(m => Convert.ToInt64(m.Value));  
 
-            if(dopasowaniaLiczb[liczba].Index < dopasowaniaRed[red].Index + dopasowaniaRed[red].Length)
-            {
-                liczba++;
-                continue;
-            }
-
-            if(dopasowaniaLiczb[liczba].Index > dopasowaniaRed[red].Index + dopasowaniaRed[red].Length)
-            {
-                red++;
-            }
-        }
-
-        while(liczba < dopasowaniaLiczb.Count)
-        {
-            wynik += Convert.ToInt64(dopasowaniaLiczb[liczba].Value);
-            liczba++;
-        }
-
-        this.Suma = wynik;
+        this.Suma = sumaCalkowita - sumaRed;
     }
 
     public string PokazRozwiazanie()

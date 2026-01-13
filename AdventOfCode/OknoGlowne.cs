@@ -19,9 +19,9 @@ public partial class OknoGlowne : Form
         RokComboBox.Items.AddRange(["2015", "2016", "2024", "2025"]);
         DzienComboBox.Items.AddRange(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]);
 
-        this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 3;
-        this.DzienComboBox.SelectedIndex = 8;
-        this.ZadanieComboBox.SelectedIndex = 0;
+        this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 4;
+        this.DzienComboBox.SelectedIndex = 11;
+        this.ZadanieComboBox.SelectedIndex = 1;
     }
 
     private void TestButton_Click(object sender, EventArgs e)

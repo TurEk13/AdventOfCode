@@ -26,7 +26,7 @@ public partial class D12Z01 : IZadanie
     {
         Regex wzor = MyRegex();
 
-        this.Suma = wzor.Matches(this.JSON).Select(m => Convert.ToInt64(m.Value)).Sum();
+        this.Suma = wzor.Matches(this.JSON).Sum(m => Convert.ToInt64(m.Value));
     }
 
     public string PokazRozwiazanie()
