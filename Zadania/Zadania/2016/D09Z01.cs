@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Zadania._2016;
@@ -37,9 +38,10 @@ public partial class D09Z01 : IZadanie
                 i += Convert.ToInt32(mc[m].Groups["ileZnakow"].Value) + mc[m].Groups["ileZnakow"].Length + mc[m].Groups["mnoznik"].Length + 2;
                 m++;
                 
-                while (!(i < mc[m].Groups["ileZnakow"].Index - 1))
+                if (m < mc.Count && !(i < mc[m].Groups["ileZnakow"].Index - 1))
                 {
-                    m++;
+                    m += mc.Skip(m).Count(k => k.Groups["ileZnakow"].Index - 1 < i);
+
                 }
                 continue;
             }

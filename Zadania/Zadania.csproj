@@ -26,7 +26,11 @@
     <Folder Include="Dane\2015\17\" />
     <Folder Include="Dane\2015\18\" />
     <Folder Include="Dane\2015\19\" />
+    <Folder Include="Dane\2015\20\" />
+    <Folder Include="Dane\2015\21\" />
     <Folder Include="Dane\2015\23\" />
+    <Folder Include="Dane\2015\25\" />
+
     <Folder Include="Dane\2016\01\" />
     <Folder Include="Dane\2016\02\" />
     <Folder Include="Dane\2016\03\" />
@@ -36,8 +40,15 @@
     <Folder Include="Dane\2016\07\" />
     <Folder Include="Dane\2016\08\" />
     <Folder Include="Dane\2016\09\" />
-    <Folder Include="Dane\2016\09\" />
-	  <Folder Include="Dane\2016\12\" />
+    <Folder Include="Dane\2016\12\" />
+    <Folder Include="Dane\2016\14\" />
+    <Folder Include="Dane\2016\15\" />
+    <Folder Include="Dane\2016\16\" />
+    <Folder Include="Dane\2016\17\" />
+    <Folder Include="Dane\2016\18\" />
+    <Folder Include="Dane\2016\20\" />
+    <Folder Include="Dane\2016\22\" />
+
     <Folder Include="Dane\2024\01\" />
     <Folder Include="Dane\2024\02\" />
     <Folder Include="Dane\2024\03\" />
@@ -54,6 +65,7 @@
     <Folder Include="Dane\2024\23\" />
     <Folder Include="Dane\2024\24\" />
     <Folder Include="Dane\2024\25\" />
+
     <Folder Include="Dane\2025\01\" />
     <Folder Include="Dane\2025\02\" />
     <Folder Include="Dane\2025\03\" />
@@ -86,7 +98,7 @@
     <None Update="Dane\2015\06\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	  <None Update="Dane\2015\07\*.txt">
+    <None Update="Dane\2015\07\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2015\08\*.txt">
@@ -125,9 +137,19 @@
     <None Update="Dane\2015\19\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Dane\2015\20\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dane\2015\21\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Dane\2015\23\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Dane\2015\25\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
     <None Update="Dane\2016\01\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -173,46 +195,50 @@
     <None Update="Dane\2016\18\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Dane\2016\20\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Dane\2016\22\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+
     <None Update="Dane\2024\01\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\02\*.txt">
+    <None Update="Dane\2024\02\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\03\*.txt">
+    <None Update="Dane\2024\03\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\04\*.txt">
+    <None Update="Dane\2024\04\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\05\*.txt">
+    <None Update="Dane\2024\05\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\06\*.txt">
+    <None Update="Dane\2024\06\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2024\07\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	  <None Update="Dane\2024\09\*.txt">
+    <None Update="Dane\2024\09\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\11\*.txt">
+    <None Update="Dane\2024\11\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2024\13\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\14\*.txt">
+    <None Update="Dane\2024\14\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\15\*.txt">
+    <None Update="Dane\2024\15\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="Dane\2024\22\*.txt">
+    <None Update="Dane\2024\22\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2024\23\*.txt">
@@ -224,6 +250,7 @@
     <None Update="Dane\2024\25\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+
     <None Update="Dane\2025\01\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
