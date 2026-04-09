@@ -52,6 +52,8 @@ public class D10Z02 : IZadanie
             }
         }
         while(this._Wynik == -1);
+
+        this._Wynik = this._Wyjscia[0] * this._Wyjscia[1] * this._Wyjscia[2];
     }
 
     private void WczytajBota(int liniaId)
@@ -101,7 +103,7 @@ public class D10Z02 : IZadanie
                 break;
             case "output":
                 this._Wyjscia.TryAdd(Convert.ToInt32(linia[6]), this._Boty[botDzielacy].L);
-                this._Boty[botDzielacy] = this._Boty[botDzielacy] with { L = 0};
+                this._Boty[botDzielacy] = this._Boty[botDzielacy] with { L = 0 };
                 break;
         }
 
@@ -119,7 +121,7 @@ public class D10Z02 : IZadanie
                 break;
             case "output":
                 this._Wyjscia.TryAdd(Convert.ToInt32(linia[^1]), this._Boty[botDzielacy].H);
-                this._Boty[botDzielacy] = this._Boty[botDzielacy] with { H = 0};
+                this._Boty[botDzielacy] = this._Boty[botDzielacy] with { H = 0 };
                 break;
         }
     }
