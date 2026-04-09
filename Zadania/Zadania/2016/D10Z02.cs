@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Zadania._2016;
 
-public class D10Z01 : IZadanie
+public class D10Z02 : IZadanie
 {
     private SortedDictionary<int, int> _Wyjscia;
     private List<string> _Instrukcje;
@@ -15,7 +15,7 @@ public class D10Z01 : IZadanie
     private int _H;
     private int _L;
 
-    public D10Z01(bool daneTestowe = false)
+    public D10Z02(bool daneTestowe = false)
     {
         this._Wynik = -1;
         this._Boty = new ();
