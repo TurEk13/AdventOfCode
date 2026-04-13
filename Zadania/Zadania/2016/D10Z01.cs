@@ -8,9 +8,9 @@ namespace Zadania._2016;
 
 public class D10Z01 : IZadanie
 {
-    private SortedDictionary<int, int> _Wyjscia;
+    private Dictionary<int, Wyjscie> _Wyjscia;
     private List<string> _Instrukcje;
-    private SortedDictionary<int, Bot> _Boty;
+    private Dictionary<int, Bot> _Boty;
     private int _Wynik;
     private int _H;
     private int _L;
@@ -21,8 +21,9 @@ public class D10Z01 : IZadanie
         this._Boty = new ();
         this._Instrukcje = new ();
         this._Wyjscia = new ();
-        this._H = 61;
-        this._L = 17;
+
+        this._L = daneTestowe ? 2 : 17;
+        this._H = daneTestowe ? 5 : 61;
 
         FileStream fs = new(daneTestowe ? ".\\Dane\\2016\\10\\proba.txt" : ".\\Dane\\2016\\10\\dane.txt", FileMode.Open, FileAccess.Read);
 
@@ -31,23 +32,31 @@ public class D10Z01 : IZadanie
         this._Instrukcje = sr.ReadToEnd().Split(Environment.NewLine).ToList<string>();
 
         sr.Close(); fs!.Close();
+
+        int maksL = this._Instrukcje.Select(i => i.Split(' ')).Where(i => i[0].Equals("bot") && i[5].Equals("output")).Max(i => Convert.ToInt32(i[6]));
+        int maksH = this._Instrukcje.Select(i => i.Split(' ')).Where(i => i[0].Equals("bot") && i[10].Equals("output")).Max(i => Convert.ToInt32(i[11]));
+
+        int maks = maksL > maksH ? maksL : maksH;
+        for(int i = 0; i <= maks; i++)
+        {
+            this._Wyjscia.TryAdd(i, new Wyjscie(i, -1));
+        }
     }
 
     public void RozwiazanieZadania()
-    {   
+    {
         do
         {
             for(int i = 0; i < this._Instrukcje.Count; i++)
             {
-                if(this._Instrukcje[i].StartsWith("value"))
+                switch(this._Instrukcje[i].StartsWith("value"))
                 {
-                    this.WczytajBota(i);
-                    continue;
-                }
-
-                if(!this._Instrukcje[i].StartsWith("value"))
-                {
-                    this.OperacjeNaBocie(i);
+                    case false:
+                        this.OperacjeNaBocie(i);
+                        break;
+                    case true:
+                        this.WczytajBota(i);
+                        break;        
                 }
             }
         }
@@ -67,85 +76,99 @@ public class D10Z01 : IZadanie
 
     private void OperacjeNaBocie(int liniaId)
     {
-        int botDzielacy, botPrzyjmujacy;
+        int botDzielacy, botPrzyjmujacyL, botPrzyjmujacyH;
         string[] linia = this._Instrukcje[liniaId].Split(" ");
 
         botDzielacy = Convert.ToInt32(linia[1]);
 
-        if(!this._Boty.TryGetValue(botDzielacy, out Bot _))
+        if(!this._Boty.TryGetValue(botDzielacy, out Bot botIstniejacy))
         {
             this._Boty.TryAdd(botDzielacy, new Bot(botDzielacy, -1, -1));
             return;
         }
 
-        if(!this.CzyBotMaChipy(botDzielacy))
+        if(!this.CzyBotMaChipy(botIstniejacy))
         {
             return;
         }
 
-        if(this.SprawdzBota(botDzielacy))
+        if(this.SprawdzBota(botIstniejacy))
         {
             return;
         }
 
-        switch(linia[5])
+        switch(linia[5], linia[10])
         {
-            case "bot":
-                botPrzyjmujacy = Convert.ToInt32(linia[6]);
-
-                if(!this._Boty.TryAdd(botPrzyjmujacy, new Bot(botPrzyjmujacy, 0, this._Boty[botDzielacy].L)))
+            case ("bot", "output"):
+                botPrzyjmujacyL = Convert.ToInt32(linia[6]);
+                if(!this._Boty.TryAdd(botPrzyjmujacyL, new Bot(botPrzyjmujacyL, 0, this._Boty[botDzielacy].L)))
                 {
-                    this._Boty[botPrzyjmujacy] = this.UstawBota(botPrzyjmujacy, this._Boty[botDzielacy].L);
-                    this._Boty[botDzielacy] = this._Boty[botDzielacy] with { L = 0};
-                }
-                break;
-            case "output":
-                this._Wyjscia.TryAdd(Convert.ToInt32(linia[6]), this._Boty[botDzielacy].L);
-                this._Boty[botDzielacy] = this._Boty[botDzielacy] with { L = 0};
-                break;
-        }
-
-        switch(linia[^2])
-        {
-            case "bot":
-                botPrzyjmujacy = Convert.ToInt32(linia[^1]);
-
-                if(!this._Boty.TryAdd(botPrzyjmujacy, new Bot(botPrzyjmujacy, 0, this._Boty[botDzielacy].H)))
-                {
-                    this._Boty[botPrzyjmujacy] = this.UstawBota(botPrzyjmujacy, this._Boty[botDzielacy].H);
-                    this._Boty[botDzielacy] = this._Boty[botDzielacy] with { H = 0};
+                    this._Boty[botPrzyjmujacyL] = this.UstawBota(botPrzyjmujacyL, this._Boty[botDzielacy].L);
+                    this._Boty[botDzielacy] = this._Boty[botDzielacy] with { L = -1 };
                 }
 
+                this._Wyjscia.TryAdd(Convert.ToInt32(linia[11]), new Wyjscie(Convert.ToInt32(linia[11]), this._Boty[botDzielacy].H));
+                this._Boty[botDzielacy] = this._Boty[botDzielacy] with { H = -1 };
                 break;
-            case "output":
-                this._Wyjscia.TryAdd(Convert.ToInt32(linia[^1]), this._Boty[botDzielacy].H);
-                this._Boty[botDzielacy] = this._Boty[botDzielacy] with { H = 0};
+            case ("output", "bot"):
+                this._Wyjscia.TryAdd(Convert.ToInt32(linia[6]), new Wyjscie(Convert.ToInt32(linia[6]), this._Boty[botDzielacy].L));
+                this._Boty[botDzielacy] = this._Boty[botDzielacy] with { L = -1 };
+
+                botPrzyjmujacyH = Convert.ToInt32(linia[11]);
+                if(!this._Boty.TryAdd(botPrzyjmujacyH, new Bot(botPrzyjmujacyH, 0, this._Boty[botDzielacy].H)))
+                {
+                    this._Boty[botPrzyjmujacyH] = this.UstawBota(botPrzyjmujacyH, this._Boty[botDzielacy].H);
+                    this._Boty[botDzielacy] = this._Boty[botDzielacy] with { H = -1 };
+                }
+                break;
+            case ("output", "output"):
+                this._Wyjscia.TryAdd(Convert.ToInt32(linia[6]), new Wyjscie(Convert.ToInt32(linia[6]), this._Boty[botDzielacy].L));
+                this._Boty[botDzielacy] = this._Boty[botDzielacy] with { L = -1 };
+
+                this._Wyjscia.TryAdd(Convert.ToInt32(linia[11]), new Wyjscie(Convert.ToInt32(linia[11]), this._Boty[botDzielacy].H));
+                this._Boty[botDzielacy] = this._Boty[botDzielacy] with { H = -1 };
+                break;
+            case ("bot", "bot"):
+                botPrzyjmujacyL = Convert.ToInt32(linia[6]);
+                botPrzyjmujacyH = Convert.ToInt32(linia[11]);
+
+                if(!this._Boty.TryAdd(botPrzyjmujacyL, new Bot(botPrzyjmujacyL, 0, this._Boty[botDzielacy].L)))
+                {
+                    this._Boty[botPrzyjmujacyL] = this.UstawBota(botPrzyjmujacyL, this._Boty[botDzielacy].L);
+                    this._Boty[botDzielacy] = this._Boty[botDzielacy] with { L = -1 };
+                }
+
+                if(!this._Boty.TryAdd(botPrzyjmujacyH, new Bot(botPrzyjmujacyH, 0, this._Boty[botDzielacy].H)))
+                {
+                    this._Boty[botPrzyjmujacyH] = this.UstawBota(botPrzyjmujacyH, this._Boty[botDzielacy].H);
+                    this._Boty[botDzielacy] = this._Boty[botDzielacy] with { H = -1 };
+                }
                 break;
         }
     }
 
-    private bool CzyBotMaChipy(int id)
+    private bool CzyBotMaChipy(Bot bot)
     {
-        return this._Boty[id].H != -1 && this._Boty[id].L != -1;
+        return bot.H != -1 && bot.L != -1;
     }
 
     private Bot UstawBota(int id, int wartosc)
     {
         Bot b = this._Boty[id];
 
-        if(b.H == wartosc || b.L == wartosc)
+        /*if(b.H == wartosc || b.L == wartosc)
         {
             return b;
-        }
+        }*/
 
         return wartosc > b.H ? new Bot(id, b.H, wartosc) : new Bot(id, wartosc, b.H);
     }
 
-    private bool SprawdzBota(int id)
+    private bool SprawdzBota(Bot bot)
     {
-        if(this._Boty[id].H == this._H && this._Boty[id].L == this._L)
+        if(bot.H == this._H && bot.L == this._L)
         {
-            this._Wynik = id;
+            this._Wynik = bot.Id;
             return true;
         }
 
@@ -158,4 +181,5 @@ public class D10Z01 : IZadanie
     }
 
     private record Bot(int Id, int L, int H);
+    private record Wyjscie(int Id, int Wartosc);
 }
