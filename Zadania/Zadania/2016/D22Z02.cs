@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace Zadania._2016;
@@ -15,9 +16,9 @@ public partial class D22Z02 : IZadanie
     private readonly int _maxY;
     private readonly string _celZeroID;
     private readonly string _celDocelowyID;
-    private readonly Punkt _lokalizacjaDocelowa;
-    private readonly Punkt _lokalizacjaPunktuZero;
+    private readonly Punkt _lokalizacjaKoncowa;
     private readonly Punkt _lokalizacjaPoczatkowa;
+    private readonly Punkt _lokalizacjaPosrednia;
     private Dictionary<Punkt, Wezel> _SpisWezlow;
 
     [GeneratedRegex(@"x(\d{1,2})-y(\d{1,2})(?: {0,10})(\d{1,3})T(?: {0,10})(\d{1,3})T(?: {0,10})(\d{1,3})T(?: {0,10})(\d{1,3})")]
@@ -25,7 +26,7 @@ public partial class D22Z02 : IZadanie
     
     public D22Z02(bool daneTestowe = false)
     {
-        this._IleRuchow = int.MaxValue;
+        this._IleRuchow = UInt64.MaxValue;
         this._SpisWezlow = new ();
         FileStream fs = new(daneTestowe ? ".\\Dane\\2016\\22\\proba.txt" : ".\\Dane\\2016\\22\\dane.txt", FileMode.Open, FileAccess.Read);
 		StreamReader sr = new(fs);
@@ -48,151 +49,222 @@ public partial class D22Z02 : IZadanie
 
         this._maxX = this._SpisWezlow.Max(p => p.Key.X);
         this._maxY = this._SpisWezlow.Max(p => p.Key.Y);
-        this._lokalizacjaDocelowa = new (0, 0);
-        this._lokalizacjaPunktuZero = this._SpisWezlow.First(sw => sw.Value.Uzyte == 0).Key;
-        this._celZeroID = this._SpisWezlow[this._lokalizacjaPunktuZero].Id;
-        this._lokalizacjaPoczatkowa = new (this._maxX, 0);
-        this._celDocelowyID = this._SpisWezlow[this._lokalizacjaPoczatkowa].Id;
+        this._lokalizacjaKoncowa = new (0, 0);
+        this._lokalizacjaPoczatkowa = this._SpisWezlow.First(sw => sw.Value.Uzyte == 0).Key;
+        this._lokalizacjaPosrednia = new (this._maxX, 0);
+
+        this._celZeroID = this._SpisWezlow[this._lokalizacjaPoczatkowa].Id;
+        this._celDocelowyID = this._SpisWezlow[this._lokalizacjaPosrednia].Id;
     }
 
     public void RozwiazanieZadania()
     {
-        UInt64 OdZeroDoGory;
+        UInt64 tmp;
+        List<Punkt> Odwiedzone = new List<Punkt>();
 
-        this.SprawdzWezel(this._lokalizacjaPunktuZero, 0, this._lokalizacjaPoczatkowa, false);
-        
-        OdZeroDoGory = this._IleRuchow;
-        this._IleRuchow = int.MaxValue;
-        this.SprawdzWezel(this._lokalizacjaPoczatkowa, 0, this._lokalizacjaDocelowa, true);
-        this._IleRuchow += OdZeroDoGory;
+        this.DFS(this._lokalizacjaPoczatkowa, this._lokalizacjaPosrednia, 0, null, Odwiedzone);
+        Debug.WriteLine(this._IleRuchow);
+        tmp = this._IleRuchow;
+
+        this._IleRuchow = UInt64.MaxValue;
+        Odwiedzone.Clear();
+        this.DFS(this._lokalizacjaPosrednia, this._lokalizacjaKoncowa, 0, null, Odwiedzone);
+        Debug.WriteLine(this._IleRuchow);
+        this._IleRuchow += tmp;
     }
 
-    private void SprawdzWezel(Punkt obecnaLokalizacja, UInt64 ruch, Punkt docelowaLokalizacja, bool koniec)
+    private void DFS(Punkt obecny, Punkt koncowy, UInt64 odleglosc, Punkt rodzic, List<Punkt> odwiedzone)
     {
-        Debug.WriteLine($"X: {obecnaLokalizacja.X}, Y: {obecnaLokalizacja.Y}, ObecnyId: {this._SpisWezlow[obecnaLokalizacja].Id}, KoniecID: {this._SpisWezlow[docelowaLokalizacja].Id}");
+        if(odwiedzone.Any(o => o.X == obecny.X && o.Y == obecny.Y))
+        {
+            return;
+        }
+
+        if(rodzic is not null && obecny.X == rodzic.X && obecny.Y == rodzic.Y)
+        {
+            return;
+        }
         
-        if(!koniec && this._SpisWezlow[docelowaLokalizacja].Id.Equals(this._celZeroID))
+        if(obecny.X == koncowy.X && obecny.Y == koncowy.Y)
         {
-            if(this._IleRuchow > ruch)
+            if(odleglosc < this._IleRuchow)
             {
-                this._IleRuchow = ruch;
-                Debug.WriteLine($"####### Ile ruchów: {this._IleRuchow} #######");
+                this._IleRuchow = odleglosc;
+                return;
             }
-            return;
         }
 
-        if(koniec && this._SpisWezlow[docelowaLokalizacja].Id.Equals(this._celDocelowyID))
+        odwiedzone.Add(obecny);
+        
+        if(obecny.X == 0 && obecny.Y == 0)
         {
-            if(this._IleRuchow > ruch)
+            if(this.ZamienMiejscami(obecny, obecny with { X = obecny.X + 1 }))
             {
-                this._IleRuchow = ruch;
-                Debug.WriteLine($"####### Ile ruchów: {this._IleRuchow} #######");
+                DFS(obecny with { X = obecny.X + 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
             }
+
+            if(this.ZamienMiejscami(obecny, obecny with { Y = obecny.Y + 1 }))
+            {
+                DFS(obecny with { Y = obecny.Y + 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
             return;
         }
-
-        // 2 kierunki
-        if(obecnaLokalizacja.X == 0 && obecnaLokalizacja.Y == 0)
+        
+        if(obecny.X == 0 && obecny.Y > 0 && obecny.Y < this._maxY)
         {
-            this.ZamienMiejscami(obecnaLokalizacja with { X = obecnaLokalizacja.X + 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { X = obecnaLokalizacja.X + 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y + 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y + 1 }, ruch + 1, docelowaLokalizacja, koniec);
+            if(this.ZamienMiejscami(obecny, obecny with { X = obecny.X + 1 }))
+            {
+                DFS(obecny with { X = obecny.X + 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
+            if(this.ZamienMiejscami(obecny, obecny with { Y = obecny.Y + 1 }))
+            {
+                DFS(obecny with { Y = obecny.Y + 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
+            if(this.ZamienMiejscami(obecny, obecny with { Y = obecny.Y - 1 }))
+            {
+                DFS(obecny with { Y = obecny.Y - 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
             return;
         }
-
-        if(obecnaLokalizacja.X == 0 && obecnaLokalizacja.Y == this._maxY)
+        
+        if(obecny.X == 0 && obecny.Y == this._maxY)
         {
-            this.ZamienMiejscami(obecnaLokalizacja with { X = obecnaLokalizacja.X + 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { X = obecnaLokalizacja.X + 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, ruch + 1, docelowaLokalizacja, koniec);
+            if(this.ZamienMiejscami(obecny, obecny with { X = obecny.X + 1 }))
+            {
+                DFS(obecny with { X = obecny.X + 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
+            if(this.ZamienMiejscami(obecny, obecny with { Y = obecny.Y - 1 }))
+            {
+                DFS(obecny with { Y = obecny.Y - 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
             return;
         }
-
-        if(obecnaLokalizacja.X == this._maxX && obecnaLokalizacja.Y == 0)
+        
+        if(obecny.X > 0 && obecny.X < this._maxX && obecny.Y == 0)
         {
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y + 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y + 1 }, ruch + 1, docelowaLokalizacja, koniec);
+            if(this.ZamienMiejscami(obecny, obecny with { X = obecny.X + 1 }))
+            {
+                DFS(obecny with { X = obecny.X + 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+            
+            if(this.ZamienMiejscami(obecny, obecny with { X = obecny.X - 1 }))
+            {
+                DFS(obecny with { X = obecny.X - 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
+            if(this.ZamienMiejscami(obecny, obecny with { Y = obecny.Y + 1 }))
+            {
+                DFS(obecny with { Y = obecny.Y + 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
             return;
         }
-
-        if(obecnaLokalizacja.X == this._maxX && obecnaLokalizacja.Y == this._maxY)
+        
+        if(obecny.X == this._maxX && obecny.Y == 0)
         {
-            this.ZamienMiejscami(obecnaLokalizacja with { X = obecnaLokalizacja.X - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { X = obecnaLokalizacja.X - 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, ruch + 1, docelowaLokalizacja, koniec);
+            if(this.ZamienMiejscami(obecny, obecny with { X = obecny.X - 1 }))
+            {
+                DFS(obecny with { X = obecny.X - 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
+            if(this.ZamienMiejscami(obecny, obecny with { Y = obecny.Y + 1 }))
+            {
+                DFS(obecny with { Y = obecny.Y + 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
             return;
         }
-
-        // 3 kierunki
-        if(obecnaLokalizacja.X == 0 && obecnaLokalizacja.Y > 0 && obecnaLokalizacja.Y < this._maxY)
+        
+        if(obecny.X == this._maxX && obecny.Y > 0 && obecny.Y < this._maxY)
         {
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { X = obecnaLokalizacja.X + 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { X = obecnaLokalizacja.X + 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y + 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y + 1 }, ruch + 1, docelowaLokalizacja, koniec);
+            if(this.ZamienMiejscami(obecny, obecny with { X = obecny.X - 1 }))
+            {
+                DFS(obecny with { X = obecny.X - 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
+            if(this.ZamienMiejscami(obecny, obecny with { Y = obecny.Y + 1 }))
+            {
+                DFS(obecny with { Y = obecny.Y + 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
+            if(this.ZamienMiejscami(obecny, obecny with { Y = obecny.Y - 1 }))
+            {
+                DFS(obecny with { Y = obecny.Y - 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
             return;
         }
-
-        if(obecnaLokalizacja.X == this._maxX && obecnaLokalizacja.Y > 0 && obecnaLokalizacja.Y < this._maxY)
+        
+        if(obecny.X == this._maxX && obecny.Y== this._maxY)
         {
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { X = obecnaLokalizacja.X - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { X = obecnaLokalizacja.X - 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y + 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y + 1 }, ruch + 1, docelowaLokalizacja, koniec);
+            if(this.ZamienMiejscami(obecny, obecny with { X = obecny.X - 1 }))
+            {
+                DFS(obecny with { X = obecny.X - 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
+            if(this.ZamienMiejscami(obecny, obecny with { Y = obecny.Y - 1 }))
+            {
+                DFS(obecny with { Y = obecny.Y - 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
             return;
         }
-
-        if(obecnaLokalizacja.X > 0 && obecnaLokalizacja.X < this._maxX && obecnaLokalizacja.Y == 0)
+        
+        if(obecny.X > 0 && obecny.X < this._maxX && obecny.Y == this._maxY)
         {
-            this.ZamienMiejscami(obecnaLokalizacja with { X = obecnaLokalizacja.X - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { X = obecnaLokalizacja.X - 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y + 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y + 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { X = obecnaLokalizacja.X + 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { X = obecnaLokalizacja.X + 1 }, ruch + 1, docelowaLokalizacja, koniec);
+            if(this.ZamienMiejscami(obecny, obecny with { X = obecny.X + 1 }))
+            {
+                DFS(obecny with { X = obecny.X + 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
+            if(this.ZamienMiejscami(obecny, obecny with { X = obecny.X - 1 }))
+            {
+                DFS(obecny with { X = obecny.X - 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
+            if(this.ZamienMiejscami(obecny, obecny with { Y = obecny.Y - 1 }))
+            {
+                DFS(obecny with { Y = obecny.Y - 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
             return;
         }
-
-        if(obecnaLokalizacja.X > 0 && obecnaLokalizacja.X < this._maxX && obecnaLokalizacja.Y == this._maxY)
+        
+        if(obecny.X > 0 && obecny.X < this._maxX && obecny.Y > 0 && obecny.Y < this._maxY)
         {
-            this.ZamienMiejscami(obecnaLokalizacja with { X = obecnaLokalizacja.X - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { X = obecnaLokalizacja.X - 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { X = obecnaLokalizacja.X + 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { X = obecnaLokalizacja.X + 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            return;
-        }
+            if(this.ZamienMiejscami(obecny, obecny with { X = obecny.X + 1 }))
+            {
+                DFS(obecny with { X = obecny.X + 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
 
-        // 4 kierunki
-        if(obecnaLokalizacja.X > 0 && obecnaLokalizacja.X < this._maxX && obecnaLokalizacja.Y > 0 && obecnaLokalizacja.Y < this._maxY)
-        {
-            this.ZamienMiejscami(obecnaLokalizacja with { X = obecnaLokalizacja.X - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { X = obecnaLokalizacja.X - 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y + 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y + 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { X = obecnaLokalizacja.X - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { X = obecnaLokalizacja.X - 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            this.ZamienMiejscami(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, obecnaLokalizacja);
-            this.SprawdzWezel(obecnaLokalizacja with { Y = obecnaLokalizacja.Y - 1 }, ruch + 1, docelowaLokalizacja, koniec);
-            return;
+            if(this.ZamienMiejscami(obecny, obecny with { X = obecny.X - 1 }))
+            {
+                DFS(obecny with { X = obecny.X - 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
+            if(this.ZamienMiejscami(obecny, obecny with { Y = obecny.Y + 1 }))
+            {
+                DFS(obecny with { Y = obecny.Y + 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
+
+            if(this.ZamienMiejscami(obecny, obecny with { Y = obecny.Y - 1 }))
+            {
+                DFS(obecny with { Y = obecny.Y - 1 }, koncowy, odleglosc + 1, obecny, new List<Punkt>(odwiedzone));
+            }
         }
     }
 
-    private void ZamienMiejscami(Punkt gdziePrzeniesc, Punkt skadPrzeniesc)
+    private bool ZamienMiejscami(Punkt gdziePrzeniesc, Punkt skadPrzeniesc)
     {
         if(this._SpisWezlow[gdziePrzeniesc].Wolne < this._SpisWezlow[skadPrzeniesc].Uzyte)
         {
-            return;
+            return false;
         }
 
         Wezel tmp = this._SpisWezlow[gdziePrzeniesc] with { Id = this._SpisWezlow[gdziePrzeniesc].Id, Punkt = this._SpisWezlow[gdziePrzeniesc].Punkt, Rozmiar = this._SpisWezlow[gdziePrzeniesc].Rozmiar, Uzyte = this._SpisWezlow[gdziePrzeniesc].Uzyte, Wolne = this._SpisWezlow[gdziePrzeniesc].Wolne, UzyteProcent = this._SpisWezlow[gdziePrzeniesc].UzyteProcent };
@@ -200,6 +272,8 @@ public partial class D22Z02 : IZadanie
         this._SpisWezlow[gdziePrzeniesc] = this._SpisWezlow[gdziePrzeniesc] with { Id = this._SpisWezlow[skadPrzeniesc].Id, Rozmiar = this._SpisWezlow[skadPrzeniesc].Rozmiar, Uzyte = this._SpisWezlow[skadPrzeniesc].Uzyte, Wolne = this._SpisWezlow[skadPrzeniesc].Wolne, UzyteProcent = this._SpisWezlow[skadPrzeniesc].UzyteProcent };
         
         this._SpisWezlow[skadPrzeniesc] = this._SpisWezlow[skadPrzeniesc] with { Id = tmp.Id, Rozmiar = tmp.Rozmiar, Uzyte = tmp.Uzyte, Wolne = tmp.Wolne, UzyteProcent = tmp.UzyteProcent };
+
+        return true;
     }
 
     public string PokazRozwiazanie()
