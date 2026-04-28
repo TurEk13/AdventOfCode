@@ -18,13 +18,11 @@ public partial class D19Z01 : IZadanie
 
         for(Int32 i = 0; i < IleElfow;  i++)
         {
-            Elf e = new()
+            this._ListaElfow.Dodaj(new Elf()
             {
                 Id = i + 1,
                 IlePrezentow = 1
-            };
-
-            this._ListaElfow.Dodaj(e);
+            });
         }
 
         sr.Close(); fs!.Close();
