@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -8,7 +7,7 @@ namespace Zadania._2016;
 
 public partial class D19Z02 : IZadanie
 {
-    private List<Elf> _ListaElfow;
+    private Elfy _ListaElfow;
 
     public D19Z02(bool daneTestowe = false)
     {
@@ -20,7 +19,7 @@ public partial class D19Z02 : IZadanie
 
         for(Int32 i = 0; i < IleElfow;  i++)
         {
-            this._ListaElfow.Add(new Elf()
+            this._ListaElfow.Dodaj(new Elf()
             {
                 Id = i + 1,
                 IlePrezentow = 1
@@ -33,31 +32,103 @@ public partial class D19Z02 : IZadanie
     public void RozwiazanieZadania()
     {
         // 26 583 -
-        int IleElfow;
-        int ElfDocelowy;
-        
-        while(this._ListaElfow.Count > 1)
-        {
-            for(int i = 0; i < this._ListaElfow.Count; i++)
-            {
-                IleElfow = this._ListaElfow.Count;
-                ElfDocelowy = IleElfow / 2;
+        int i = 0;
 
-                this._ListaElfow[i].IlePrezentow += this._ListaElfow[(i + ElfDocelowy) % IleElfow].IlePrezentow;
-                this._ListaElfow.RemoveAt((i + ElfDocelowy) % IleElfow);
+        while (this._ListaElfow.Usun(this._ListaElfow.ElfObecny, Elfy.IleElementow / 2) is null)
+        {
+            i++;
+            if(i == 10_000)
+            {
+                Debug.WriteLine(Elfy.IleElementow.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL")));
+                i = 0;
             }
-            Debug.WriteLine(this._ListaElfow.Count);
         }
     }
 
     public string PokazRozwiazanie()
     {
-        return this._ListaElfow[0].Id.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
+        return this._ListaElfow.ElfObecny.Id.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
+    }
+
+    private class Elfy
+    {
+        public static int IleElementow { get; private set; }
+        public Elf ElfObecny;
+        public Elf ElfPoczatkowy;
+        public Elf ElfKoncowy;
+
+        static Elfy()
+        {
+            IleElementow = 0;
+        }
+
+        public void Dodaj(Elf elf)
+        {
+            if(IleElementow == 0)
+            {
+                ElfObecny = elf;
+                ElfPoczatkowy = elf;
+                ElfKoncowy = elf;
+                elf.ElfNastepny = elf;
+                elf.ElfPoprzedni = elf;
+            }
+            else if(ElfPoczatkowy == ElfKoncowy)
+            {
+                elf.ElfNastepny = ElfPoczatkowy;
+                ElfPoczatkowy.ElfNastepny = elf;
+                elf.ElfPoprzedni = ElfKoncowy;
+                ElfKoncowy = elf;
+            }
+            else
+            {
+                elf.ElfPoprzedni = ElfKoncowy;
+                elf.ElfNastepny = ElfPoczatkowy;
+                ElfKoncowy.ElfNastepny = elf;
+                ElfKoncowy = elf;
+            }
+
+            IleElementow++;
+        }
+
+        public Elf Usun(Elf elf, int OdKtorego)
+        {
+            Elf Kolejny = elf;
+            int i = 0;
+
+            if(elf.ElfNastepny == elf.ElfPoprzedni)
+            {
+                elf.IlePrezentow += elf.ElfNastepny.IlePrezentow;
+                elf.ElfNastepny.IlePrezentow = 0;
+                ElfObecny = elf;
+                return elf;
+            }
+
+            while(i < OdKtorego)
+            {
+                Kolejny = Kolejny.ElfNastepny;
+                i++;
+            }
+
+            elf.IlePrezentow += Kolejny.IlePrezentow;
+            Kolejny.IlePrezentow = 0;
+
+            Kolejny.ElfPoprzedni.ElfNastepny = Kolejny.ElfNastepny;
+            Kolejny.ElfNastepny.ElfPoprzedni = Kolejny.ElfPoprzedni;
+            IleElementow--;
+
+            ElfObecny = elf.ElfNastepny;
+
+            //Debug.WriteLine($"Ile elementów: {IleElementow}, Usunięty elf: {Kolejny.Id}");
+
+            return null;
+        }
     }
 
     private record Elf
     {
         public int Id;
         public int IlePrezentow;
+        public Elf ElfPoprzedni;
+        public Elf ElfNastepny;
     }
 }
