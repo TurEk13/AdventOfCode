@@ -117,6 +117,9 @@ public partial class OknoGlowne : Form
                     case 12:
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D12Z01(true) : new Zadania._2016.D12Z02(true);
                         break;
+                    case 13:
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D13Z01(true) : new Zadania._2016.D13Z02(true);
+                        break;
                     case 14:
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D14Z01(true) : new Zadania._2016.D14Z01(true);
                         break;
@@ -384,6 +387,9 @@ public partial class OknoGlowne : Form
                         break;
                     case 12:
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D12Z01() : new Zadania._2016.D12Z02();
+                        break;
+                    case 13:
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D13Z01() : new Zadania._2016.D13Z02();
                         break;
                     case 14:
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D14Z01() : new Zadania._2016.D14Z01();

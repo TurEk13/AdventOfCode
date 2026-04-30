@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
   </PropertyGroup>
@@ -42,6 +42,7 @@
     <Folder Include="Dane\2016\09\" />
     <Folder Include="Dane\2016\10\" />
     <Folder Include="Dane\2016\12\" />
+    <Folder Include="Dane\2016\13\" />
     <Folder Include="Dane\2016\14\" />
     <Folder Include="Dane\2016\15\" />
     <Folder Include="Dane\2016\16\" />
@@ -183,6 +184,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2016\12\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dane\2016\13\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2016\14\*.txt">
