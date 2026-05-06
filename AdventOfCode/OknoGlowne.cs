@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Extensions.Configuration;
 using System.Windows.Forms;
 using Zadania;
 
@@ -19,9 +20,13 @@ public partial class OknoGlowne : Form
         RokComboBox.Items.AddRange(["2015", "2016", "2024", "2025"]);
         DzienComboBox.Items.AddRange(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]);
 
-        this.RokComboBox.SelectedIndex = this.RokComboBox.Items.Count - 3;
-        this.DzienComboBox.SelectedIndex = 9;
-        this.ZadanieComboBox.SelectedIndex = 1;
+        IConfiguration ustawieniaJSON = new ConfigurationBuilder().AddJsonFile("Ustawienia.json").AddEnvironmentVariables().Build();
+
+        Ustawienia ustawienia = ustawieniaJSON.GetRequiredSection("Ustawienia").Get<Ustawienia>();
+
+        this.RokComboBox.SelectedItem = ustawienia.ObecneZadanie.Rok.ToString();
+        this.DzienComboBox.SelectedItem = ustawienia.ObecneZadanie.Dzien.ToString();
+        this.ZadanieComboBox.SelectedItem = ustawienia.ObecneZadanie.Zadanie.ToString();
     }
 
     private void TestButton_Click(object sender, EventArgs e)
@@ -537,4 +542,7 @@ public partial class OknoGlowne : Form
 
         this.WynikTextBox.Text = $"Rozwiązanie: {this.wykonajZadanie.PokazRozwiazanie()}";
     }
+
+    private record Ustawienia(ObecneZadanie ObecneZadanie);
+    private record ObecneZadanie(int Rok, int Zadanie, int Dzien);
 }

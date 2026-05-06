@@ -11,16 +11,19 @@ public partial class D17Z01 : IZadanie
 {
     private List<char[]> _Mapa;
     private string _Hash;
-    private Pozycja _Pozycja;
+    private Pozycja _Start;
+    private Pozycja _Cel;
     private char[] _DrzwiOtwarte;
     private string _NajkrotszaDroga;
+    
     public D17Z01(bool daneTestowe = false)
     {
         this._Mapa = new ();
         this._DrzwiOtwarte = ['b', 'c', 'd', 'e', 'f'];
+        this._Cel = new (7, 7);
         
-        StringBuilder sb = new ();
-        while(sb.Length < 1001)
+        StringBuilder sb = new StringBuilder(5 * byte.MaxValue);
+        while(sb.Length < sb.Capacity)
         {
             sb.Append('a');
         }
@@ -40,7 +43,7 @@ public partial class D17Z01 : IZadanie
 
             if(linia.Contains('S'))
             {
-                this._Pozycja = new (linia.IndexOf('S'), wysokosc);
+                this._Start = new (linia.IndexOf('S'), wysokosc);
             }
             wysokosc++;
         }
@@ -52,126 +55,92 @@ public partial class D17Z01 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        this.ZnajdzDroge(this.ObliczHash(""), "", new Pozycja(this._Pozycja.X, this._Pozycja.Y));
+        this.ZnajdzDroge(this.ObliczHash(""), "", new Pozycja(this._Start.X, this._Start.Y));
     }
 
     private void ZnajdzDroge(string hash, string przebytaDroga, Pozycja pozycja)
     {
-        Przejscie p;
-
         if(przebytaDroga.Length > this._NajkrotszaDroga.Length)
         {
             return;
         }
 
+        if(pozycja == this._Cel)
+        {
+            this.SprawdzDlugosc(przebytaDroga);
+            return;
+        }
+
         if(this._DrzwiOtwarte.Contains(hash[0]))
         {
-            p = this.SprawdzPrzejscie(new (pozycja.Y - 1, pozycja.X));
-            
-            switch(p)
-            {
-                case Przejscie.KONIEC:
-                    this.SprawdzDlugosc(przebytaDroga);
-                    return;
-                case Przejscie.OTWARTE:
-                    this.ZnajdzDroge(this.ObliczHash($"{przebytaDroga}U"), new string($"{przebytaDroga}U"), pozycja with { Y = pozycja.Y - 2 });
-                    break;
-                default:
-                    break;
-            }
+            this.PrzetworzPunkt('U', przebytaDroga, pozycja);
         }
 
         if(this._DrzwiOtwarte.Contains(hash[1]))
         {
-            p = this.SprawdzPrzejscie(new (pozycja.Y + 1, pozycja.X));
-
-            switch(p)
-            {
-                case Przejscie.KONIEC:
-                    this.SprawdzDlugosc(przebytaDroga);
-                    return;
-                case Przejscie.OTWARTE:
-                    this.ZnajdzDroge(this.ObliczHash($"{przebytaDroga}D"), new string($"{przebytaDroga}D"), pozycja with { Y = pozycja.Y + 2 });
-                    break;
-                default:
-                    break;
-            }
+            this.PrzetworzPunkt('D', przebytaDroga, pozycja);
         }
 
         if(this._DrzwiOtwarte.Contains(hash[2]))
         {
-            p = this.SprawdzPrzejscie(new (pozycja.Y, pozycja.X - 1));
-
-            switch(p)
-            {
-                case Przejscie.KONIEC:
-                    this.SprawdzDlugosc(przebytaDroga);
-                    return;
-                case Przejscie.OTWARTE:
-                    this.ZnajdzDroge(this.ObliczHash($"{przebytaDroga}L"), new string($"{przebytaDroga}L"), pozycja with { X = pozycja.X - 2 });
-                    break;
-                default:
-                    break;
-            }
+            
+            this.PrzetworzPunkt('L', przebytaDroga, pozycja);
         }
 
         if(this._DrzwiOtwarte.Contains(hash[3]))
         {
-            p = this.SprawdzPrzejscie(new (pozycja.Y, pozycja.X + 1));
-
-            switch(p)
-            {
-                case Przejscie.KONIEC:
-                    this.SprawdzDlugosc(przebytaDroga);
-                    return;
-                case Przejscie.OTWARTE:
-                    this.ZnajdzDroge(this.ObliczHash($"{przebytaDroga}R"), new string($"{przebytaDroga}R"), pozycja with { X = pozycja.X + 2 });
-                    break;
-                default:
-                    break;
-            }
+            this.PrzetworzPunkt('R', przebytaDroga, pozycja);
         }
     }
 
-    private Przejscie SprawdzPrzejscie(Pozycja nowyPunkt)
+    private void PrzetworzPunkt(char kierunek, string przebytaDroga, Pozycja pozycja)
     {
-        if(this._Mapa[nowyPunkt.Y][nowyPunkt.X].Equals('#'))
+        Pozycja nowaPozycja = null;
+
+        switch(kierunek)
         {
-            return Przejscie.SCIANA;
+            case 'U':
+                nowaPozycja = pozycja with { Y = pozycja.Y - 2 };
+                break;
+            case 'D':
+                nowaPozycja = pozycja with { Y = pozycja.Y + 2 };
+                break;
+            case 'L':
+                nowaPozycja = pozycja with { X = pozycja.X - 2 };
+                break;
+            case 'R':
+                nowaPozycja = pozycja with { X = pozycja.X + 2 };
+                break;
         }
 
-        if(this._Mapa[nowyPunkt.Y][nowyPunkt.X].Equals(' '))
+        if(this.SprawdzPrzejscie(nowaPozycja))
         {
-            return Przejscie.KONIEC;
+            this.ZnajdzDroge(this.ObliczHash($"{przebytaDroga}{kierunek}"), new string($"{przebytaDroga}{kierunek}"), nowaPozycja);
         }
-
-        return Przejscie.OTWARTE;
     }
 
-    private string ObliczHash(string reszta)
+    private bool SprawdzPrzejscie(Pozycja nowyPunkt)
     {
-        return string.Join("", MD5.HashData(Encoding.UTF8.GetBytes($"{this._Hash}{reszta}")).Select(o => o.ToString("x2")))[.. 4];
+        return nowyPunkt.Y >= 0 && nowyPunkt.Y < this._Mapa.Count && nowyPunkt.X >= 0 && nowyPunkt.X < this._Mapa[0].Length;
     }
 
-    private void SprawdzDlugosc(string ciag)
+    private string ObliczHash(string przebytaDroga)
     {
-        if(this._NajkrotszaDroga.Length > ciag.Length)
+        return string.Join("", MD5.HashData(Encoding.UTF8.GetBytes($"{this._Hash}{przebytaDroga}")).Select(o => o.ToString("x2"))).ToLower()[.. 4];
+    }
+
+    private void SprawdzDlugosc(string przebytaDroga)
+    {
+        if(this._NajkrotszaDroga.Length > przebytaDroga.Length)
         {
-            this._NajkrotszaDroga = ciag;
+            this._NajkrotszaDroga = przebytaDroga;
         }
     }
+    
     public string PokazRozwiazanie()
     {
         return this._NajkrotszaDroga;
     }
 
     private record Pozycja(int X, int Y);
-
-    [Flags]
-    public enum Przejscie: int
-    {
-        SCIANA = 1,
-        OTWARTE = 2,
-        KONIEC = 4
-    }
 }
