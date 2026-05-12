@@ -35,7 +35,7 @@ public partial class OknoGlowne : Form
         this._Dzien = Convert.ToInt32(this.DzienComboBox.SelectedItem);
         this._Zadanie = this.ZadanieComboBox.SelectedIndex;
         DateTimeOffset start = DateTimeOffset.MinValue, stop = DateTimeOffset.MinValue;
-        TimeSpan ts = TimeSpan.MinValue;
+        TimeSpan ts;
 
         this.WynikTextBox.Text = $"{this._Rok} {this._Dzien} {this._Zadanie}";
 
@@ -144,6 +144,9 @@ public partial class OknoGlowne : Form
                         break;
                     case 19:
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D19Z01(true) : new Zadania._2016.D19Z02(true);
+                        break;
+                    case 20:
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D20Z01(true) : new Zadania._2016.D20Z02(true);
                         break;
                     case 21:
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D21Z01(true) : throw new NotImplementedException() ;
@@ -268,7 +271,7 @@ public partial class OknoGlowne : Form
         }
         catch (NullReferenceException)
         {
-            MessageBox.Show("Podany dzień lub zadanie zostały nie utworzone");
+            MessageBox.Show($"Wybrany dzień ({this._Dzien}) lub zadanie ({this._Zadanie}) zostały nie utworzone");
             return;
         }
         catch (Exception ex)
@@ -286,7 +289,7 @@ public partial class OknoGlowne : Form
         this._Dzien = Convert.ToInt32(this.DzienComboBox.SelectedItem);
         this._Zadanie = this.ZadanieComboBox.SelectedIndex;
         DateTimeOffset start = DateTimeOffset.MinValue, stop = DateTimeOffset.MinValue;
-        TimeSpan ts = TimeSpan.MinValue;
+        TimeSpan ts;
 
         switch (this._Rok)
         {
@@ -424,6 +427,9 @@ public partial class OknoGlowne : Form
                     case 19:
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D19Z01() : new Zadania._2016.D19Z02();
                         break;
+                    case 20:
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D20Z01() : new Zadania._2016.D20Z02();
+                        break;
                     case 21:
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D21Z01() : throw new NotImplementedException();
                         break;
@@ -547,7 +553,7 @@ public partial class OknoGlowne : Form
         }
         catch (NullReferenceException)
         {
-            MessageBox.Show("Podany dzień lub zadanie zostały nie utworzone");
+            MessageBox.Show($"Wybrany dzień ({this._Dzien}) lub zadanie ({this._Zadanie}) zostały nie utworzone");
             return;
         }
         catch (Exception ex)
