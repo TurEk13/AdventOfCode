@@ -8,29 +8,27 @@ namespace Zadania._2015;
 
 public partial class D12Z01 : IZadanie
 {
-    private string JSON;
-    private Int64 Suma;
+    private string _JSON;
+    private Int64 _Suma;
     public D12Z01(bool daneTestowe = false)
     {
         FileStream fs = new(daneTestowe ? ".\\Dane\\2015\\12\\proba.txt" : ".\\Dane\\2015\\12\\dane.txt", FileMode.Open, FileAccess.Read);
         StreamReader sr = new(fs);
         
-        this.JSON = sr.ReadToEnd();
+        this._JSON = sr.ReadToEnd();
 
         sr.Close(); fs.Close();
     }
 
     [GeneratedRegex(@"[+-]?(\d+)\1*")]
-    private static partial Regex MyRegex();
+    private static partial Regex SzukajLiczb();
     public void RozwiazanieZadania()
     {
-        Regex wzor = MyRegex();
-
-        this.Suma = wzor.Matches(this.JSON).Select(m => Convert.ToInt64(m.Value)).Sum();
+        this._Suma = SzukajLiczb().Matches(this._JSON).Sum(m => Convert.ToInt64(m.Value));
     }
 
     public string PokazRozwiazanie()
     {
-        return this.Suma.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
+        return this._Suma.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
     }
 }
