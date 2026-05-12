@@ -34,6 +34,8 @@ public partial class OknoGlowne : Form
         this._Rok = Convert.ToInt32(this.RokComboBox.SelectedItem);
         this._Dzien = Convert.ToInt32(this.DzienComboBox.SelectedItem);
         this._Zadanie = this.ZadanieComboBox.SelectedIndex;
+        DateTimeOffset start = DateTimeOffset.MinValue, stop = DateTimeOffset.MinValue;
+        TimeSpan ts = TimeSpan.MinValue;
 
         this.WynikTextBox.Text = $"{this._Rok} {this._Dzien} {this._Zadanie}";
 
@@ -260,7 +262,9 @@ public partial class OknoGlowne : Form
 
         try
         {
+            start = DateTimeOffset.Now.LocalDateTime;
             this.wykonajZadanie.RozwiazanieZadania();
+            stop = DateTimeOffset.Now.LocalDateTime;
         }
         catch (NullReferenceException)
         {
@@ -272,7 +276,8 @@ public partial class OknoGlowne : Form
             //
         }
 
-        this.WynikTextBox.Text = $"Rozwiązanie: {this.wykonajZadanie.PokazRozwiazanie()}";
+        ts = new (stop.Ticks - start.Ticks);
+        this.WynikTextBox.Text = $"Zadanie {this.ZadanieComboBox.SelectedItem.ToString()} rozwiązane w {ts.TotalMilliseconds} ms\r\nRozwiązanie: {this.wykonajZadanie.PokazRozwiazanie()}";
     }
 
     private void ZadanieButton_Click(object sender, EventArgs e)
@@ -280,6 +285,8 @@ public partial class OknoGlowne : Form
         this._Rok = Convert.ToInt32(this.RokComboBox.SelectedItem);
         this._Dzien = Convert.ToInt32(this.DzienComboBox.SelectedItem);
         this._Zadanie = this.ZadanieComboBox.SelectedIndex;
+        DateTimeOffset start = DateTimeOffset.MinValue, stop = DateTimeOffset.MinValue;
+        TimeSpan ts = TimeSpan.MinValue;
 
         switch (this._Rok)
         {
@@ -534,7 +541,9 @@ public partial class OknoGlowne : Form
 
         try
         {
+            start = DateTimeOffset.Now.LocalDateTime;
             this.wykonajZadanie.RozwiazanieZadania();
+            stop = DateTimeOffset.Now.LocalDateTime;
         }
         catch (NullReferenceException)
         {
@@ -546,7 +555,8 @@ public partial class OknoGlowne : Form
             //
         }
 
-        this.WynikTextBox.Text = $"Rozwiązanie: {this.wykonajZadanie.PokazRozwiazanie()}";
+        ts = new (stop.Ticks - start.Ticks);
+        this.WynikTextBox.Text = $"Zadanie {this.ZadanieComboBox.SelectedItem.ToString()} rozwiązane w {ts.TotalMilliseconds} ms\r\nRozwiązanie: {this.wykonajZadanie.PokazRozwiazanie()}";
     }
 
     private record Ustawienia(ObecneZadanie ObecneZadanie);

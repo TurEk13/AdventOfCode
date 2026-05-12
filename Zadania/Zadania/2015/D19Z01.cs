@@ -11,14 +11,15 @@ namespace Zadania._2015;
 public class D19Z01 : IZadanie
 {
     private string _MolekulaBazowa;
-    Dictionary<string, Zmiany> _ListaZmian;
-    List<string> _Molekuly;
-    HashSet<string> _Wynik;
+    private Dictionary<string, Zmiany> _ListaZmian;
+    private List<string> _Molekuly;
+    private HashSet<string> _Wynik;
 
     public D19Z01(bool daneTestowe = false)
     {
         this._ListaZmian = new ();
         this._Molekuly = new ();
+        this._Wynik = new ();
         FileStream fs = new(daneTestowe ? ".\\Dane\\2015\\19\\proba.txt" : ".\\Dane\\2015\\19\\dane.txt", FileMode.Open, FileAccess.Read);
         StreamReader sr = new(fs);
         string linia;
@@ -48,7 +49,6 @@ public class D19Z01 : IZadanie
     public void RozwiazanieZadania()
     {
         StringBuilder sb = new (this._MolekulaBazowa);
-        this._Wynik = new ();
         Regex r;
         MatchCollection mc;
         int i;
@@ -79,7 +79,7 @@ public class D19Z01 : IZadanie
         return this._Wynik.Count.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
     }
 
-    class Zmiany
+    private class Zmiany
     {
         public string CoZamienic { get; private set; }
         private List<string> NaCoZmienic;
