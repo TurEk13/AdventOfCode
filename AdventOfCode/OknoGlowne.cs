@@ -128,7 +128,7 @@ public partial class OknoGlowne : Form
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D13Z01(true) : new Zadania._2016.D13Z02(true);
                         break;
                     case 14:
-                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D14Z01(true) : new Zadania._2016.D14Z01(true);
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D14Z01(true) : new Zadania._2016.D14Z02(true);
                         break;
                     case 15:
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D15Z01(true) : new Zadania._2016.D15Z02(true);
@@ -283,7 +283,7 @@ public partial class OknoGlowne : Form
         }
 
         ts = new (stop.Ticks - start.Ticks);
-        this.WynikTextBox.Text = $"Zadanie {this.ZadanieComboBox.SelectedItem.ToString()} rozwiązane w {ts.TotalMilliseconds} ms\r\nRozwiązanie: {this.wykonajZadanie.PokazRozwiazanie()}";
+        this.WynikTextBox.Text = $"Zadanie {this.DzienComboBox.SelectedItem.ToString()}/{this.ZadanieComboBox.SelectedItem.ToString()} rozwiązane w {ts.TotalMilliseconds} ms\r\nRozwiązanie: {this.wykonajZadanie.PokazRozwiazanie()}";
     }
 
     private void ZadanieButton_Click(object sender, EventArgs e)
@@ -413,7 +413,7 @@ public partial class OknoGlowne : Form
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D13Z01() : new Zadania._2016.D13Z02();
                         break;
                     case 14:
-                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D14Z01() : new Zadania._2016.D14Z01();
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D14Z01() : new Zadania._2016.D14Z02();
                         break;
                     case 15:
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D15Z01() : new Zadania._2016.D15Z02();
@@ -568,7 +568,7 @@ public partial class OknoGlowne : Form
         }
 
         ts = new (stop.Ticks - start.Ticks);
-        this.WynikTextBox.Text = $"Zadanie {this.ZadanieComboBox.SelectedItem.ToString()} rozwiązane w {ts.TotalMilliseconds} ms\r\nRozwiązanie: {this.wykonajZadanie.PokazRozwiazanie()}";
+        this.WynikTextBox.Text = $"Zadanie {this.DzienComboBox.SelectedItem.ToString()}/{this.ZadanieComboBox.SelectedItem.ToString()} rozwiązane w {ts.TotalMilliseconds} ms\r\nRozwiązanie: {this.wykonajZadanie.PokazRozwiazanie()}";
     }
 
     private record Ustawienia(ObecneZadanie ObecneZadanie);

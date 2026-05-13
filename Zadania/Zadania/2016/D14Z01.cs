@@ -26,9 +26,8 @@ public partial class D14Z01 : IZadanie
         string obrobka;
         char znak;
         bool dalej;
-        int j = 0;
 
-        for(int i = 0; i < 64; i++)
+        for(int i = 0, j = 0; i < 64; i++)
         {
             dalej = true;
             while(dalej)
@@ -48,14 +47,16 @@ public partial class D14Z01 : IZadanie
         }
     }
 
+    [GeneratedRegex(@"(\w)\1{2}")]
+    private static partial Regex PotrojnyZnak();
     private char PotrojnaLitera(string sprawdz)
     {
-        for(int i = 2; i < sprawdz.Length; i++)
+
+        Match m = PotrojnyZnak().Match(sprawdz);
+
+        if(m.Success)
         {
-            if(sprawdz[i - 2].Equals(sprawdz[i - 1]) && sprawdz[i].Equals(sprawdz[i - 1]))
-            {
-                return sprawdz[i];
-            }
+            return m.Groups[0].Value[0];
         }
 
         return '-';
@@ -63,13 +64,13 @@ public partial class D14Z01 : IZadanie
 
     private bool PieciokrotnaLitera(char litera, int start)
     {
-        Regex piecZnakow = new (@"(?:" + litera + "){5}");
+        Regex piecZnakow = new (@"(" + litera + @")\1{4}", RegexOptions.Compiled);
         string obrobka;
         for(int i = start + 1; i < start + 1 + 1000; i++)
         {
             obrobka = this.ObliczHash($"{this._Ziarno}{i}");
 
-            if(piecZnakow.Match(obrobka).Success)
+            if(piecZnakow.IsMatch(obrobka))
             {
                 return true;
             }

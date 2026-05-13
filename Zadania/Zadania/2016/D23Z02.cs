@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -105,7 +104,6 @@ public class D23Z02 : IZadanie
                     krok++;
                     break;
             }
-            Debug.WriteLine(krok + " - " + string.Join(' ', linia));
         }
     }
 
