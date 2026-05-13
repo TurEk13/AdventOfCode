@@ -83,11 +83,13 @@ public class D12Z02 : IZadanie
 
         public Komputer()
         {
-            this._Rejestry = new Dictionary<char, Int64>();
-            this._Rejestry.Add('a', 0);
-            this._Rejestry.Add('b', 0);
-            this._Rejestry.Add('c', 1);
-            this._Rejestry.Add('d', 0);
+            this._Rejestry = new Dictionary<char, Int64>
+            {
+                { 'a', 0 },
+                { 'b', 0 },
+                { 'c', 1 },
+                { 'd', 0 }
+            };
         }
 
         public void ZwiekszRejestr(char rejestr)
