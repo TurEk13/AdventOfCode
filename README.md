@@ -17,7 +17,7 @@ My solutions for the quests
 |Day	11	| X / X | - / - | X / X | X / - |
 |Day	12	| X / X | X / X | - / - | - / - |
 |Day	13	| X / X | X / X | X / - | --- |
-|Day	14	| X / X | X / - | X / X | --- |
+|Day	14	| X / X | X / X | X / X | --- |
 |Day	15	| X / X | X / X | X / X | --- |
 |Day	16	| X / X | X / X | - / - | --- |
 |Day	17	| X / X | X / X | - / - | --- |
@@ -27,5 +27,5 @@ My solutions for the quests
 |Day	21	| X / X | X / - | - / - | --- |
 |Day	22	| - / - | X / - | X / - | --- |
 |Day	23	| X / X | X / X | X / X | --- |
-|Day	24	| - / - | - / - | X / - | --- |
+|Day	24	| - / - | X / X | X / - | --- |
 |Day	25	| X / - | - / - | X / - | --- |
