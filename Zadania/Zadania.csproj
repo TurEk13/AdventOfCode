@@ -28,7 +28,9 @@
     <Folder Include="Dane\2015\19\" />
     <Folder Include="Dane\2015\20\" />
     <Folder Include="Dane\2015\21\" />
+    <Folder Include="Dane\2015\22\" />
     <Folder Include="Dane\2015\23\" />
+    <Folder Include="Dane\2015\24\" />
     <Folder Include="Dane\2015\25\" />
 
     <Folder Include="Dane\2016\01\" />
@@ -41,6 +43,7 @@
     <Folder Include="Dane\2016\08\" />
     <Folder Include="Dane\2016\09\" />
     <Folder Include="Dane\2016\10\" />
+    <Folder Include="Dane\2016\11\" />
     <Folder Include="Dane\2016\12\" />
     <Folder Include="Dane\2016\13\" />
     <Folder Include="Dane\2016\14\" />
@@ -63,11 +66,20 @@
     <Folder Include="Dane\2024\05\" />
     <Folder Include="Dane\2024\06\" />
     <Folder Include="Dane\2024\07\" />
+    <Folder Include="Dane\2024\08\" />
     <Folder Include="Dane\2024\09\" />
+    <Folder Include="Dane\2024\10\" />
     <Folder Include="Dane\2024\11\" />
+    <Folder Include="Dane\2024\12\" />
     <Folder Include="Dane\2024\13\" />
     <Folder Include="Dane\2024\14\" />
     <Folder Include="Dane\2024\15\" />
+    <Folder Include="Dane\2024\16\" />
+    <Folder Include="Dane\2024\17\" />
+    <Folder Include="Dane\2024\18\" />
+    <Folder Include="Dane\2024\19\" />
+    <Folder Include="Dane\2024\20\" />
+    <Folder Include="Dane\2024\21\" />
     <Folder Include="Dane\2024\22\" />
     <Folder Include="Dane\2024\23\" />
     <Folder Include="Dane\2024\24\" />
@@ -149,6 +161,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2015\21\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dane\2015\22\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2015\23\*.txt">

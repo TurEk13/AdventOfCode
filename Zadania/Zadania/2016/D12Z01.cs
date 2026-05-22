@@ -8,7 +8,7 @@ namespace Zadania._2016;
 
 public class D12Z01 : IZadanie
 {
-    private string[] _Instrukcje;
+    private List<string[]> _Instrukcje;
     private Komputer _Komputer;
     public D12Z01(bool daneTestowe = false)
     {
@@ -17,51 +17,52 @@ public class D12Z01 : IZadanie
         FileStream fs = new(daneTestowe ? ".\\Dane\\2016\\12\\proba.txt" : ".\\Dane\\2016\\12\\dane.txt", FileMode.Open, FileAccess.Read);
         
 		StreamReader sr = new(fs);
-
-        this._Instrukcje = sr.ReadToEnd().Split("\r\n").ToArray();
-
+        this._Instrukcje = sr.ReadToEnd().Split("\r\n").Select(i => i.Split(' ')).ToList();
         sr.Close(); fs!.Close();
     }
 
     public void RozwiazanieZadania()
     {
-        for (int i = 0; i < this._Instrukcje.Length;)
+        for (int krok = 0; krok < this._Instrukcje.Count;)
         {
-            switch (this._Instrukcje[i][0 .. 3])
+            switch (this._Instrukcje[krok][0])
             {
                 case "inc":
-                    this._Komputer.ZwiekszRejestr(this._Instrukcje[i][4]);
-                    i++;
+                    this._Komputer.ZwiekszRejestr(this._Instrukcje[krok][1][0]);
+                    krok++;
                     break;
                 case "dec":
-                    this._Komputer.ZmniejszRejestr(this._Instrukcje[i][4]);
-                    i++;
+                    this._Komputer.ZmniejszRejestr(this._Instrukcje[krok][1][0]);
+                    krok++;
                     break;
                 case "jnz":
-                    if (!char.IsDigit(this._Instrukcje[i][4]) && !this._Komputer.CzyZero(this._Instrukcje[i][4]))
+                    switch(Int32.TryParse(this._Instrukcje[krok][1], out int wartoscJNZ_1), Int32.TryParse(this._Instrukcje[krok][2], out int wartoscJNZ_2))
                     {
-                        i += Convert.ToInt32(this._Instrukcje[i][6..]);
-                        break;
+                        case (false, true):
+                            krok = this._Komputer.CzyRejestJestZero(this._Instrukcje[krok][1][0]) ? krok + 1 : krok += wartoscJNZ_2;
+                            break;
+                        case (true, false):
+                            krok = wartoscJNZ_1 == 0 ? krok + 1 : krok + this._Komputer[this._Instrukcje[krok][2][0]];
+                            break;
+                        case (true, true):
+                            if(wartoscJNZ_1 == 0 && wartoscJNZ_2 == 0)
+                            {
+                                krok++;
+                                break;
+                            }
+                            krok = wartoscJNZ_1 == 0 ? krok + 1 : krok + wartoscJNZ_2;
+                            break;
                     }
-
-                    if (char.IsDigit(this._Instrukcje[i][4]) && !this._Instrukcje[i][4].Equals('0'))
-                    {
-                        i += Convert.ToInt32(this._Instrukcje[i][6..]);
-                        break;
-                    }
-
-                    i++;
                     break;
                 case "cpy":
-                    if (!char.IsDigit(this._Instrukcje[i][4]))
+                    if (Int32.TryParse(this._Instrukcje[krok][1], out int wartoscCPY))
                     {
-                        this._Komputer.Kopiuj(this._Instrukcje[i][4], null, this._Instrukcje[i][6]);
-                        i++;
+                        this._Komputer.Kopiuj(wartoscCPY, this._Instrukcje[krok][2][0]);
+                        krok++;
                         break;
                     }
-
-                    this._Komputer.Kopiuj(null, Convert.ToInt32(this._Instrukcje[i][4..this._Instrukcje[i].LastIndexOf(' ')]), this._Instrukcje[i][this._Instrukcje[i].LastIndexOf(' ') + 1]);
-                    i++;
+                    this._Komputer.Kopiuj(this._Komputer[this._Instrukcje[krok][1][0]], this._Instrukcje[krok][2][0]);
+                    krok++;
                     break;
             }
         }
@@ -74,16 +75,16 @@ public class D12Z01 : IZadanie
 
     private class Komputer
     {
-        private Dictionary<char, Int64> _Rejestry;
+        private Dictionary<char, Int32> _Rejestry;
 
-        public Int64 this[char Indeks]
+        public Int32 this[char Indeks]
         {
             get { return this._Rejestry[Indeks]; }
         }
 
         public Komputer()
         {
-            this._Rejestry = new Dictionary<char, Int64>
+            this._Rejestry = new Dictionary<char, Int32>
             {
                 { 'a', 0 },
                 { 'b', 0 },
@@ -102,22 +103,14 @@ public class D12Z01 : IZadanie
             this._Rejestry[rejestr]--;
         }
 
-        public bool CzyZero(char rejestr)
+        public bool CzyRejestJestZero(char rejestr)
         {
             return this._Rejestry[rejestr] == 0;
         }
 
-        public void Kopiuj(char? rejestrZrodlowy, int? wartosc, char rejestrDocelowy)
+        public void Kopiuj(int wartosc, char rejestrDocelowy)
         {
-            if(rejestrZrodlowy is not null)
-            {
-                this._Rejestry[rejestrDocelowy] = this._Rejestry[rejestrZrodlowy.Value];
-            }
-
-            if(rejestrZrodlowy is null)
-            {
-                this._Rejestry[rejestrDocelowy] = wartosc.Value;
-            }
+            this._Rejestry[rejestrDocelowy] = wartosc;
         }
     }
 }
