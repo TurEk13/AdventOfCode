@@ -28,4 +28,4 @@ My solutions for the quests
 |Day	22	| - / - | X / - | X / - | --- |
 |Day	23	| X / X | X / X | X / X | --- |
 |Day	24	| - / - | X / X | X / - | --- |
-|Day	25	| X / - | - / - | X / - | --- |
+|Day	25	| X / - | X / - | X / - | --- |
