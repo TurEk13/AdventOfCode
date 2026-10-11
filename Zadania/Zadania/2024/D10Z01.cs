@@ -29,7 +29,7 @@ public class D10Z01 : IZadanie
         {
             this._mapa.Add(s.ToCharArray());
 
-            if (this._mapa[y].Contains('0'))
+            if (this._mapa[^1].Contains('0'))
             {
                 y = 0;
                 while (y < this._mapa[x].Length)
