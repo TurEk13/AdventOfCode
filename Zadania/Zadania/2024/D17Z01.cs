@@ -113,13 +113,13 @@ public partial class D17Z01 : IZadanie
 
         private void ADV()
         {
-            this.RejestrA = this.RejestrA / Convert.ToInt32(Math.Pow(2, this.ZwrocCombo(this.SpisInstrukcji[ObecnaInstrukcja].Operand)));
+            this.RejestrA /= Convert.ToInt32(Math.Pow(2, this.ZwrocCombo(this.SpisInstrukcji[ObecnaInstrukcja].Operand)));
             PrzesunWskaznik();
         }
 
         private void BXL()
         {
-            this.RejestrB = this.RejestrB ^ this.SpisInstrukcji[this.ObecnaInstrukcja].Operand;
+            this.RejestrB ^= this.SpisInstrukcji[this.ObecnaInstrukcja].Operand;
             this.PrzesunWskaznik();
         }
 
@@ -142,7 +142,7 @@ public partial class D17Z01 : IZadanie
 
         private void BXC()
         {
-            this.RejestrB = this.RejestrB ^ this.RejestrC;
+            this.RejestrB ^= this.RejestrC;
             this.PrzesunWskaznik();
         }
 
