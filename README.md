@@ -2,30 +2,30 @@
 
 My solutions for the quests
 
-|       |  2015 |  2016 |  2024 |  2025 |
-|---|---|---|---|---|
-|Day	 1	| X / X | X / X | X / X | X / X |
-|Day	 2	| X / X | X / X | X / X | X / X |
-|Day	 3	| X / X | X / X | X / X | X / X |
-|Day	 4	| X / X | X / X | X / X | X / X |
-|Day	 5	| X / X | X / X | X / X | X / X |
-|Day	 6	| X / X | X / X | X / - | X / X |
-|Day	 7	| X / X | X / X | X / X | X / X |
-|Day	 8	| X / X | X / X | - / - | X / X |
-|Day	 9	| X / X | X / X | X / X | X / X |
-|Day	10	| X / X | X / X | X / X | X / - |
-|Day	11	| X / X | - / - | X / X | X / - |
-|Day	12	| X / X | X / X | - / - | - / - |
-|Day	13	| X / X | X / X | X / - | --- |
-|Day	14	| X / X | X / X | X / X | --- |
-|Day	15	| X / X | X / X | X / X | --- |
-|Day	16	| X / X | X / X | X / - | --- |
-|Day	17	| X / X | X / X | X / X | --- |
-|Day	18	| X / X | X / X | X / X | --- |
-|Day	19	| X / X | X / X | - / - | --- |
-|Day	20	| X / X | X / X | X / - | --- |
-|Day	21	| X / X | X / - | - / - | --- |
-|Day	22	| - / - | X / X | X / - | --- |
-|Day	23	| X / X | X / X | X / X | --- |
-|Day	24	| - / - | X / X | X / - | --- |
-|Day	25	| X / - | X / - | X / - | --- |
+|       |  2015 |  2016 |  2017 |  2024 |  2025 |
+|---|---|---|---|---|---|
+|Day	 1	| X / X | X / X | X / X | X / X | X / X |
+|Day	 2	| X / X | X / X | X / X | X / X | X / X |
+|Day	 3	| X / X | X / X | - / - | X / X | X / X |
+|Day	 4	| X / X | X / X | X / - | X / X | X / X |
+|Day	 5	| X / X | X / X | X / X | X / X | X / X |
+|Day	 6	| X / X | X / X | - / - | X / - | X / X |
+|Day	 7	| X / X | X / X | - / - | X / X | X / X |
+|Day	 8	| X / X | X / X | - / - | - / - | X / X |
+|Day	 9	| X / X | X / X | - / - | X / X | X / X |
+|Day	10	| X / X | X / X | - / - | X / X | X / - |
+|Day	11	| X / X | - / - | - / - | X / X | X / - |
+|Day	12	| X / X | X / X | - / - | - / - | - / - |
+|Day	13	| X / X | X / X | - / - | X / - | --- |
+|Day	14	| X / X | X / X | - / - | X / X | --- |
+|Day	15	| X / X | X / X | - / - | X / X | --- |
+|Day	16	| X / X | X / X | - / - | X / - | --- |
+|Day	17	| X / X | X / X | - / - | X / X | --- |
+|Day	18	| X / X | X / X | - / - | X / X | --- |
+|Day	19	| X / X | X / X | - / - | - / - | --- |
+|Day	20	| X / X | X / X | - / - | X / - | --- |
+|Day	21	| X / X | X / - | - / - | - / - | --- |
+|Day	22	| - / - | X / X | - / - | X / - | --- |
+|Day	23	| X / X | X / X | - / - | X / X | --- |
+|Day	24	| - / - | X / X | - / - | X / - | --- |
+|Day	25	| X / - | X / - | - / - | X / - | --- |

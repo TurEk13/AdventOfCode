@@ -2,6 +2,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using System.Windows.Forms;
 using Zadania;
+using System.Diagnostics;
 
 namespace AdventOfCode;
 
@@ -17,7 +18,7 @@ public partial class OknoGlowne : Form
     {
         InitializeComponent();
 
-        RokComboBox.Items.AddRange(["2015", "2016", "2024", "2025"]);
+        RokComboBox.Items.AddRange(["2015", "2016", "2017", "2024", "2025"]);
         DzienComboBox.Items.AddRange(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]);
 
         IConfiguration ustawieniaJSON = new ConfigurationBuilder().AddJsonFile("Ustawienia.json").AddEnvironmentVariables().Build();
@@ -162,6 +163,23 @@ public partial class OknoGlowne : Form
                         break;
                     case 25:
                         this.wykonajZadanie = this._Zadanie == 0 ? throw new NotImplementedException() : throw new NotImplementedException();
+                        break;
+                }
+                break;
+            case 2017:
+                switch(this._Dzien)
+                {
+                    case 1:
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2017.D01Z01(true) : new Zadania._2017.D01Z02(true);
+                        break;
+                    case 2:
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2017.D02Z01(true) : new Zadania._2017.D02Z02(true);
+                        break;
+                    case 4:
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2017.D04Z01(true) : new Zadania._2017.D04Z01(true);
+                        break;
+                    case 5:
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2017.D05Z01(true) : new Zadania._2017.D05Z02(true);
                         break;
                 }
                 break;
@@ -468,6 +486,23 @@ public partial class OknoGlowne : Form
                         break;
                     case 25:
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D25Z01() : throw new NotImplementedException();
+                        break;
+                }
+                break;
+            case 2017:
+                switch(this._Dzien)
+                {
+                    case 1:
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2017.D01Z01() : new Zadania._2017.D01Z02();
+                        break;
+                    case 2:
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2017.D02Z01() : new Zadania._2017.D02Z02();
+                        break;
+                    case 4:
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2017.D04Z01() : new Zadania._2017.D04Z01();
+                        break;
+                    case 5:
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2017.D05Z01() : new Zadania._2017.D05Z02();
                         break;
                 }
                 break;
