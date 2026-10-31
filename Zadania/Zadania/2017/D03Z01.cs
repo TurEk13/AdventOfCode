@@ -142,7 +142,7 @@ public partial class D03Z01 : IZadanie
 
     public string PokazRozwiazanie()
     {
-        return this._Wartosc.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL")) + ": " + this._Wynik.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
+        return this._Wynik.ToString("N0", CultureInfo.CreateSpecificCulture("pl-PL"));
     }
 
     private record Punkt(int X, int Y);
