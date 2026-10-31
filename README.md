@@ -6,7 +6,7 @@ My solutions for the quests
 |---|---|---|---|---|---|
 |Day	 1	| X / X | X / X | X / X | X / X | X / X |
 |Day	 2	| X / X | X / X | X / X | X / X | X / X |
-|Day	 3	| X / X | X / X | - / - | X / X | X / X |
+|Day	 3	| X / X | X / X | X / - | X / X | X / X |
 |Day	 4	| X / X | X / X | X / - | X / X | X / X |
 |Day	 5	| X / X | X / X | X / X | X / X | X / X |
 |Day	 6	| X / X | X / X | - / - | X / - | X / X |
