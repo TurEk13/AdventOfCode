@@ -16,7 +16,6 @@ public partial class D15Z01 : IZadanie
 
     public D15Z01(bool daneTestowe = false)
     {
-        int i = 0;
         this._Wynik = 0;
         Regex r = StartGeneratora();
         StreamReader sr = new StreamReader(new FileStream(daneTestowe ? ".\\Dane\\2017\\15\\proba.txt" : ".\\Dane\\2017\\15\\dane.txt", FileMode.Open, FileAccess.Read));
@@ -31,8 +30,9 @@ public partial class D15Z01 : IZadanie
 
     public void RozwiazanieZadania()
     {
-        this._GeneratorA.Dzialaj(40_000_000);
-        this._GeneratorB.Dzialaj(40_000_000);
+        int ilePar = 40_000_000;
+        this._GeneratorA.Dzialaj(ilePar);
+        this._GeneratorB.Dzialaj(ilePar);
 
         for(int i = 0; i < this._GeneratorA.Dlugosc; i++)
         {
