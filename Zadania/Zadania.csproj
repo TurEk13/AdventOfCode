@@ -178,7 +178,7 @@
     <None Update="Dane\2017\05\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	  <None Update="Dane\2017\06\*.txt">
+	<None Update="Dane\2017\06\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2017\07\*.txt">
@@ -193,7 +193,7 @@
     <None Update="Dane\2017\12\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	  <None Update="Dane\2017\13\*.txt">
+	<None Update="Dane\2017\13\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dane\2017\15\*.txt">
