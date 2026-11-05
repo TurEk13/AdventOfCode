@@ -36,11 +36,11 @@ public partial class D13Z01 : IZadanie
     {
         int maks = this._Zapora.Keys.Max();
 
-        for(int i = 0; i <= maks; i++)
+        for(int skanerId = 0; skanerId <= maks; skanerId++)
         {
-            if(this._Zapora.TryGetValue(i, out int zasieg) && this.BlokadaPola(i, zasieg))
+            if(this._Zapora.TryGetValue(skanerId, out int zasieg) && this.BlokadaPola(skanerId, zasieg))
             {
-                this._Wynik += i * zasieg;
+                this._Wynik += skanerId * zasieg;
             }
         }
     }
@@ -55,7 +55,7 @@ public partial class D13Z01 : IZadanie
             return true;
         }
 
-        if(pikosekunda > 0 && runda < 1)
+        if(runda < 1)
         {
             return false;
         }
