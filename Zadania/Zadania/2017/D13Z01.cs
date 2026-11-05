@@ -24,12 +24,12 @@ public partial class D13Z01 : IZadanie
 
         MatchCollection mc = r.Matches(sr.ReadToEnd());
 
+        sr.Close();
+
         foreach(Match m in mc)
         {
             this._Zapora.TryAdd(Convert.ToInt32(m.Groups["poziom"].Value), Convert.ToInt32(m.Groups["zasieg"].Value));
         }
-
-        sr.Close();
     }
 
     public void RozwiazanieZadania()
