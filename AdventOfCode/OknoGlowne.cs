@@ -149,7 +149,7 @@ public partial class OknoGlowne : Form
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D20Z01(true) : new Zadania._2016.D20Z02(true);
                         break;
                     case 21:
-                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D21Z01(true) : throw new NotImplementedException() ;
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D21Z01(true) : new Zadania._2016.D21Z02(true);
                         break;
                     case 22:
                         this.wykonajZadanie = this._Zadanie == 0 ? throw new NotImplementedException() : throw new NotImplementedException();
@@ -502,7 +502,7 @@ public partial class OknoGlowne : Form
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D20Z01() : new Zadania._2016.D20Z02();
                         break;
                     case 21:
-                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D21Z01() : throw new NotImplementedException();
+                        this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D21Z01() : new Zadania._2016.D21Z02();
                         break;
                     case 22:
                         this.wykonajZadanie = this._Zadanie == 0 ? new Zadania._2016.D22Z01() : throw new NotImplementedException();
